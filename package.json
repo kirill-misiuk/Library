@@ -1,0 +1,23 @@
+{
+  "name": "library",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KirylMisiuk/Library.git"
+  },
+  "author": "kirill.misiuk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KirylMisiuk/Library/issues"
+  },
+  "homepage": "https://github.com/KirylMisiuk/Library#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "rxjs": "^6.5.3"
+  }
+}
