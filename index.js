@@ -1,8 +1,9 @@
 const express = require('express');
-const config = require('./keys/keys');
-const dotenv = require ('dotenv');
+const dotenv = require('dotenv');
+require('custom-env').env(true);
+dotenv.config();
 const app = express();
-dotenv.config ();
-app.listen(config.port, function () {
-    console.log('app listening at port %s', config.PORT);
+
+app.listen(function () {
+    console.log('app listening at port %s', process.env.PORT);
 });
