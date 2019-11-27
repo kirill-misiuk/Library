@@ -17,6 +17,16 @@ module.exports = function (app) {
         }catch (e) {
             return res.status(400).json({status: 400, message: e.message})
         }
+    });
+    app.post('/:library/books/create',(req,res)=>{
+        try{
+            let data =  bookService.create(req.body);
+            res.status(201).json({status: 201,  data})
+
+        }catch (e) {
+            return res.status(400).json({status: 400, message: e.message})
+        }
+
     })
 
 };

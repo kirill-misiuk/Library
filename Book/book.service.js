@@ -28,3 +28,16 @@ exports.getOne = function (id) {
     });
     return data
 };
+exports.create= function (post) {
+const book = new Book(db);
+    let data = {};
+    const postData$ = new Observable((subject) => {
+        subject.next(book.create(post));
+        console.log(post)
+    });
+    postData$.subscribe({
+        next: res => data = res,
+        error: err => data=err
+    });
+    return data
+};
