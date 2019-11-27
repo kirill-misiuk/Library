@@ -5,7 +5,7 @@ class Book {
         this.collection = JSON.parse(fs.readFileSync("./repositories/books.json"))
     }
 
-    getBooks() {
+   getBooks() {
         console.log('yes');
         return this.collection
     }
