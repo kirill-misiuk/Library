@@ -1,4 +1,4 @@
-let Book = require('./json.repository');
+let Book = require('./book.repository');
 
 exports.getBooks =  function () {
     return new Promise((resolve, reject) => {
