@@ -1,9 +1,15 @@
 const express = require('express');
 const dotenv = require('dotenv');
-require('custom-env').env(true);
+const bodyParser= require('body-parser');
 dotenv.config();
 const app = express();
-
-app.listen(function () {
+app.use(bodyParser.urlencoded({
+    extended:true
+}));
+app.use(bodyParser.json());
+console.log(process.env.NODE_ENV);
+require('custom-env').env(true);
+require('./controllers/library.controller')(app);
+app.listen(process.env.PORT, function () {
     console.log('app listening at port %s', process.env.PORT);
 });
