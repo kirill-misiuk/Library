@@ -1,9 +1,20 @@
 const bookService = require('./book.service');
+
 module.exports = function (app) {
-    app.get('/libraries/all', module.getAll = (req, res)=> {
+    app.get('/:library/books/all', (req, res)=> {
         try {
-           bookService.getBooks().then(data=> res.status(200).json({status: 200,  data, message: 'Succesfull GET limit'}));
+         let data =  bookService.getAll();
+            res.status(200).json({status: 200,  data, message: 'Succesfull GET All'})
         } catch (e) {
+            return res.status(400).json({status: 400, message: e.message})
+        }
+    });
+    app.get('/:library/books/:id',(req,res)=>{
+        try{
+            let data =  bookService.getOne(req.params.id);
+            res.status(200).json({status: 200,  data})
+
+        }catch (e) {
             return res.status(400).json({status: 400, message: e.message})
         }
     })

@@ -1,13 +1,13 @@
-const fs = require('fs');
-
 class Book {
-    constructor() {
-        this.collection = JSON.parse(fs.readFileSync("./repositories/books.json"))
+    constructor(db) {
+        this.collection = db
     }
 
-   getBooks() {
-        console.log('yes');
+   getAll() {
         return this.collection
+    }
+    getOne(id) {
+        return this.collection.books[id]
     }
 }
 
