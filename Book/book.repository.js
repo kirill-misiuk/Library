@@ -1,5 +1,7 @@
+const fs = require('fs');
+const db = JSON.parse(fs.readFileSync("./repositories/books.json"));
 class Book {
-    constructor(db) {
+    constructor() {
         this.collection = db;
     }
 

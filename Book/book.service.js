@@ -1,12 +1,11 @@
 let Book = require('./book.repository');
 const {Observable} = require('rxjs');
-const fs = require('fs');
-const db = JSON.parse(fs.readFileSync("./repositories/books.json"));
+
 
 
 class bookService {
     constructor() {
-        this.book = new Book(db)
+        this.book = new Book()
     }
 
     getAll() {
