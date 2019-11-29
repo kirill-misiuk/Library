@@ -1,6 +1,7 @@
+const bookService= require('./book.service');
 class Controller {
-    constructor() {
-        this.bookService = require('./book.service');
+    constructor(bookservice) {
+        this.bookService =  bookservice
     }
 
     getAll(req, res) {
@@ -11,4 +12,4 @@ class Controller {
     }
 }
 
-module.exports = new Controller;
+module.exports = new Controller(bookService);

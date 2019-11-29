@@ -14,4 +14,4 @@ class Book {
     }
 }
 
-module.exports = new Book;
+module.exports =  new Book();
