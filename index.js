@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 console.log(process.env.NODE_ENV);
 require('custom-env').env(true);
-require('./Book/book.controller')(app);
+require('./Book/book.router')(app);
 app.listen(process.env.PORT, function () {
     console.log('app listening at port %s', process.env.PORT);
 });

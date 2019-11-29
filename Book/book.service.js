@@ -1,11 +1,7 @@
-let Book = require('./book.repository');
 const {Observable} = require('rxjs');
-
-
-
 class bookService {
     constructor() {
-        this.book = new Book()
+        this.book = require('./book.repository');
     }
 
     getAll() {
@@ -21,4 +17,4 @@ class bookService {
     }
 }
 
-module.exports = bookService;
+module.exports = new bookService;
