@@ -1,18 +1,17 @@
 const fs = require('fs');
 const db = JSON.parse(fs.readFileSync("./repositories/books.json"));
+const {Observable} = require('rxjs');
+
 class Book {
     constructor() {
         this.collection = db;
     }
 
     getAll() {
-        return this.collection
-    }
-
-    getOne(id) {
-        return this.collection.books[id]
+        return new Observable((observer) => {
+            observer.next(this.collection)
+        })
     }
 }
 
-
-module.exports =  new Book;
+module.exports = new Book;
