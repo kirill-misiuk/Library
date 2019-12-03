@@ -3,10 +3,13 @@ class LibraryService{
         this.libraryRepository = LibraryRepository;
     }
     getAll(){
-        return this.libraryRepository.getAll().pipe();
+        return this.libraryRepository.getAll()
     }
     addNew(body){
         return this.libraryRepository.addNew(body);
+    }
+    getById(params){
+        return this.libraryRepository.getById(params);
     }
 }
 module.exports = LibraryService;

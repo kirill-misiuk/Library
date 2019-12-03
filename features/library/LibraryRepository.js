@@ -17,5 +17,10 @@ class libraryRepository{
             observer.next(this.collections.libraries);
         });
     }
+    getById(params){
+        return new Observable((observer)=>{
+            observer.next(this.collections.libraries.find((obj)=>obj.id===params.id));
+        });
+    }
 }
 module.exports =libraryRepository;

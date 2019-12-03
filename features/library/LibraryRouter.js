@@ -7,4 +7,5 @@ const controller = new Controller(service);
 module.exports =  function (app) {
     app.get('/libraries/all',(req,res)=> controller.getAll(req,res));
     app.post('/libraries/add',(req,res)=>controller.addNew(req,res));
+    app.get('/libraries/library/:id',(req,res)=>controller.getById(req,res));
 };

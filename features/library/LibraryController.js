@@ -14,6 +14,12 @@ class LibraryController{
             error: error => res.status(400).json({status:400,data:{},error:error})
         });
     }
+    getById(req,res){
+        this.libraryService.getById(req.params).subscribe({
+            next:  data  => res.status(200).json({status:200 , libraries:data}),
+            error: error => res.status(400).json({status:400,data:{},error:error})
+        });
+    }
 
 }
 module.exports = LibraryController;
