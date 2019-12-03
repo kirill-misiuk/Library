@@ -1,11 +1,13 @@
 const{Observable}= require('rxjs');
+const fs = require('fs');
+const db = JSON.parse(fs.readFileSync("./repositories/libraries.json"));
 class libraryRepository{
-    constructor(db) {
-        this.db = db
+    constructor() {
+        this.collections = db
     }
     getAll(){
         return new Observable((observer)=>{
-            observer.next(this.db.libraries)
+            observer.next(this.collections.libraries)
         })
     }
 }
