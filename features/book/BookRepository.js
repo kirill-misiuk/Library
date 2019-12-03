@@ -2,7 +2,7 @@ const fs = require('fs');
 const db = JSON.parse(fs.readFileSync("./repositories/books.json"));
 const {Observable} = require('rxjs');
 
-class Book {
+class bookRepository {
     constructor() {
         this.collection = db;
     }
@@ -14,4 +14,4 @@ class Book {
     }
 }
 
-module.exports =  new Book();
+module.exports = bookRepository;
