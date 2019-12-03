@@ -1,4 +1,4 @@
-class bookService {
+class BookService {
     constructor(book) {
         this.book =  book;
     }
@@ -7,4 +7,4 @@ class bookService {
     }
 
 }
-module.exports =  bookService
+module.exports =  BookService;

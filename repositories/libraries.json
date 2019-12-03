@@ -1,0 +1,19 @@
+{
+  "libraries": [
+    {
+      "id": "54fa117c-15b8-11ea-8d71-362b9e155667",
+      "name": "library1",
+      "archive": []
+    },
+    {
+      "id": "54fa19e2-15b8-11ea-8d71-362b9e155667",
+      "name": "library2",
+      "archive": []
+    },
+    {
+      "id": "54fa1ba4-15b8-11ea-8d71-362b9e155667",
+      "name": "library3",
+      "archive": []
+    }
+  ]
+}

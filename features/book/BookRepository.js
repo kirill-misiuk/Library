@@ -1,9 +1,6 @@
-const fs = require('fs');
-const db = JSON.parse(fs.readFileSync("./repositories/books.json"));
 const {Observable} = require('rxjs');
-
 class bookRepository {
-    constructor() {
+    constructor(db) {
         this.collection = db;
     }
 
