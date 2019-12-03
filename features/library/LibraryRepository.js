@@ -11,8 +11,8 @@ class libraryRepository{
             observer.next(this.collections.libraries);
         });
     }
-    addNew(req){
-        this.collections.libraries.push({id:uuidv4(),name:req.body.name,data:[]});
+    addNew(body){
+        this.collections.libraries.push({id:uuidv4(),name:body.name,data:[]});
         return new Observable((observer)=>{
             observer.next(this.collections.libraries);
         });
