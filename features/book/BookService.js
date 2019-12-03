@@ -3,8 +3,7 @@ class BookService {
         this.book =  book;
     }
     getAll() {
-        return this.book.getAll().pipe()
+        return this.book.getAll().pipe();
     }
-
 }
 module.exports =  BookService;

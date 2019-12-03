@@ -1,3 +1,4 @@
+const {scan}=require('rxjs/operators');
 class LibraryService{
     constructor(LibraryRepository) {
         this.libraryRepository = LibraryRepository;
@@ -5,6 +6,8 @@ class LibraryService{
     getAll(){
         return this.libraryRepository.getAll().pipe();
     }
-
+    addNew(req){
+        return this.libraryRepository.addNew(req);
+    }
 }
 module.exports = LibraryService;
