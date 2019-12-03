@@ -1,17 +1,17 @@
 class BookController {
-    constructor(bookservice) {
-        this.bookService = bookservice;
+    constructor(BookService) {
+        this.bookService = BookService;
     }
 
     getAll(req, res) {
         this.bookService.getAll().subscribe({
-            next: data => res.status(200).json({status: 200, data, message: 'Succesfull GET All'}),
+            next: data => res.status(200).json({status: 200, data}),
             error: e => res.status(400).json({status: 400, message: e.message})
         });
     }
     addBook(req,res){
-        this.bookService.getAll().subscribe({
-            next: data => res.status(201).json({status: 200, data, message: 'Succesfull GET All'}),
+        this.bookService.addBook(req.body).subscribe({
+            next: data => res.status(201).json({status: 200, data}),
             error: e => res.status(400).json({status: 400, message: e.message})
         });
     }
