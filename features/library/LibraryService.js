@@ -8,8 +8,8 @@ class LibraryService{
     addNew(body){
         return this.libraryRepository.addNew(body);
     }
-    getById(params){
-        return this.libraryRepository.getById(params);
+    getById(id){
+        return this.libraryRepository.getById(id);
     }
 }
 module.exports = LibraryService;

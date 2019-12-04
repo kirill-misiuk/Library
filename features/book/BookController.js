@@ -10,7 +10,7 @@ class BookController {
         });
     }
     addBook(req,res){
-        this.bookService.addBook(req.body).subscribe({
+        this.bookService.addBook(req).subscribe({
             next: data => res.status(201).json({status: 200, data}),
             error: e => res.status(400).json({status: 400, message: e.message})
         });

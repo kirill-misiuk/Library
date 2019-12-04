@@ -12,14 +12,14 @@ class libraryRepository{
         });
     }
     addNew(body){
-        this.collections.libraries.push({id:uuidv4(),name:body.name,data:[]});
+        this.collections.libraries.push({id:uuidv4(),name:body.name,data:['43443']});
         return new Observable((observer)=>{
             observer.next(this.collections.libraries);
         });
     }
-    getById(params){
+    getById(id){
         return new Observable((observer)=>{
-            observer.next(this.collections.libraries.find((obj)=>obj.id===params.id));
+            observer.next(this.collections.libraries.find((obj)=>obj.id===id));
         });
     }
 }
