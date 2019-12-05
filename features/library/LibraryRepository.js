@@ -24,6 +24,7 @@ class libraryRepository {
 
   writeBookArchive(bookID, libraryID) {
     this.collections.libraries.find((library) => library.id === libraryID).archive.push(bookID);
+    fs.writeFileSync('./repositories/libraries.json', JSON.stringify(this.collections))
   }
 }
 module.exports = libraryRepository;

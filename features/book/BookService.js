@@ -9,10 +9,11 @@ class BookService {
   }
 
   createBook(book) {
+    const id = this.bookRepository.createBookId();
     if (book.params.library_id) {
-      this.libraryRepository.writeBookArchive(book.body.id,book.params.library_id);
+      this.libraryRepository.writeBookArchive(id, book.params.library_id);
     }
-    return this.bookRepository.createBook(book.body);
+    return this.bookRepository.createBook(id, book.body);
   }
 }
 

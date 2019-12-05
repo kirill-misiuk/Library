@@ -9,10 +9,9 @@ class bookRepository {
     this.collection = db;
   }
 
-  createBook(book) {
-
+  createBook(id, book) {
     this.collection.books.push({
-      id: uuidv4(),
+      id,
       name: book.name,
       author: book.author,
       page_count: book.page_count,
@@ -24,6 +23,10 @@ class bookRepository {
 
   readAll() {
     return of(this.collection);
+  }
+
+  createBookId() {
+    return uuidv4();
   }
 }
 
