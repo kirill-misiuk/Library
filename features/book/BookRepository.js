@@ -10,13 +10,16 @@ class bookRepository {
   }
 
   createBook(book) {
-    return of(this.collection.books.push({
+
+    this.collection.books.push({
       id: uuidv4(),
       name: book.name,
       author: book.author,
       page_count: book.page_count,
       year: book.year,
-    }));
+    });
+    fs.writeFileSync('./repositories/books.json', JSON.stringify(this.collection));
+    return of(this.collection.books);
   }
 
   readAll() {

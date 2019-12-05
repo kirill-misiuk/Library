@@ -1,6 +1,7 @@
 class BookService {
-  constructor(BookRepository) {
+  constructor(BookRepository, LibraryRepository) {
     this.bookRepository = BookRepository;
+    this.libraryRepository = LibraryRepository;
   }
 
   getBookList() {
@@ -8,6 +9,9 @@ class BookService {
   }
 
   createBook(book) {
+    if (book.params.library_id) {
+      this.libraryRepository.writeBookArchive(book.body.id,book.params.library_id);
+    }
     return this.bookRepository.createBook(book.body);
   }
 }

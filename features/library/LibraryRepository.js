@@ -13,11 +13,17 @@ class libraryRepository {
   }
 
   createLibrary(library) {
-    return of(this.collections.libraries.push({ id: uuidv4(), name: library.name, data: [] }));
+    this.collections.libraries.push({ id: uuidv4(), name: library.name, data: [] });
+    fs.writeFileSync('./repositories/libraries.json', JSON.stringify(this.collections));
+    return of(this.collections.libraries);
   }
 
   getById(id) {
     return of(this.collections.libraries.find((library) => library.id === id));
+  }
+
+  writeBookArchive(bookID, libraryID) {
+    this.collections.libraries.find((library) => library.id === libraryID).archive.push(bookID);
   }
 }
 module.exports = libraryRepository;
