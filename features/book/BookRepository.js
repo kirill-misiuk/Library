@@ -1,8 +1,9 @@
 const { of } = require('rxjs');
 const fs = require('fs');
+const uuidv4 = require('uuid/v4');
 
 const db = JSON.parse(fs.readFileSync('./repositories/books.json'));
-const uuidv4 = require('uuid/v4');
+
 
 class bookRepository {
   constructor() {
