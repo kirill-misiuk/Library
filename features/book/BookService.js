@@ -4,7 +4,7 @@ class BookService {
     this.libraryRepository = LibraryRepository;
   }
 
-  getBookList() {
+  getAllBooks() {
     return this.bookRepository.readAll();
   }
 

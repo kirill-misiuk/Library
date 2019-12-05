@@ -3,8 +3,8 @@ class LibraryController {
     this.libraryService = LibraryService;
   }
 
-  getLibraryList(req, res) {
-    this.libraryService.getLibraryList().subscribe({
+  getAllLibraries(req, res) {
+    this.libraryService.getAllLibraries().subscribe({
       next: (data) => res.status(200).json({ status: 200, data }),
       error: (error) => res.status(400).json({ status: 400, data: {}, error }),
     });

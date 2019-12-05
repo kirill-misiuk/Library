@@ -3,7 +3,7 @@ class LibraryService {
     this.libraryRepository = LibraryRepository;
   }
 
-  getLibraryList() {
+  getAllLibraries() {
     return this.libraryRepository.readAll();
   }
 
