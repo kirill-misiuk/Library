@@ -12,9 +12,13 @@ class libraryRepository {
     return of(this.collections.libraries);
   }
 
+  write(data) {
+    fs.writeFileSync('./repositories/libraries.json', JSON.stringify(data));
+  }
+
   createLibrary(library) {
     this.collections.libraries.push({ id: uuidv4(), name: library.name, data: [] });
-    fs.writeFileSync('./repositories/libraries.json', JSON.stringify(this.collections));
+    this.write(this.collections);
     return of(this.collections.libraries);
   }
 
@@ -26,7 +30,7 @@ class libraryRepository {
     const libraries = this.collections.libraries.find((library) => library.id === libraryID);
     if (libraries !== undefined) {
       libraries.archive.push(bookID);
-      fs.writeFileSync('./repositories/libraries.json', JSON.stringify(this.collections));
+      this.write(this.collections);
     }
   }
 }

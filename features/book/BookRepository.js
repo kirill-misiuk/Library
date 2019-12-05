@@ -10,6 +10,11 @@ class bookRepository {
     this.collection = db;
   }
 
+
+  write(data) {
+    fs.writeFileSync('./repositories/books.json', JSON.stringify(data));
+  }
+
   createBook(id, book) {
     this.collection.books.push({
       id,
@@ -18,7 +23,7 @@ class bookRepository {
       page_count: book.page_count,
       year: book.year,
     });
-    fs.writeFileSync('./repositories/books.json', JSON.stringify(this.collection));
+    this.write(this.collection);
     return of(this.collection.books);
   }
 

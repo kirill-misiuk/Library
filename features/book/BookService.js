@@ -4,7 +4,9 @@ class BookService {
     this.libraryRepository = LibraryRepository;
   }
 
-  getAllBooks() {
+  getAllBooks(book) {
+    if(book.params.library_id){
+    }
     return this.bookRepository.readAll();
   }
 

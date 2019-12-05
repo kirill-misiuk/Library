@@ -8,7 +8,8 @@ const libraryrepository = new LibraryRepository();
 const service = new Service(repository, libraryrepository);
 const controller = new Controller(service);
 module.exports = (app) => {
+  app.get('/books/all', (req, res) => controller.getAllBooks(req, res));
+  app.post('/books/add', (req, res) => controller.createBook(req, res));
   app.get('/:library_id/books/all', (req, res) => controller.getAllBooks(req, res));
   app.post('/:library_id/books/add', (req, res) => controller.createBook(req, res));
-  app.post('/books/add', (req, res) => controller.createBook(req, res));
 };
