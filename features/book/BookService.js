@@ -1,3 +1,4 @@
+const {map} = require('rxjs/operators');
 class BookService {
   constructor(BookRepository, LibraryRepository) {
     this.bookRepository = BookRepository;
@@ -5,17 +6,15 @@ class BookService {
   }
 
   getAllBooks(book) {
-    if(book.params.library_id){
+    if (book.params.library_id) {
     }
     return this.bookRepository.readAll();
   }
 
   createBook(book) {
-    const id = this.bookRepository.createBookId();
-    if (book.params.library_id) {
-      this.libraryRepository.writeBookArchive(id, book.params.library_id);
-    }
-    return this.bookRepository.createBook(id, book.body);
+    return this.bookRepository.create(book.body).pipe(
+      map((v) => console.log(v)),
+    );
   }
 }
 

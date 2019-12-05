@@ -1,4 +1,4 @@
-const { of } = require('rxjs');
+const { of} = require('rxjs');
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
 
@@ -10,29 +10,20 @@ class bookRepository {
     this.collection = db;
   }
 
-
-  write(data) {
-    fs.writeFileSync('./repositories/books.json', JSON.stringify(data));
-  }
-
-  createBook(id, book) {
+  create(book) {
     this.collection.books.push({
-      id,
+      id: uuidv4(),
       name: book.name,
       author: book.author,
       page_count: book.page_count,
       year: book.year,
     });
-    this.write(this.collection);
+
     return of(this.collection.books);
   }
 
-  readAll() {
+  read() {
     return of(this.collection);
-  }
-
-  createBookId() {
-    return uuidv4();
   }
 }
 

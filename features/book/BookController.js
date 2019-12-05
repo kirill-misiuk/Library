@@ -11,7 +11,6 @@ class BookController {
   }
 
   createBook(req, res) {
-
     this.bookService.createBook(req).subscribe({
       next: (data) => res.status(201).json({ status: 200, data }),
       error: (e) => res.status(400).json({ status: 400, message: e.message }),
