@@ -1,3 +1,6 @@
+
+const { map, throwError } = require('rxjs/operators');
+
 class LibraryService {
   constructor(LibraryRepository) {
     this.libraryRepository = LibraryRepository;
@@ -12,8 +15,10 @@ class LibraryService {
   }
 
   getById(id) {
-    return this.libraryRepository.getById(id);
+    return this.libraryRepository.readAll().pipe(
+      map((libraries) => (libraries.filter((library) => library.id === id))),
+      map((library) => (library.length !== 0 ? library : throwError())),
+    );
   }
-
 }
 module.exports = LibraryService;

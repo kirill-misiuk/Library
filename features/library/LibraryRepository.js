@@ -12,26 +12,15 @@ class libraryRepository {
     return of(this.collections.libraries);
   }
 
-  write(data) {
-    fs.writeFileSync('./repositories/libraries.json', JSON.stringify(data));
-  }
-
   createLibrary(library) {
     this.collections.libraries.push({ id: uuidv4(), name: library.name, data: [] });
-    this.write(this.collections);
     return of(this.collections.libraries);
   }
 
-  getById(id) {
-    return of(this.collections.libraries.find((library) => library.id === id));
-  }
 
   writeBookArchive(bookID, libraryID) {
-    const libraries = this.collections.libraries.find((library) => library.id === libraryID);
-    if (libraries !== undefined) {
-      libraries.archive.push(bookID);
-      this.write(this.collections);
-    }
+    this.collections.libraries.find((library) => library.id === libraryID).archive.push(bookID);
+    return of(this.collections.libraries);
   }
 }
 module.exports = libraryRepository;

@@ -19,7 +19,7 @@ class bookRepository {
       year: book.year,
     });
 
-    return of(this.collection.books);
+    return of(this.collection.books.slice(-1).pop());
   }
 
   read() {
