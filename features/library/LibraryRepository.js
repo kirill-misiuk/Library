@@ -14,8 +14,8 @@ class libraryRepository {
   }
 
   findOne(id) {
-    const library = this.collections.libraries.find((lib) => lib.id === id);
-    return library ? of(library) : throwError('Can\t find library');
+ return of(this.collections.libraries.find((library) => library.id === id) || 0);
+
   }
 
   create(library) {
@@ -26,10 +26,13 @@ class libraryRepository {
 
 
   update(newLibrary, id) {
-    const librariesID = this.collections.libraries.map((item) => item.id);
-    const vgfdgd = this.collections.libraries.find((library) => library.id === id);
-    const index = librariesID.indexOf(id);
-    const fdf = { ...vgfdgd };
+    const library = this.collections.libraries.find((library) => library.id === id);
+    library.archive.push(...newLibrary.archive);
+    const lib = {
+      name: library.name,
+      archive: library.archive,
+    }
+    return of(Object.assign(library || 0, lib));
   }
 
   delete(id) {
