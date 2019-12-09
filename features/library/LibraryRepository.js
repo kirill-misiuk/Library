@@ -13,13 +13,13 @@ class libraryRepository {
   }
 
   findOne(id) {
-    this.collections.libraries.find((library) => library.id === id);
-    return of(this.collections.libraries);
+    return this.collections.libraries.find((library) => library.id === id);
   }
 
   create(library) {
-    this.collections.libraries.push({ id: uuidv4(), name: library.name, data: [] });
-    return of(this.collections.libraries.pop());
+    const newlibrary = { id: uuidv4(), name: library.name, data: [] };
+    this.collections.libraries.push(newlibrary);
+    return of(newlibrary);
   }
 
 
@@ -29,8 +29,7 @@ class libraryRepository {
   }
 
   delete(id) {
-    this.collections.libraries.filter((library) => this.collections.libraries.indexOf(library.id) === id);
-    return id;
+    this.collections.libraries.splice(this.collections.libraries.findIndex(this.collections.libraries, (item) => item.id === id), 1);
   }
 }
 module.exports = libraryRepository;
