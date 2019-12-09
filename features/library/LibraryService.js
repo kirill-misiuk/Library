@@ -15,7 +15,6 @@ class LibraryService {
 
   getById(id) {
     return this.libraryRepository.findOne(id).pipe(
-      map((v) => (v.length === 0 ? throwError() : v)),
     );
   }
 

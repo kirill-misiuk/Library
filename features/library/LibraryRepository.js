@@ -1,4 +1,5 @@
-const { of } = require('rxjs');
+const { of, throwError } = require('rxjs');
+
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
 
@@ -13,7 +14,8 @@ class libraryRepository {
   }
 
   findOne(id) {
-    return of(this.collections.libraries.find((library) => library.id === id) || []);
+    const library = this.collections.libraries.find((lib) => lib.id === id);
+    return library ? of(library) : throwError('Can\t find library');
   }
 
   create(library) {
@@ -24,7 +26,10 @@ class libraryRepository {
 
 
   update(newLibrary, id) {
-   return of(Object.assign(this.collections.libraries.find((library) => library.id === id) || [], newLibrary));
+    const librariesID = this.collections.libraries.map((item) => item.id);
+    const vgfdgd = this.collections.libraries.find((library) => library.id === id);
+    const index = librariesID.indexOf(id);
+    const fdf = { ...vgfdgd };
   }
 
   delete(id) {
