@@ -8,19 +8,29 @@ class libraryRepository {
     this.collections = db;
   }
 
-  read() {
+  find() {
+    return of(this.collections.libraries);
+  }
+
+  findOne(id) {
+    this.collections.libraries.find((library) => library.id === id);
     return of(this.collections.libraries);
   }
 
   create(library) {
     this.collections.libraries.push({ id: uuidv4(), name: library.name, data: [] });
-    return of(this.collections.libraries);
+    return of(this.collections.libraries.pop());
   }
 
 
-  update(libraryID) {
-    this.collections.libraries.find((library) => library.id === libraryID);
+  update(library) {
+    this.collections.libraries.map((libraries) => library.find((o) => o.id === libraries.id) || libraries);
     return of(this.collections.libraries);
+  }
+
+  delete(id) {
+    this.collections.libraries.filter((library) => this.collections.libraries.indexOf(library.id) === id);
+    return id;
   }
 }
 module.exports = libraryRepository;
