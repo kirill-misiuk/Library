@@ -1,4 +1,4 @@
-const { of ,throwError} = require('rxjs');
+const { of } = require('rxjs');
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
 
@@ -13,7 +13,7 @@ class libraryRepository {
   }
 
   findOne(id) {
-    return this.collections.libraries.find((library) => library.id === id) || throwError();
+    return of(this.collections.libraries.find((library) => library.id === id) || []);
   }
 
   create(library) {
@@ -23,15 +23,15 @@ class libraryRepository {
   }
 
 
-  update(newLibrary) {
-    this.collections.libraries.map((library) => newLibrary.find((o) => o.id === library.id) || library);
-    return of(this.collections.libraries);
+  update(newLibrary, id) {
+   return of(Object.assign(this.collections.libraries.find((library) => library.id === id) || [], newLibrary));
   }
 
   delete(id) {
-    const deletedID = this.findOne(id).id;
-    this.collections.libraries.splice(this.collections.libraries.findIndex(this.collections.libraries, (item) => item.id === id), 1);
-    return of(deletedID);
+    const librariesID = this.collections.libraries.map((item) => item.id);
+    const index = librariesID.indexOf(id);
+    this.collections.libraries.splice(index, 1);
+    return of(librariesID[index]);
   }
 }
 module.exports = libraryRepository;

@@ -20,7 +20,21 @@ class LibraryController {
   getById(req, res) {
     this.libraryService.getById(req.params.library_id).subscribe({
       next: (data) => res.status(200).json({ status: 200, libraries: data }),
-      error: () => res.status(404).json({ status: 404, data: {} }),
+      error: () => res.status(404).json({ status: 404, message: `Can\`t find library with id: ${req.params.library_id}` }),
+    });
+  }
+
+  updateLibrary(req, res) {
+    this.libraryService.updateLibrary(req).subscribe({
+      next: (data) => res.status(200).json({ status: 200, libraries: data }),
+      error: () => res.status(404).json({ status: 404,message: `Can\`t find library with id: ${req.params.library_id}` }),
+    });
+  }
+
+  deleteLibrary(req, res) {
+    this.libraryService.deleteLibrary(req.params.library_id).subscribe({
+      next: (data) => res.status(200).json({ status: 200, libraries: data }),
+      error: () => res.status(404).json({ status: 404, message: `Can\`t find library with id: ${req.params.library_id}` }),
     });
   }
 }
