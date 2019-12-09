@@ -1,13 +1,10 @@
-
-const { map, throwError } = require('rxjs/operators');
-
 class LibraryService {
   constructor(LibraryRepository) {
     this.libraryRepository = LibraryRepository;
   }
 
   getAllLibraries() {
-    return this.libraryRepository.read();
+    return this.libraryRepository.find();
   }
 
   createLibrary(library) {

@@ -23,8 +23,8 @@ class libraryRepository {
   }
 
 
-  update(library) {
-    this.collections.libraries.map((libraries) => library.find((o) => o.id === libraries.id) || libraries);
+  update(newLibrary) {
+    this.collections.libraries.map((library) => newLibrary.find((o) => o.id === library.id) || library);
     return of(this.collections.libraries);
   }
 

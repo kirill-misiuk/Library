@@ -1,5 +1,3 @@
-const { mergeMap } = require('rxjs/operators');
-
 class BookService {
   constructor(BookRepository, LibraryService) {
     this.bookRepository = BookRepository;
@@ -11,9 +9,7 @@ class BookService {
   }
 
   createBook(book) {
-    return this.bookRepository.create(book.body).pipe(
-      mergeMap((v) => this.libraryServive.pushIntoArchive()),
-    );
+    return this.bookRepository.create(book.body).pipe();
   }
 }
 
