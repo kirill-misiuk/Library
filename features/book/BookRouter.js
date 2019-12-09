@@ -1,11 +1,11 @@
 const Controller = require('./BookController');
 const Service = require('./BookService');
 const Repository = require('./BookRepository');
-const LibraryRepository = require('../library/LibraryRepository');
+const LibraryService = require('../library/LibraryService');
 
 const repository = new Repository();
-const libraryrepository = new LibraryRepository();
-const service = new Service(repository, libraryrepository);
+const libraryservice = new LibraryService();
+const service = new Service(repository, libraryservice);
 const controller = new Controller(service);
 module.exports = (app) => {
   app.get('/books/all', (req, res) => controller.getAllBooks(req, res));

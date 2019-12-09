@@ -1,5 +1,5 @@
 
-const { map, throwError } = require('rxjs/operators');
+const { map, throwError, tap } = require('rxjs/operators');
 
 class LibraryService {
   constructor(LibraryRepository) {
@@ -7,17 +7,23 @@ class LibraryService {
   }
 
   getAllLibraries() {
-    return this.libraryRepository.readAll();
+    return this.libraryRepository.read();
   }
 
   createLibrary(library) {
-    return this.libraryRepository.createLibrary(library);
+    return this.libraryRepository.create(library);
   }
 
   getById(id) {
-    return this.libraryRepository.readAll().pipe(
+    return this.libraryRepository.read().pipe(
       map((libraries) => (libraries.filter((library) => library.id === id))),
       map((library) => (library.length !== 0 ? library : throwError())),
+    );
+  }
+
+  pushIntoArchive(BookID, LibraryID) {
+    return this.libraryRepository.update(LibraryID).pipe(
+      tap((v) => console.log(v)),
     );
   }
 }

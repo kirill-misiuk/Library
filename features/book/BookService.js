@@ -1,20 +1,19 @@
-const { tap } = require('rxjs/operators');
+const { tap, mergeMap } = require('rxjs/operators');
 
 class BookService {
-  constructor(BookRepository, LibraryRepository) {
+  constructor(BookRepository, LibraryService) {
     this.bookRepository = BookRepository;
-    this.libraryRepository = LibraryRepository;
+    this.libraryServive = LibraryService;
   }
 
-  getAllBooks(book) {
-    if (book.params.library_id) {
-    }
-    return this.bookRepository.readAll();
+  getAllBooks() {
+    return this.bookRepository.read();
   }
 
   createBook(book) {
     return this.bookRepository.create(book.body).pipe(
-      tap((v) => this.libraryRepository.writeBookArchive(v.id, book.params.library_id)),
+      // tap((v) => this.libraryRepository.update(book.params.library_id, v.id)),
+      mergeMap((v) => this.libraryServive.pushIntoArchive(book.params.library_id, v.id)),
     );
   }
 }

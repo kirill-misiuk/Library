@@ -8,18 +8,18 @@ class libraryRepository {
     this.collections = db;
   }
 
-  readAll() {
+  read() {
     return of(this.collections.libraries);
   }
 
-  createLibrary(library) {
+  create(library) {
     this.collections.libraries.push({ id: uuidv4(), name: library.name, data: [] });
     return of(this.collections.libraries);
   }
 
 
-  writeBookArchive(bookID, libraryID) {
-    this.collections.libraries.find((library) => library.id === libraryID).archive.push(bookID);
+  update(libraryID) {
+    this.collections.libraries.find((library) => library.id === libraryID);
     return of(this.collections.libraries);
   }
 }
