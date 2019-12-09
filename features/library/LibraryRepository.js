@@ -1,4 +1,4 @@
-const { of } = require('rxjs');
+const { of ,throwError} = require('rxjs');
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
 
@@ -13,7 +13,7 @@ class libraryRepository {
   }
 
   findOne(id) {
-    return this.collections.libraries.find((library) => library.id === id);
+    return this.collections.libraries.find((library) => library.id === id) || throwError();
   }
 
   create(library) {
@@ -29,7 +29,9 @@ class libraryRepository {
   }
 
   delete(id) {
+    const deletedID = this.findOne(id).id;
     this.collections.libraries.splice(this.collections.libraries.findIndex(this.collections.libraries, (item) => item.id === id), 1);
+    return of(deletedID);
   }
 }
 module.exports = libraryRepository;
