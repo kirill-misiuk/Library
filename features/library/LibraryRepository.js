@@ -15,7 +15,7 @@ class libraryRepository {
   }
 
   findOne(id) {
-    return of(this.collections.libraries.find((library) => library.id === id) || 0);
+    return of(this.collections.libraries.find((library) => library.id === id) || null);
   }
 
   create(library) {
