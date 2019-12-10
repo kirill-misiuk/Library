@@ -23,9 +23,7 @@ class LibraryService {
   }
 
   deleteLibrary(id) {
-    return this.libraryRepository.delete(id).pipe(
-      map((v) => (v.length === 0 ? throwError() : v)),
-    );
+    return this.libraryRepository.delete(id);
   }
 }
 module.exports = LibraryService;

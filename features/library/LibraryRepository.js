@@ -38,7 +38,7 @@ class libraryRepository {
     const librariesID = this.collections.libraries.map((item) => item.id);
     const index = librariesID.indexOf(id);
     this.collections.libraries.splice(index, 1);
-    return of(librariesID[index]);
+    return index !== -1 ? of(librariesID[index]) : of(null);
   }
 }
 
