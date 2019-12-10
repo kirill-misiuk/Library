@@ -19,9 +19,7 @@ class LibraryService {
   }
 
   updateLibrary(library) {
-    return this.libraryRepository.update(library.body, library.params.library_id).pipe(
-      map((v) => (v.length === 0 ? throwError() : v)),
-    );
+    return this.libraryRepository.update(library.body, library.params.library_id).pipe();
   }
 
   deleteLibrary(id) {
