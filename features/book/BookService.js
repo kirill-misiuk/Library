@@ -5,7 +5,7 @@ class BookService {
   }
 
   getAllBooks() {
-    return this.bookRepository.read();
+    return this.bookRepository.find();
   }
 
   getById(id) {
@@ -16,8 +16,8 @@ class BookService {
     return this.bookRepository.create(book.body);
   }
 
-  deleteBook(id) {
-    return this.bookRepository.delete(id);
+  deleteBook(book) {
+    return this.bookRepository.delete(book.params.book_id);
   }
 
   updateBook(book) {
