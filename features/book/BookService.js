@@ -8,6 +8,10 @@ class BookService {
     return this.bookRepository.read();
   }
 
+  getById(id) {
+    return this.bookRepository.findOne(id);
+  }
+
   createBook(book) {
     return this.bookRepository.create(book.body);
   }

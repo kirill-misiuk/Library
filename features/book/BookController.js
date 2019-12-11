@@ -10,6 +10,14 @@ class BookController {
     });
   }
 
+  getById(req, res) {
+    this.bookService.getById(req.params.book_id).subscribe({
+      next: (data) => (data !== null ? res.status(201).json({ status: 201, data })
+        : res.status(404).json({ status: 404, message: 'Can`t find library id' })),
+      error: (e) => res.status(400).json({ status: 400, message: e.message }),
+    });
+  }
+
   createBook(req, res) {
     this.bookService.createBook(req).subscribe({
       next: (data) => (data !== null ? res.status(201).json({ status: 201, data })
