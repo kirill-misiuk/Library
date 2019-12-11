@@ -15,23 +15,31 @@ class bookRepository {
   }
 
   findOne(id) {
-    this.collection.books.find((book) => book.id === id);
-    return of(this.collection.books);
+    return of(this.collection.books.find((book) => book.id === id) || null);
   }
 
   create(book) {
-    this.collection.books.push({
+    const newBook = {
       id: uuidv4(),
       name: book.name,
       author: book.author,
       page_count: book.page_count,
       year: book.year,
-    });
-    return of(this.collection.books.slice(-1).pop());
+    };
+    this.collection.books.push(newBook);
+    return of(newBook);
   }
 
+  delete(id) {
+    const BooksID = this.collection.books.map((item) => item.id);
+    const index = BooksID.indexOf(id);
+    this.collection.books.splice(index, 1);
+    return index !== -1 ? of(BooksID[index]) : of(null);
+  }
 
+  update() {
 
+  }
 }
 
 

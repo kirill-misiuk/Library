@@ -9,7 +9,15 @@ class BookService {
   }
 
   createBook(book) {
-    return this.bookRepository.create(book.body).pipe();
+    return this.bookRepository.create(book.body);
+  }
+
+  deleteBook(id) {
+    return this.bookRepository.delete(id);
+  }
+
+  updateBook(book) {
+    return this.bookRepository.update(book);
   }
 }
 
