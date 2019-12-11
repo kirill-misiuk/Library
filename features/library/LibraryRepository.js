@@ -26,13 +26,18 @@ class libraryRepository {
 
 
   update(newLibrary, id) {
-    const library = this.collections.libraries.find((lib) => lib.id === id) || null;
-    library !== null ? Array.isArray(newLibrary[0].archive) ? library.archive.push(...newLibrary[0].archive) : library.archive : null;
-    return library !== null ? of(Object.assign(library, {
-      name: newLibrary[0].name || library.name,
-      archive: library.archive,
-    })) : of(null);
+    const library = this.collections.libraries.find((lib) => lib.id === id) || false;
+    if (library) {
+      library.archive.push(...newLibrary[0].archive || []);
+      const j = Object.assign(library, {
+        name: newLibrary[0].name || library.name,
+        archive: library.archive,
+      });
+      return of(j);
+    }
+    return of(null);
   }
+
 
   delete(id) {
     const librariesID = this.collections.libraries.map((item) => item.id);

@@ -41,7 +41,7 @@ class LibraryController {
     this.libraryService.deleteLibrary(req.params.library_id).subscribe({
       next: (data) => {
         data === null ? res.status(404).json({ status: 404, libraries: data })
-          : res.status(200).json({ status: 200, libraries: data });
+          : res.status(204).json({ status: 200, libraries: data });
       },
       error: (e) => res.status(400).json({ status: 400, message: e }),
     });
