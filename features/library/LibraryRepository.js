@@ -28,11 +28,11 @@ class libraryRepository {
   update(newlibrary, id) {
     const library = this.collections.libraries.find((lib) => lib.id === id) || false;
     if (library) {
-      library.archive.push(...newlibrary[0].archive || []);
-      const editedLibrary = {
+        library.archive.push(...newlibrary[0].archive || []);
+      const editedLibrary = Object.assign(library, {
         name: newlibrary[0].name || library.name,
         archive: library.archive,
-      };
+      });
       return of(editedLibrary);
     }
     return of(null);
