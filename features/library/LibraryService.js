@@ -1,5 +1,3 @@
-const { map, throwError } = require('rxjs/operators');
-
 class LibraryService {
   constructor(LibraryRepository) {
     this.libraryRepository = LibraryRepository;
