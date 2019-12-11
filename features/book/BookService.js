@@ -1,7 +1,9 @@
+const { tap } = require('rxjs/operators');
+
 class BookService {
-  constructor(BookRepository, LibraryService) {
+  constructor(BookRepository, LibraryRepository) {
     this.bookRepository = BookRepository;
-    this.libraryServive = LibraryService;
+    this.libraryRepository = LibraryRepository;
   }
 
   getAllBooks() {
@@ -13,7 +15,9 @@ class BookService {
   }
 
   createBook(book) {
-    return this.bookRepository.create(book.body);
+    return this.bookRepository.create(book.body).pipe(
+      tap((v) => this.libraryRepository.update([{ archive: [v.id] }], book.params.library_id)),
+    );
   }
 
   deleteBook(book) {
