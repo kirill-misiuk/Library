@@ -37,7 +37,7 @@ class bookRepository {
     return index !== -1 ? of(BooksID[index]) : of(null);
   }
 
-  update(data, id) {
+  update(data) {
     const book = this.collection.books.find((lib) => lib.id === id) || false;
     if (book) {
       const newbook = {

@@ -16,8 +16,8 @@ class LibraryService {
     );
   }
 
-  updateLibrary(library) {
-    return this.libraryRepository.update(library).pipe();
+  updateLibrary(data) {
+    return this.libraryRepository.update(data).pipe();
   }
 
   deleteLibrary(id) {

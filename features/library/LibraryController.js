@@ -20,8 +20,8 @@ class LibraryController {
   getById(req, res) {
     this.libraryService.getById(req.params.library_id).subscribe({
       next: (library) => {
-        library === null ? res.status(404).json({ status: res.statusCode, libraries:  library})
-          : res.status(200).json({ status: res.statusCode, libraries:  library});
+        library === null ? res.status(404).json({ status: res.statusCode, libraries: library})
+          : res.status(200).json({ status: res.statusCode, libraries: library});
       },
       error: (e) => res.status(400).json({ status: res.statusCode, message: e }),
     });
@@ -29,7 +29,7 @@ class LibraryController {
 
   updateLibrary(req, res) {
     const data = {
-      id: req.params.id,
+      id: req.params.library_id,
       name: req.body.name,
       active: req.body.archive,
     };
