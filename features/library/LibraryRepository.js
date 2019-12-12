@@ -27,7 +27,6 @@ class libraryRepository {
 
   update(data) {
     const library = this.collections.libraries.find((lib) => lib.id === data.id) || false;
-    console.log(library);
     if (library) {
       library.archive.push(...data.archive || []);
       return of({
