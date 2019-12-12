@@ -43,9 +43,7 @@ class libraryRepository {
 
   delete(id) {
     const library = this.collections.libraries.find((lib) => lib.id === id) || false;
-    console.log(library)
     if (library) {
-      console.log(library.id)
       this.collections.libraries.splice(this.collections.libraries.indexOf(library), 1);
       return of(library.id);
     }
