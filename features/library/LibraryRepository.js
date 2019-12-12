@@ -19,31 +19,37 @@ class libraryRepository {
   }
 
   create(library) {
-    const newlibrary = { id: uuidv4(), name: library.name, data: [] };
+    const newlibrary = { id: uuidv4(), name: library.name, data: library.data };
     this.collections.libraries.push(newlibrary);
     return of(newlibrary);
   }
 
 
-  update(newlibrary, id) {
-    const library = this.collections.libraries.find((lib) => lib.id === id) || false;
+  update(data) {
+    const library = this.collections.libraries.find((lib) => lib.id === id) || null;
     if (library) {
-        library.archive.push(...newlibrary[0].archive || []);
-      const editedLibrary = Object.assign(library, {
-        name: newlibrary[0].name || library.name,
-        archive: library.archive,
+      library.archive.push(...data.archive || []);
+      return of({
+        ...library,
+        ...{
+          name: data.name || library.name,
+          archive: library.archive,
+        },
       });
-      return of(editedLibrary);
     }
     return of(null);
   }
 
 
   delete(id) {
-    const librariesID = this.collections.libraries.map((item) => item.id);
-    const index = librariesID.indexOf(id);
-    this.collections.libraries.splice(index, 1);
-    return index !== -1 ? of(librariesID[index]) : of(null);
+    const library = this.collections.libraries.find((lib) => lib.id === id) || false;
+    console.log(library)
+    if (library) {
+      console.log(library.id)
+      this.collections.libraries.splice(this.collections.libraries.indexOf(library), 1);
+      return of(library.id);
+    }
+    return of(null);
   }
 }
 

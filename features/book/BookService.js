@@ -1,4 +1,4 @@
-const { tap } = require('rxjs/operators');
+const { mergeMap } = require('rxjs/operators');
 
 class BookService {
   constructor(BookRepository, LibraryRepository) {
@@ -16,7 +16,7 @@ class BookService {
 
   createBook(book) {
     return this.bookRepository.create(book.body).pipe(
-      tap((v) => this.libraryRepository.update([{ archive: [v.id] }], book.params.library_id)),
+      mergeMap((library) => this.libraryRepository.update([{ archive: [library.id] }], book.params.library_id)),
     );
   }
 
@@ -25,7 +25,7 @@ class BookService {
   }
 
   updateBook(book) {
-    return this.bookRepository.update(book);
+    return this.bookRepository.update(book.body, book.params.book_id);
   }
 }
 

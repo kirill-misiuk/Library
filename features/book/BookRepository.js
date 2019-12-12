@@ -37,8 +37,19 @@ class bookRepository {
     return index !== -1 ? of(BooksID[index]) : of(null);
   }
 
-  update() {
-
+  update(data, id) {
+    const book = this.collection.books.find((lib) => lib.id === id) || false;
+    if (book) {
+      const newbook = {
+        name: data.name || book.name,
+        author: data.author || book.author,
+        page_count: data.page_count || book.page_count,
+        year: data.year || book.year,
+      };
+      const copy = { ...book, ...newbook };
+      return of(copy);
+    }
+    return of(null);
   }
 }
 

@@ -5,45 +5,50 @@ class LibraryController {
 
   getAllLibraries(req, res) {
     this.libraryService.getAllLibraries().subscribe({
-      next: (data) => res.status(200).json({ status: 200, data }),
-      error: (error) => res.status(400).json({ status: 400, data: {}, error }),
+      next: (library) => res.status(200).json({ status: res.statusCode, library }),
+      error: (e) => res.status(400).json({ status: res.statusCode, e }),
     });
   }
 
   createLibrary(req, res) {
     this.libraryService.createLibrary(req.body).subscribe({
-      next: (data) => res.status(201).json({ status: 201, data }),
-      error: (error) => res.status(400).json({ status: 400, data: {}, error }),
+      next: (library) => res.status(201).json({ status: res.statusCode, library }),
+      error: (e) => res.status(400).json({ status: res.statusCode, e }),
     });
   }
 
   getById(req, res) {
     this.libraryService.getById(req.params.library_id).subscribe({
-      next: (data) => {
-        data === null ? res.status(404).json({ status: 404, libraries: data })
-          : res.status(200).json({ status: 200, libraries: data });
+      next: (library) => {
+        library === null ? res.status(404).json({ status: res.statusCode, libraries:  library})
+          : res.status(200).json({ status: res.statusCode, libraries:  library});
       },
-      error: (e) => res.status(400).json({ status: 400, message: e }),
+      error: (e) => res.status(400).json({ status: res.statusCode, message: e }),
     });
   }
 
   updateLibrary(req, res) {
-    this.libraryService.updateLibrary(req).subscribe({
-      next: (data) => {
-        data === null ? res.status(404).json({ status: 404, libraries: data })
-          : res.status(200).json({ status: 200, libraries: data });
+    const data = {
+      id: req.params.id,
+      name: req.body.name,
+      active: req.body.archive,
+    };
+    this.libraryService.updateLibrary(data).subscribe({
+      next: (library) => {
+        library === null ? res.status(404).json({ status: res.statusCode, libraries: library })
+          : res.status(200).json({ status: res.statusCode, libraries: library });
       },
-      error: (e) => res.status(400).json({ status: 400, message: e }),
+      error: (e) => res.status(400).json({ status: res.statusCode, message: e }),
     });
   }
 
   deleteLibrary(req, res) {
     this.libraryService.deleteLibrary(req.params.library_id).subscribe({
-      next: (data) => {
-        data === null ? res.status(404).json({ status: 404, libraries: data })
-          : res.status(204).json({ status: 200, libraries: data });
+      next: (id) => {
+        id === null ? res.status(404).json({ status: res.statusCode, libraries: id })
+          : res.status(200).json({ status: res.statusCode, libraries: id });
       },
-      error: (e) => res.status(400).json({ status: 400, message: e }),
+      error: (e) => res.status(400).json({ status: res.statusCode, message: e }),
     });
   }
 }
