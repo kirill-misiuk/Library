@@ -1,7 +1,4 @@
-const {
-  mergeMap, map, mapTo, publish,
-} = require('rxjs/operators');
-const { of } = require('rxjs');
+const { mergeMap, map } = require('rxjs/operators');
 
 class BookService {
   constructor(BookRepository, LibraryRepository) {
