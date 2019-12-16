@@ -26,28 +26,12 @@ class libraryRepository {
 
 
   update(data) {
-    const library = this.collections.libraries.find((lib) => lib.id === data.id) || null;
-    if (library) {
-      library.archive.push(...data.archive || []);
-      return of({
-        ...library,
-        ...{
-          name: data.name || library.name,
-          archive: library.archive,
-        },
-      });
-    }
-    return of(null);
+    return of(this.collections.libraries.find((lib) => lib.id === data.id) || null);
   }
 
 
   delete(id) {
-    const library = this.collections.libraries.find((lib) => lib.id === id) || null;
-    if (library) {
-      this.collections.libraries.splice(this.collections.libraries.indexOf(library), 1);
-      return of(library.id);
-    }
-    return of(null);
+    return of(this.collections.libraries.find((lib) => lib.id === id) || null);
   }
 }
 

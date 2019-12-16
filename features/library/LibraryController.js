@@ -30,7 +30,7 @@ class LibraryController {
     const data = {
       id: req.params.library_id,
       name: req.body.name,
-      active: req.body.archive,
+      archive: req.body.archive,
     };
     this.libraryService.updateLibrary({ ...data }).subscribe({
       next: (library) => {
