@@ -35,7 +35,7 @@ class BookController {
 
   deleteBook(req, res) {
     this.bookService.deleteBook(req.params.book_id).subscribe({
-      next: (book) => (book !== null ? res.status(204).json({ status: 201, book })
+      next: (book) => (book !== null ? res.status(200).json({ status: 200, book })
         : res.status(404).json({ status: res.statusCode, message: 'Can`t find library id' })),
       error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
     });
@@ -49,7 +49,7 @@ class BookController {
       page_count: req.body.page_count,
       year: req.body.year,
     };
-    this.bookService.updateBook(data).subscribe({
+    this.bookService.updateBook({ ...data }).subscribe({
       next: (book) => (book !== null ? res.status(201).json({ status: 201, book })
         : res.status(404).json({ status: res.statusCode, message: 'Can`t find library id' })),
       error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),

@@ -29,7 +29,7 @@ class bookRepository {
   }
 
   delete(id) {
-    const Book = this.collection.books.find((book) => book.id === id) || false;
+    const Book = this.collection.books.find((book) => book.id === id) || null;
     if (Book) {
       this.collection.books.splice(this.collection.books.indexOf(Book), 1);
       return of(Book.id);
@@ -38,7 +38,7 @@ class bookRepository {
   }
 
   update(data) {
-    const book = this.collection.books.find((lib) => lib.id === data.id) || false;
+    const book = this.collection.books.find((lib) => lib.id === data.id) || null;
     if (book) {
       const newbook = {
         name: data.name || book.name,
