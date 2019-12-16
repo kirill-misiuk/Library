@@ -26,7 +26,7 @@ class BookController {
       page_count: req.body.page_count,
       year: req.body.year,
     };
-    this.bookService.createBook(data).subscribe({
+    this.bookService.createBook({ ...data }).subscribe({
       next: (book) => (book !== null ? res.status(201).json({ status: res.statusCode, book })
         : res.status(404).json({ status: res.statusCode, message: 'Can`t find library id' })),
       error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
