@@ -1,5 +1,5 @@
 const { of } = require('rxjs');
-const { mergeMap, map, switchMap } = require('rxjs/operators');
+const { mergeMap, map } = require('rxjs/operators');
 
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
@@ -20,32 +20,41 @@ class libraryRepository {
   }
 
   create(library) {
-    return of({ id: uuidv4(), name: library.name, data: library.data });
+    return of({ id: uuidv4(), name: library.name, data: library.data })
+      .pipe(mergeMap((lib) => {
+        this.collections.libraries.push(lib);
+        return of(lib);
+      }));
   }
 
 
   update(data) {
     return of(this.collections.libraries.find((lib) => lib.id === data.id) || null)
       .pipe(
-        mergeMap((library) => of(library).pipe(mergeMap((lib) => of(
-          this.collections.libraries.map((libraries) => (libraries === lib ? {
-            id: lib.id,
-            name: data.name || lib.name,
-            archive: lib.archive,
-          } : libraries)),
-        ).pipe(
-          mergeMap((libraries) => of(libraries))
-        )))),
+        mergeMap((lib) => {
+          if (lib) {
+            lib.archive.push(...data.archive);
+            this.collections.libraries = this.collections.libraries.map((library) => ((library.id === lib.id) ? {
+              ...library,
+              ...data,
+              archive: lib.archive,
+            } : library));
+            return of(this.collections.libraries);
+          } return of(lib);
+        }),
       );
   }
 
 
   delete(id) {
     return of(this.collections.libraries.find((lib) => lib.id === id) || null)
-      .pipe(mergeMap((library) => (library === null ? of(library) : of(this.collections.libraries.splice(this.collections.libraries.indexOf(library), 1)))
-        .pipe(
-          mergeMap((lib) => (lib === null ? of(lib) : of(lib[0].id))),
-        )));
+      .pipe(mergeMap((library) => {
+        if (library === null) {
+          return of(library);
+        }
+        return of(this.collections.libraries.splice(this.collections.libraries.indexOf(library), 1))
+          .pipe(map((lib) => lib[0].id));
+      }));
   }
 }
 

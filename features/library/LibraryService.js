@@ -11,8 +11,7 @@ class LibraryService {
   }
 
   createLibrary(library) {
-    return this.libraryRepository.create(library)
-      .pipe(mergeMap((lib) => this.libraryRepository.libraries.push(lib)));
+    return this.libraryRepository.create(library);
   }
 
   getById(id) {

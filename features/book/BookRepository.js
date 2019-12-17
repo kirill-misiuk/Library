@@ -1,4 +1,5 @@
 const { of } = require('rxjs');
+const { map, mergeMap } = require('rxjs/operators');
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
 
@@ -17,41 +18,44 @@ class bookRepository {
   }
 
   create(book) {
-    const newBook = {
+    return of({
       id: uuidv4(),
       name: book.name,
       author: book.author,
       page_count: book.page_count,
       year: book.year,
-    };
-    this.collection.books.push(newBook);
-    return of(newBook);
+    }).pipe(mergeMap((library) => {
+      this.collection.books.push(library);
+      return of(library);
+    }));
   }
 
   delete(id) {
-    const Book = this.collection.books.find((book) => book.id === id) || null;
-    if (Book) {
-      this.collection.books.splice(this.collection.books.indexOf(Book), 1);
-      return of(Book.id);
-    }
-    return of(null);
+    return of(this.collection.books.find((book) => book.id === id) || null)
+      .pipe(mergeMap((book) => {
+        if (book) {
+          return of(this.collection.books.splice(this.collection.books.indexOf(book), 1))
+            .pipe(map((lib) => lib[0].id));
+        }
+        return of(book);
+      }));
   }
 
   update(data) {
-    const book = this.collection.books.find((lib) => lib.id === data.id) || null;
-    if (book) {
-      const newbook = {
-        name: data.name || book.name,
-        author: data.author || book.author,
-        page_count: data.page_count || book.page_count,
-        year: data.year || book.year,
-      };
-      const copy = { ...book, ...newbook };
-      return of(copy);
-    }
-    return of(null);
+    return of(this.collection.books.find((lib) => lib.id === data.id) || null)
+      .pipe(mergeMap((book) => {
+        if (book) {
+          const newbook = {
+            name: data.name || book.name,
+            author: data.author || book.author,
+            page_count: data.page_count || book.page_count,
+            year: data.year || book.year,
+          };
+          return of({ ...book, ...newbook });
+        }
+        return of(book);
+      }));
   }
 }
-
 
 module.exports = bookRepository;
