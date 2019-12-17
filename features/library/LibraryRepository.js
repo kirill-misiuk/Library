@@ -33,14 +33,14 @@ class libraryRepository {
       .pipe(
         mergeMap((lib) => {
           if (lib) {
-            lib.archive.push(...data.archive);
             this.collections.libraries = this.collections.libraries.map((library) => ((library.id === lib.id) ? {
               ...library,
               ...data,
-              archive: lib.archive,
+              archive: Array.from(new Set([...library.archive]).add(...data.archive)),
             } : library));
-            return of(this.collections.libraries);
-          } return of(lib);
+            return of(this.collections.libraries.find((libary) => libary.id === data.id) || null);
+          }
+          return of(lib);
         }),
       );
   }
