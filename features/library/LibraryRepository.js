@@ -1,4 +1,4 @@
-const { of, from, concat } = require('rxjs');
+const { of, from } = require('rxjs');
 const { mergeMap, map, toArray } = require('rxjs/operators');
 
 const fs = require('fs');
@@ -46,10 +46,10 @@ class libraryRepository {
   }
 
 
-  delete(id) {
-    return from(id)
+  delete(ids) {
+    return from(ids)
       .pipe(
-        map((i) => this.collections.libraries.findIndex((lib) => lib.id === i)),
+        map((id) => this.collections.libraries.findIndex((lib) => lib.id === id)),
         mergeMap((index) => {
           if (index !== -1) {
             return of(this.collections.libraries.splice((index), 1)).pipe(map((lib) => lib[0].id));

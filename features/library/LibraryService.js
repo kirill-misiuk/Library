@@ -24,7 +24,7 @@ class LibraryService {
   }
 
   deleteLibrary(id) {
-    return this.libraryRepository.delete(['', '54fa1ba4-15b8-11ea-8d71-362b9e155667']);
+    return this.libraryRepository.delete(id);
   }
 }
 module.exports = LibraryService;

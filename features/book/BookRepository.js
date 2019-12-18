@@ -1,5 +1,5 @@
-const { of } = require('rxjs');
-const { map, mergeMap } = require('rxjs/operators');
+const { of, from } = require('rxjs');
+const { map, mergeMap, toArray } = require('rxjs/operators');
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
 
@@ -30,31 +30,34 @@ class bookRepository {
     }));
   }
 
-  delete(id) {
-    return of(this.collection.books.find((book) => book.id === id) || null)
-      .pipe(mergeMap((book) => {
-        if (book) {
-          return of(this.collection.books.splice(this.collection.books.indexOf(book), 1))
-            .pipe(map((lib) => lib[0].id));
-        }
-        return of(book);
-      }));
+  delete(ids) {
+    return from(ids)
+      .pipe(
+        map((id) => this.collection.books.findIndex((lib) => lib.id === id)),
+        mergeMap((index) => {
+          if (index !== -1) {
+            return of(this.collection.books.splice((index), 1)).pipe(map((book) => book[0].id));
+          }
+          return of(null);
+        }),
+        toArray(),
+      );
   }
 
   update(data) {
-    return of(this.collection.books.find((lib) => lib.id === data.id) || null)
-      .pipe(mergeMap((book) => {
-        if (book) {
-          const newbook = {
-            name: data.name || book.name,
-            author: data.author || book.author,
-            page_count: data.page_count || book.page_count,
-            year: data.year || book.year,
-          };
-          return of({ ...book, ...newbook });
-        }
-        return of(book);
-      }));
+    return of(this.collection.books.find((book) => book.id === data.id) || null)
+      .pipe(
+        mergeMap((book) => {
+          if (book) {
+            this.collection.books = this.collection.books.map((boook) => ((book.id === boook.id) ? {
+              ...boook,
+              ...data,
+            } : boook));
+            return of(this.collection.books.find((book) => book.id === data.id) || null);
+          }
+          return of(book);
+        }),
+      );
   }
 }
 
