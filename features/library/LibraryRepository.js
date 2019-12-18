@@ -1,5 +1,5 @@
-const { of } = require('rxjs');
-const { mergeMap, map } = require('rxjs/operators');
+const { of, from, concat } = require('rxjs');
+const { mergeMap, map, toArray } = require('rxjs/operators');
 
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
@@ -47,14 +47,17 @@ class libraryRepository {
 
 
   delete(id) {
-    return of(this.collections.libraries.find((lib) => lib.id === id) || null)
-      .pipe(mergeMap((library) => {
-        if (library === null) {
-          return of(library);
-        }
-        return of(this.collections.libraries.splice(this.collections.libraries.indexOf(library), 1))
-          .pipe(map((lib) => lib[0].id));
-      }));
+    return from(id)
+      .pipe(
+        map((i) => this.collections.libraries.findIndex((lib) => lib.id === i)),
+        mergeMap((index) => {
+          if (index !== -1) {
+            return of(this.collections.libraries.splice((index), 1)).pipe(map((lib) => lib[0].id));
+          }
+          return of(null);
+        }),
+        toArray(),
+      );
   }
 }
 
