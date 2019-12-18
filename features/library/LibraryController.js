@@ -1,3 +1,5 @@
+const { validationResult } = require('express-validator');
+
 class LibraryController {
   constructor(LibraryService) {
     this.libraryService = LibraryService;
@@ -11,9 +13,11 @@ class LibraryController {
   }
 
   createLibrary(req, res) {
+    const errors = validationResult(req);
     this.libraryService.createLibrary(req.body).subscribe({
       next: (library) => res.status(201).json({ status: res.statusCode, library }),
-      error: (e) => res.status(400).json({ status: res.statusCode, e }),
+      error: (e) => (!errors.isEmpty() ? res.status(422).json({ errors: errors.array() })
+        : res.status(400).json({ status: res.statusCode, message: e })),
     });
   }
 
@@ -27,24 +31,22 @@ class LibraryController {
   }
 
   updateLibrary(req, res) {
-    const data = {
-      id: req.params.library_id,
-      name: req.body.name,
-      archive: req.body.archive,
-    };
-    this.libraryService.updateLibrary({ ...data }).subscribe({
+    const errors = validationResult(req);
+    const lib = { ...req.params, ...req.body};
+    this.libraryService.updateLibrary(lib).subscribe({
       next: (library) => {
         library === null ? res.status(404).json({ status: res.statusCode, libraries: library })
           : res.status(200).json({ status: res.statusCode, libraries: library });
       },
-      error: (e) => res.status(400).json({ status: res.statusCode, message: e }),
+      error: (e) => (!errors.isEmpty() ? res.status(422).json({ errors: errors.array() })
+        : res.status(400).json({ status: res.statusCode, message: e })),
     });
   }
 
   deleteLibrary(req, res) {
     this.libraryService.deleteLibrary([req.params.library_id]).subscribe({
       next: (id) => {
-        id === [null] ? res.status(404).json({ status: res.statusCode, libraries: id })
+        id[0] === null ? res.status(404).json({ status: res.statusCode, libraries: id })
           : res.status(200).json({ status: res.statusCode, libraries: id });
       },
       error: (e) => {
