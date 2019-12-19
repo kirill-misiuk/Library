@@ -1,8 +1,7 @@
 const { validationResult } = require('express-validator');
 
 class LibraryValidator {
-  constructor(Controller) {
-    this.controller = Controller;
+  constructor() {
   }
 
   getAllLibraries(req, res, next) {
@@ -10,7 +9,7 @@ class LibraryValidator {
     if (!result.isEmpty()) {
       return res.status(422).json({ status: res.statusCode, errors: Error.array() });
     }
-    next(this.controller.getAllLibraries(req, res));
+    next();
   }
 
   createLibrary(req, res, next) {
@@ -18,15 +17,15 @@ class LibraryValidator {
     if (!result.isEmpty() && result.errors[0].value !== undefined) {
       return res.status(422).json({ status: res.statusCode, errors: Error.array() });
     }
-    next(this.controller.createLibrary(req, res));
+    next();
   }
 
   updateLibrary(req, res, next) {
     const result = validationResult(req);
     if (!result.isEmpty() && result.errors[0].value !== undefined) {
-      return res.status(422).json({ status: res.statusCode, errors: Error.array() });
+      return res.status(422).json({ status: res.statusCode, errors: result.array() });
     }
-    next(this.controller.updateLibrary(req, res));
+    next();
   }
 
   getById(req, res, next) {
@@ -34,7 +33,7 @@ class LibraryValidator {
     if (!result.isEmpty()) {
       return res.status(422).json({ status: res.statusCode, errors: Error.array() });
     }
-    next(this.controller.getById(req, res));
+    next();
   }
 
   deleteLibrary(req, res, next) {
@@ -42,7 +41,7 @@ class LibraryValidator {
     if (!result.isEmpty()) {
       return res.status(422).json({ status: res.statusCode, errors: Error.array() });
     }
-    next(this.controller.deleteLibrary(req, res));
+    next();
   }
 }
 module.exports = LibraryValidator;

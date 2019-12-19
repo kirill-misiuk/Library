@@ -1,3 +1,4 @@
+const { validationResult } = require('express-validator');
 
 class LibraryController {
   constructor(LibraryService) {
@@ -29,6 +30,7 @@ class LibraryController {
 
   updateLibrary(req, res) {
     const lib = { ...req.params, ...req.body };
+
     this.libraryService.updateLibrary(lib).subscribe({
       next: (library) => {
         library === null ? res.status(404).json({ status: res.statusCode, libraries: library })
