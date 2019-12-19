@@ -1,5 +1,7 @@
 const { of, from } = require('rxjs');
-const { mergeMap, map, toArray } = require('rxjs/operators');
+const {
+  mergeMap, map, toArray,
+} = require('rxjs/operators');
 
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
@@ -31,12 +33,14 @@ class libraryRepository {
   update(data) {
     return of(this.collections.libraries.find((lib) => lib.id === data.id) || null)
       .pipe(
+
         mergeMap((lib) => {
           if (lib) {
+            if (!data.archive) data.archive = [];
             this.collections.libraries = this.collections.libraries.map((library) => ((library.id === lib.id) ? {
               ...library,
               ...data,
-              archive: Array.from(new Set([...library.archive]).add(...data.archive)),
+              archive: Array.from(new Set([...library.archive, ...data.archive])),
             } : library));
             return of(this.collections.libraries.find((libary) => libary.id === data.id) || null);
           }
@@ -44,7 +48,6 @@ class libraryRepository {
         }),
       );
   }
-
 
   delete(ids) {
     return from(ids)
@@ -60,5 +63,6 @@ class libraryRepository {
       );
   }
 }
+
 
 module.exports = libraryRepository;

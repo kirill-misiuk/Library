@@ -1,6 +1,4 @@
-const { mergeMap, tap } = require('rxjs/operators');
-const { of } = require('rxjs');
-
+const { map } = require('rxjs/operators');
 class LibraryService {
   constructor(LibraryRepository) {
     this.libraryRepository = LibraryRepository;
@@ -24,7 +22,8 @@ class LibraryService {
   }
 
   deleteLibrary(id) {
-    return this.libraryRepository.delete(id);
+    return this.libraryRepository.delete(id)
+      .pipe(map((ids) => ids.filter((item) => item !== null)));
   }
 }
 module.exports = LibraryService;
