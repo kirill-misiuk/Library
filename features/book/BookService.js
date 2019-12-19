@@ -16,13 +16,14 @@ class BookService {
 
   createBook(Book) {
     return this.bookRepository.create(Book).pipe(
-      mergeMap((book) => this.libraryRepository.update({ id: Book.library_id, archive: [book.id] })
+      mergeMap((book) => this.libraryRepository.update({ id: Book.id, archive: [book.id] })
         .pipe(map(() => book))),
     );
   }
 
   deleteBook(id) {
-    return this.bookRepository.delete(id);
+    return this.bookRepository.delete(id)
+      .pipe(map((ids) => ids.filter((item) => item !== null)));
   }
 
   updateBook(book) {

@@ -1,4 +1,3 @@
-const {validationResult } = require('express-validator');
 class BookController {
   constructor(BookService) {
     this.bookService = BookService;
@@ -20,14 +19,7 @@ class BookController {
   }
 
   createBook(req, res) {
-    const data = {
-      library_id: req.params.library_id,
-      name: req.body.name,
-      author: req.body.author,
-      page_count: req.body.page_count,
-      year: req.body.year,
-    };
-    this.bookService.createBook({ ...data }).subscribe({
+    this.bookService.createBook({ ...req.body, ...req.params }).subscribe({
       next: (book) => (book !== null ? res.status(201).json({ status: res.statusCode, book })
         : res.status(404).json({ status: res.statusCode, message: 'Can`t find library id' })),
       error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
@@ -35,9 +27,8 @@ class BookController {
   }
 
   deleteBook(req, res) {
-    this.bookService.deleteBook([req.params.book_id]).subscribe({
-      next: (book) => (book[0] !== null ? res.status(200).json({ status: 200, book })
-        : res.status(404).json({ status: res.statusCode, message: 'Can`t find library id' })),
+    this.bookService.deleteBook([req.params.id]).subscribe({
+      next: (book) => res.status(200).json({ status: 200, book }),
       error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
     });
   }
@@ -50,7 +41,7 @@ class BookController {
       page_count: req.body.page_count,
       year: req.body.year,
     };
-    this.bookService.updateBook({ ...data }).subscribe({
+    this.bookService.updateBook({ ...req.body, ...req.params }).subscribe({
       next: (book) => (book !== null ? res.status(201).json({ status: 201, book })
         : res.status(404).json({ status: res.statusCode, message: 'Can`t find library id' })),
       error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),

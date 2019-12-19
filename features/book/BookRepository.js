@@ -53,7 +53,7 @@ class bookRepository {
               ...boook,
               ...data,
             } : boook));
-            return of(this.collection.books.find((book) => book.id === data.id) || null);
+            return of(this.collection.books.find((bk) => bk.id === data.id) || null);
           }
           return of(book);
         }),
