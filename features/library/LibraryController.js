@@ -1,5 +1,3 @@
-const { validationResult } = require('express-validator');
-
 class LibraryController {
   constructor(LibraryService) {
     this.libraryService = LibraryService;
@@ -8,14 +6,14 @@ class LibraryController {
   getAllLibraries(req, res) {
     this.libraryService.getAllLibraries().subscribe({
       next: (library) => res.status(200).json({ status: res.statusCode, library }),
-      error: (e) => res.status(400).json({ status: res.statusCode, e }),
+      error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
     });
   }
 
   createLibrary(req, res) {
     this.libraryService.createLibrary(req.body).subscribe({
       next: (library) => res.status(201).json({ status: res.statusCode, library }),
-      error: (e) => (res.status(400).json({ status: res.statusCode, message: e })),
+      error: (e) => (res.status(400).json({ status: res.statusCode, message: e.message })),
     });
   }
 
@@ -24,7 +22,7 @@ class LibraryController {
       next: (library) => (library === null
         ? res.status(404).json({ status: res.statusCode, libraries: library })
         : res.status(200).json({ status: res.statusCode, libraries: library })),
-      error: (e) => res.status(400).json({ status: res.statusCode, message: e }),
+      error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
     });
   }
 
@@ -46,7 +44,7 @@ class LibraryController {
         res.status(200).json({ status: res.statusCode, libraries: id });
       },
       error: (e) => {
-        res.status(400).json({ status: res.statusCode, message: e });
+        res.status(400).json({ status: res.statusCode, message: e.message });
       },
     });
   }

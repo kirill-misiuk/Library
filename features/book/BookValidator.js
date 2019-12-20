@@ -19,7 +19,7 @@ class BookValidator {
     next();
   }
 
-  createBook(req, res,next) {
+  createBook(req, res, next) {
     const result = validationResult(req);
     if (!result.isEmpty() && result.errors[0].value !== undefined) {
       return res.status(422).json({ status: res.statusCode, errors: Error.array() });
@@ -27,7 +27,7 @@ class BookValidator {
     next();
   }
 
-  deleteBook(req, res,next) {
+  deleteBook(req, res, next) {
     const result = validationResult(req);
     if (!result.isEmpty()) {
       return res.status(422).json({ status: res.statusCode, errors: Error.array() });
@@ -35,7 +35,7 @@ class BookValidator {
     next();
   }
 
-  updateBook(req, res,next) {
+  updateBook(req, res, next) {
     const result = validationResult(req);
     if (!result.isEmpty() && result.errors[0].value !== undefined) {
       return res.status(422).json({ status: res.statusCode, errors: Error.array() });
