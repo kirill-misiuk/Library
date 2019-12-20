@@ -30,7 +30,8 @@ class BookController {
   }
 
   deleteBook(req, res) {
-    const ids = req.query.id;
+    let ids = req.query.id;
+    if (!Array.isArray(ids)) ids = [ids];
     this.bookService.deleteBook(ids).subscribe({
       next: (data) => res.status(200).json({ status: 200, data }),
       error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
