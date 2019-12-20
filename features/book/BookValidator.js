@@ -43,4 +43,5 @@ class BookValidator {
     next();
   }
 }
+
 module.exports = BookValidator;

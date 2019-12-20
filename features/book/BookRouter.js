@@ -33,13 +33,13 @@ module.exports = (app) => {
     validator.getById,
     (req, res) => controller.getById(req, res));
 
-  app.put('/books/:id',
+  app.put('/books/:id',[
     check('id').exists({ checkNull: true, checkFalsy: true }).isString(),
     check('name').optional().isString(),
     check('author').optional().isString(),
     check('page_count').optional().isNumeric().isLength({ min: 4, max: 4 }),
-    check('year').optional().isNumeric().isLength({ max: 4, min: 4 }),
-    validator.updateBook,
+    check('year').optional().isNumeric().isLength({ max: 4, min: 4 })
+    ],validator.updateBook,
     (req, res) => controller.updateBook(req, res));
 
   app.delete('/books/:id',

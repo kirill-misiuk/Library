@@ -24,4 +24,5 @@ class LibraryService {
     return this.libraryRepository.delete(id);
   }
 }
+
 module.exports = LibraryService;

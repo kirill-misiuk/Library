@@ -1,7 +1,5 @@
-const { of, from} = require('rxjs');
-const {
-  mergeMap, map, toArray,tap,
-} = require('rxjs/operators');
+const { of, from } = require('rxjs');
+const { mergeMap, map, toArray } = require('rxjs/operators');
 
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
@@ -63,6 +61,5 @@ class libraryRepository {
       );
   }
 }
-
 
 module.exports = libraryRepository;
