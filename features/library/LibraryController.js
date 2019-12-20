@@ -31,13 +31,15 @@ class LibraryController {
   updateLibrary(req, res) {
     const id = req.params;
     const library = req.body;
-    this.libraryService.updateLibrary({ ...library, ...id }).subscribe({
-      next: (data) => {
-        data === null ? res.status(404).json({ status: res.statusCode, data })
-          : res.status(200).json({ status: res.statusCode, data });
-      },
-      error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
-    });
+    if (id.id === library.id) {
+      this.libraryService.updateLibrary(library).subscribe({
+        next: (data) => {
+          data === null ? res.status(404).json({status: res.statusCode, data})
+            : res.status(200).json({status: res.statusCode, data});
+        },
+        error: (e) => res.status(400).json({status: res.statusCode, message: e.message}),
+      });
+    } else res.status(409).json({ status: res.statusCode, message: 'Conflict params and body data' });
   }
 
   deleteLibrary(req, res) {

@@ -22,7 +22,7 @@ class BookController {
   createBook(req, res) {
     const { id } = req.params;
     const book = req.body;
-    this.bookService.createBook({ id, ...book }).subscribe({
+    this.bookService.createBook({ ...book, ...id }).subscribe({
       next: (data) => (data !== null ? res.status(201).json({ status: res.statusCode, data })
         : res.status(404).json({ status: res.statusCode, message: 'Can`t find library id' })),
       error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
@@ -39,9 +39,9 @@ class BookController {
   }
 
   updateBook(req, res) {
-    const { id } = req.params;
+    const id = req.params;
     const book = req.body;
-    this.bookService.updateBook({ id, ...book }).subscribe({
+    this.bookService.updateBook({ ...book, ...id }).subscribe({
       next: (data) => (data !== null ? res.status(201).json({ status: 201, data })
         : res.status(404).json({ status: res.statusCode, message: 'Can`t find library id' })),
       error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
