@@ -23,7 +23,6 @@ class BookService {
 
   deleteBook(id) {
     return this.bookRepository.delete(id)
-      .pipe(map((ids) => ids.filter((item) => item !== null)));
   }
 
   updateBook(book) {

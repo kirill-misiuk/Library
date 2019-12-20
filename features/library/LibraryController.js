@@ -5,21 +5,23 @@ class LibraryController {
 
   getAllLibraries(req, res) {
     this.libraryService.getAllLibraries().subscribe({
-      next: (library) => res.status(200).json({ status: res.statusCode, library }),
+      next: (data) => res.status(200).json({ status: res.statusCode, data}),
       error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
     });
   }
 
   createLibrary(req, res) {
-    this.libraryService.createLibrary(req.body).subscribe({
+    const lib = req.body;
+    this.libraryService.createLibrary(lib).subscribe({
       next: (library) => res.status(201).json({ status: res.statusCode, library }),
       error: (e) => (res.status(400).json({ status: res.statusCode, message: e.message })),
     });
   }
 
   getById(req, res) {
-    this.libraryService.getById(req.params.id).subscribe({
-      next: (library) => (library === null
+    const { id } = req.params;
+    this.libraryService.getById(id).subscribe({
+      next: (data) => (data === null
         ? res.status(404).json({ status: res.statusCode, libraries: library })
         : res.status(200).json({ status: res.statusCode, libraries: library })),
       error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
@@ -27,11 +29,11 @@ class LibraryController {
   }
 
   updateLibrary(req, res) {
-    const lib = { ...req.params, ...req.body };
-
-    this.libraryService.updateLibrary(lib).subscribe({
-      next: (library) => {
-        library === null ? res.status(404).json({ status: res.statusCode, libraries: library })
+    const { id } = req.params;
+    const library = req.body;
+    this.libraryService.updateLibrary({ id, ...library }).subscribe({
+      next: (data) => {
+        data === null ? res.status(404).json({ status: res.statusCode, libraries: library })
           : res.status(200).json({ status: res.statusCode, libraries: library });
       },
       error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
@@ -39,9 +41,10 @@ class LibraryController {
   }
 
   deleteLibrary(req, res) {
-    this.libraryService.deleteLibrary([req.params.id]).subscribe({
-      next: (id) => {
-        res.status(200).json({ status: res.statusCode, libraries: id });
+    const ids = req.query.id;
+    this.libraryService.deleteLibrary(ids).subscribe({
+      next: (data) => {
+        res.status(200).json({ status: res.statusCode, data });
       },
       error: (e) => {
         res.status(400).json({ status: res.statusCode, message: e.message });

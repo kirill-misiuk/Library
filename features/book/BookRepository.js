@@ -36,11 +36,12 @@ class bookRepository {
         map((id) => this.collection.books.findIndex((lib) => lib.id === id)),
         mergeMap((index) => {
           if (index !== -1) {
-            return of(this.collection.books.splice((index), 1)).pipe(map((book) => book[0].id));
+            return of(this.collection.books.splice((index), 1));
           }
           return of(null);
         }),
         toArray(),
+        map((books) => books.reduce((acc, v) => (v ? acc.concat(...v.map((b) => b.id)) : acc), [])),
       );
   }
 

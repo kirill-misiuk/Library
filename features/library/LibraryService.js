@@ -1,5 +1,3 @@
-const { map } = require('rxjs/operators');
-
 class LibraryService {
   constructor(LibraryRepository) {
     this.libraryRepository = LibraryRepository;
@@ -23,8 +21,7 @@ class LibraryService {
   }
 
   deleteLibrary(id) {
-    return this.libraryRepository.delete(id)
-      .pipe(map((ids) => ids.filter((item) => item !== null)));
+    return this.libraryRepository.delete(id);
   }
 }
 module.exports = LibraryService;

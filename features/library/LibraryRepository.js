@@ -1,6 +1,6 @@
-const { of, from } = require('rxjs');
+const { of, from} = require('rxjs');
 const {
-  mergeMap, map, toArray,
+  mergeMap, map, toArray,tap,
 } = require('rxjs/operators');
 
 const fs = require('fs');
@@ -36,11 +36,10 @@ class libraryRepository {
 
         mergeMap((lib) => {
           if (lib) {
-            if (!data.archive) data.archive = [];
             this.collections.libraries = this.collections.libraries.map((library) => ((library.id === lib.id) ? {
               ...library,
               ...data,
-              archive: Array.from(new Set([...library.archive, ...data.archive])),
+              archive: Array.from(new Set([...library.archive, ...(data.archive || [])])),
             } : library));
             return of(this.collections.libraries.find((libary) => libary.id === data.id) || null);
           }
@@ -55,11 +54,12 @@ class libraryRepository {
         map((id) => this.collections.libraries.findIndex((lib) => lib.id === id)),
         mergeMap((index) => {
           if (index !== -1) {
-            return of(this.collections.libraries.splice((index), 1)).pipe(map((lib) => lib[0].id));
+            return of(this.collections.libraries.splice((index), 1));
           }
           return of(null);
         }),
         toArray(),
+        map((libraries) => libraries.reduce((acc, v) => (v ? acc.concat(...v.map((l) => l.id)) : acc), [])),
       );
   }
 }

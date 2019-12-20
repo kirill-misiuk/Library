@@ -6,7 +6,7 @@ class BookValidator {
   getAllBooks(req, res,next) {
     const result = validationResult(req);
     if (!result.isEmpty()) {
-      return res.status(422).json({ status: res.statusCode, errors: Error.array() });
+      return res.status(422).json({ status: res.statusCode, errors: result.array() });
     }
     next();
   }
@@ -14,15 +14,15 @@ class BookValidator {
   getById(req, res,next) {
     const result = validationResult(req);
     if (!result.isEmpty()) {
-      return res.status(422).json({ status: res.statusCode, errors: Error.array() });
+      return res.status(422).json({ status: res.statusCode, errors: result.array() });
     }
     next();
   }
 
   createBook(req, res, next) {
     const result = validationResult(req);
-    if (!result.isEmpty() && result.errors[0].value !== undefined) {
-      return res.status(422).json({ status: res.statusCode, errors: Error.array() });
+    if (!result.isEmpty()) {
+      return res.status(422).json({ status: res.statusCode, errors: result.array() });
     }
     next();
   }
@@ -30,15 +30,15 @@ class BookValidator {
   deleteBook(req, res, next) {
     const result = validationResult(req);
     if (!result.isEmpty()) {
-      return res.status(422).json({ status: res.statusCode, errors: Error.array() });
+      return res.status(422).json({ status: res.statusCode, errors: result.array() });
     }
     next();
   }
 
   updateBook(req, res, next) {
     const result = validationResult(req);
-    if (!result.isEmpty() && result.errors[0].value !== undefined) {
-      return res.status(422).json({ status: res.statusCode, errors: Error.array() });
+    if (!result.isEmpty() ) {
+      return res.status(422).json({ status: res.statusCode, errors: result.array() });
     }
     next();
   }

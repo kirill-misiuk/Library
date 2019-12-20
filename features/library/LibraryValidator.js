@@ -7,22 +7,22 @@ class LibraryValidator {
   getAllLibraries(req, res, next) {
     const result = validationResult(req);
     if (!result.isEmpty()) {
-      return res.status(422).json({ status: res.statusCode, errors: Error.array() });
+      return res.status(422).json({ status: res.statusCode, errors: result.array() });
     }
     next();
   }
 
   createLibrary(req, res, next) {
     const result = validationResult(req);
-    if (!result.isEmpty() && result.errors[0].value !== undefined) {
-      return res.status(422).json({ status: res.statusCode, errors: Error.array() });
+    if (!result.isEmpty()) {
+      return res.status(422).json({ status: res.statusCode, errors: result.array() });
     }
     next();
   }
 
   updateLibrary(req, res, next) {
     const result = validationResult(req);
-    if (!result.isEmpty() && result.errors[0].value !== undefined) {
+    if (!result.isEmpty()) {
       return res.status(422).json({ status: res.statusCode, errors: result.array() });
     }
     next();
@@ -31,7 +31,7 @@ class LibraryValidator {
   getById(req, res, next) {
     const result = validationResult(req);
     if (!result.isEmpty()) {
-      return res.status(422).json({ status: res.statusCode, errors: Error.array() });
+      return res.status(422).json({ status: res.statusCode, errors: result.array() });
     }
     next();
   }
@@ -39,7 +39,7 @@ class LibraryValidator {
   deleteLibrary(req, res, next) {
     const result = validationResult(req);
     if (!result.isEmpty()) {
-      return res.status(422).json({ status: res.statusCode, errors: Error.array() });
+      return res.status(422).json({ status: res.statusCode, errors: result.array() });
     }
     next();
   }

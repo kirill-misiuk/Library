@@ -11,7 +11,8 @@ class BookController {
   }
 
   getById(req, res) {
-    this.bookService.getById(req.params.book_id).subscribe({
+    const { id } = req.params;
+    this.bookService.getById(id).subscribe({
       next: (data) => (data !== null ? res.status(201).json({ status: 201, data })
         : res.status(404).json({ status: res.statusCode, message: 'Can`t find library' })),
       error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
@@ -19,30 +20,28 @@ class BookController {
   }
 
   createBook(req, res) {
-    this.bookService.createBook({ ...req.body, ...req.params }).subscribe({
-      next: (book) => (book !== null ? res.status(201).json({ status: res.statusCode, book })
+    const { id } = req.params;
+    const book = req.body;
+    this.bookService.createBook({ id, ...book }).subscribe({
+      next: (data) => (data !== null ? res.status(201).json({ status: res.statusCode, data })
         : res.status(404).json({ status: res.statusCode, message: 'Can`t find library id' })),
       error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
     });
   }
 
   deleteBook(req, res) {
-    this.bookService.deleteBook([req.params.id]).subscribe({
-      next: (book) => res.status(200).json({ status: 200, book }),
+    const ids = req.query.id;
+    this.bookService.deleteBook(ids).subscribe({
+      next: (data) => res.status(200).json({ status: 200, data }),
       error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
     });
   }
 
   updateBook(req, res) {
-    const data = {
-      id: req.params.id,
-      name: req.body.name,
-      author: req.body.author,
-      page_count: req.body.page_count,
-      year: req.body.year,
-    };
-    this.bookService.updateBook({ ...req.body, ...req.params }).subscribe({
-      next: (book) => (book !== null ? res.status(201).json({ status: 201, book })
+    const { id } = req.params;
+    const book = req.body;
+    this.bookService.updateBook({ id, ...book }).subscribe({
+      next: (data) => (data !== null ? res.status(201).json({ status: 201, data })
         : res.status(404).json({ status: res.statusCode, message: 'Can`t find library id' })),
       error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
     });

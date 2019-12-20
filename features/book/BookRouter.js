@@ -12,10 +12,37 @@ const controller = new Controller(service);
 const validator = new BookValidator();
 module.exports = (app) => {
   app.get('/books', validator.getAllBooks, (req, res) => controller.getAllBooks(req, res));
-  app.post('/books', [check('name').isString(), check('author').isString(), check('page_count').isNumeric().isLength({ min: 4, max: 4 }), check('year').isNumeric().isLength({ max: 4, min: 4 })], validator.createBook, (req, res) => controller.createBook(req, res));
-  app.get('/:id/books', validator.getAllBooks, (req, res) => controller.getAllBooks(req, res));
-  app.get('/books/:id', validator.getById, (req, res) => controller.getById(req, res));
-  app.post('/:id/books', [check('name').isString(), check('author').isString(), check('page_count').isNumeric().isLength({ min: 4, max: 4 }), check('year').isNumeric().isLength({ max: 4, min: 4 })], validator.createBook, (req, res) => controller.createBook(req, res));
-  app.put('/books/:id', validator.updateBook, (req, res) => controller.updateBook(req, res));
-  app.delete('/books/:id', validator.deleteBook, (req, res) => controller.deleteBook(req, res));
+
+  app.post('/books', [
+    check('name').optional().isString(),
+    check('author').optional().isString(),
+    check('page_count').optional().isNumeric().isLength({ min: 4, max: 4 }),
+    check('year').optional().isNumeric().isLength({ max: 4, min: 4 }),
+  ], validator.createBook, (req, res) => controller.createBook(req, res));
+
+  app.post('/:id/books', [
+    check('id').exists({ checkNull: true, checkFalsy: true }).isString(),
+    check('name').optional().isString(),
+    check('author').optional().isString(),
+    check('page_count').optional().isNumeric().isLength({ min: 4, max: 4 }),
+    check('year').optional().isNumeric().isLength({ max: 4, min: 4 }),
+  ], validator.createBook, (req, res) => controller.createBook(req, res));
+
+  app.get('/books/:id', validator.getById,
+    check('id').exists({ checkNull: true, checkFalsy: true }).isString(),
+    validator.getById,
+    (req, res) => controller.getById(req, res));
+
+  app.put('/books/:id',
+    check('id').exists({ checkNull: true, checkFalsy: true }).isString(),
+    check('name').optional().isString(),
+    check('author').optional().isString(),
+    check('page_count').optional().isNumeric().isLength({ min: 4, max: 4 }),
+    check('year').optional().isNumeric().isLength({ max: 4, min: 4 }),
+    validator.updateBook,
+    (req, res) => controller.updateBook(req, res));
+
+  app.delete('/books/:id',
+    check('id').exists({ checkNull: true, checkFalsy: true }),
+    validator.deleteBook, (req, res) => controller.deleteBook(req, res));
 };
