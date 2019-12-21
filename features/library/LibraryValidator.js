@@ -1,4 +1,5 @@
 const { validationResult } = require('express-validator');
+const { ConflictError } = require('./LibraryErrors');
 
 class LibraryValidator {
   constructor() {
@@ -22,6 +23,9 @@ class LibraryValidator {
 
   updateLibrary(req, res, next) {
     const result = validationResult(req);
+    if (req.params.id !== req.body.id) {
+      throw new ConflictError('conflict body and param id');
+    }
     if (!result.isEmpty()) {
       return res.status(422).json({ status: res.statusCode, errors: result.array() });
     }

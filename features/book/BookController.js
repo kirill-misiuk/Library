@@ -43,15 +43,11 @@ class BookController {
   updateBook(req, res) {
     const { id } = req.params;
     const book = req.body;
-    if (id === book.id) {
-      this.bookService.updateBook(book).subscribe({
-        next: (data) => (data ? res.status(201).json({ status: 201, data })
-          : res.status(404).json({ status: res.statusCode, message: 'Can`t find library id' })),
-        error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
-      });
-    } else {
-      throw new ConflictError('Conflict params and body id');
-    }
+    this.bookService.updateBook(book).subscribe({
+      next: (data) => (data ? res.status(201).json({ status: 201, data })
+        : res.status(404).json({ status: res.statusCode, message: 'Can`t find library id' })),
+      error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
+    });
   }
 }
 

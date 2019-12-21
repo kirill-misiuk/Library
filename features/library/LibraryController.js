@@ -31,17 +31,14 @@ class LibraryController {
   }
 
   updateLibrary(req, res) {
-    const id = req.params;
     const library = req.body;
-    if (id.id === library.id) {
-      this.libraryService.updateLibrary(library).subscribe({
-        next: (data) => {
-          !data ? res.status(404).json({ status: res.statusCode, message: 'Not found' })
-            : res.status(200).json({ status: res.statusCode, data });
-        },
-        error: (e) => res.status(400).json({status: res.statusCode, message: e.message}),
-      });
-    } else throw new ConflictError('Conflict params and body id');
+    this.libraryService.updateLibrary(library).subscribe({
+      next: (data) => {
+        !data ? res.status(404).json({ status: res.statusCode, message: 'Not found' })
+          : res.status(200).json({ status: res.statusCode, data });
+      },
+      error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
+    });
   }
 
   deleteLibrary(req, res) {
