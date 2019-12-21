@@ -1,5 +1,5 @@
 const { of, from } = require('rxjs');
-const { map, mergeMap, toArray } = require('rxjs/operators');
+const { map, mergeMap, toArray,filter } = require('rxjs/operators');
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
 
@@ -14,7 +14,7 @@ class bookRepository {
   }
 
   findOne(id) {
-    return of(this.collection.books.find((book) => book.id === id) || null);
+    return of(this.collection.books.find((book) => book.id === id));
   }
 
   create(book) {
@@ -40,13 +40,14 @@ class bookRepository {
           }
           return of(null);
         }),
+        filter(Boolean),
         toArray(),
-        map((books) => books.reduce((acc, v) => (v ? acc.concat(...v.map((b) => b.id)) : acc), [])),
+        map((books) => books.reduce((acc, v) => (acc.concat(...v.map((b) => b.id))), [])),
       );
   }
 
   update(data) {
-    return of(this.collection.books.find((book) => book.id === data.id) || null)
+    return of(this.collection.books.find((book) => book.id === data.id))
       .pipe(
         mergeMap((book) => {
           if (book) {
@@ -54,7 +55,7 @@ class bookRepository {
               ...boook,
               ...data,
             } : boook));
-            return of(this.collection.books.find((bk) => bk.id === data.id) || null);
+            return of(this.collection.books.find((bk) => bk.id === data.id));
           }
           return of(book);
         }),

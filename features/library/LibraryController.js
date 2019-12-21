@@ -21,8 +21,8 @@ class LibraryController {
   getById(req, res) {
     const { id } = req.params;
     this.libraryService.getById(id).subscribe({
-      next: (data) => (data === null
-        ? res.status(404).json({ status: res.statusCode, data })
+      next: (data) => (!data
+        ? res.status(404).json({ status: res.statusCode, message: 'Not found' })
         : res.status(200).json({ status: res.statusCode, data })),
       error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
     });
@@ -34,8 +34,8 @@ class LibraryController {
     if (id.id === library.id) {
       this.libraryService.updateLibrary(library).subscribe({
         next: (data) => {
-          data === null ? res.status(404).json({status: res.statusCode, data})
-            : res.status(200).json({status: res.statusCode, data});
+          !data ? res.status(404).json({ status: res.statusCode, message: 'Not found' })
+            : res.status(200).json({ status: res.statusCode, data });
         },
         error: (e) => res.status(400).json({status: res.statusCode, message: e.message}),
       });

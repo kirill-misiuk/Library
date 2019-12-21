@@ -1,5 +1,7 @@
 const { of, from } = require('rxjs');
-const { mergeMap, map, toArray } = require('rxjs/operators');
+const {
+  mergeMap, map, toArray, filter,tap
+} = require('rxjs/operators');
 
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
@@ -16,7 +18,7 @@ class libraryRepository {
   }
 
   findOne(id) {
-    return of(this.collections.libraries.find((library) => library.id === id) || null);
+    return of(this.collections.libraries.find((library) => library.id === id));
   }
 
   create(library) {
@@ -29,7 +31,7 @@ class libraryRepository {
 
 
   update(data) {
-    return of(this.collections.libraries.find((lib) => lib.id === data.id) || null)
+    return of(this.collections.libraries.find((lib) => lib.id === data.id))
       .pipe(
 
         mergeMap((lib) => {
@@ -39,7 +41,7 @@ class libraryRepository {
               ...data,
               archive: Array.from(new Set([...library.archive, ...(data.archive || [])])),
             } : library));
-            return of(this.collections.libraries.find((libary) => libary.id === data.id) || null);
+            return of(this.collections.libraries.find((libary) => libary.id === data.id));
           }
           return of(lib);
         }),
@@ -56,8 +58,9 @@ class libraryRepository {
           }
           return of(null);
         }),
+        filter(Boolean),
         toArray(),
-        map((libraries) => libraries.reduce((acc, v) => (v ? acc.concat(...v.map((l) => l.id)) : acc), [])),
+        map((libraries) => libraries.reduce((acc, v) => (acc.concat(...v.map((l) => l.id))), [])),
       );
   }
 }
