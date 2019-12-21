@@ -1,3 +1,5 @@
+const { ConflictError } = require('./LibraryErrors');
+
 class LibraryController {
   constructor(LibraryService) {
     this.libraryService = LibraryService;
@@ -39,7 +41,7 @@ class LibraryController {
         },
         error: (e) => res.status(400).json({status: res.statusCode, message: e.message}),
       });
-    } else res.status(409).json({ status: res.statusCode, message: 'Conflict params and body data' });
+    } else throw new ConflictError('Conflict params and body id');
   }
 
   deleteLibrary(req, res) {
