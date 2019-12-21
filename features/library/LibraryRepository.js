@@ -1,7 +1,5 @@
 const { of, from } = require('rxjs');
-const {
-  mergeMap, map, toArray, filter,tap
-} = require('rxjs/operators');
+const {mergeMap, map, toArray, filter} = require('rxjs/operators');
 
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
@@ -33,18 +31,18 @@ class libraryRepository {
   update(data) {
     return of(this.collections.libraries.find((lib) => lib.id === data.id))
       .pipe(
-
-        mergeMap((lib) => {
-          if (lib) {
-            this.collections.libraries = this.collections.libraries.map((library) => ((library.id === lib.id) ? {
+        mergeMap((foundedLibrary) => {
+          if (foundedLibrary) {
+            this.collections.libraries = this.collections.libraries.map((library) => ((library.id === foundedLibrary.id) ? {
               ...library,
               ...data,
               archive: Array.from(new Set([...library.archive, ...(data.archive || [])])),
             } : library));
-            return of(this.collections.libraries.find((libary) => libary.id === data.id));
+            return of(this.collections.libraries);
           }
-          return of(lib);
+          return of(foundedLibrary);
         }),
+        mergeMap((libraries) => of(libraries.find((libary) => libary.id === data.id))),
       );
   }
 
@@ -52,15 +50,15 @@ class libraryRepository {
     return from(ids)
       .pipe(
         map((id) => this.collections.libraries.findIndex((lib) => lib.id === id)),
-        mergeMap((index) => {
-          if (index !== -1) {
-            return of(this.collections.libraries.splice((index), 1));
+        mergeMap((foundedIndex) => {
+          if (foundedIndex !== -1) {
+            return of(this.collections.libraries.splice((foundedIndex), 1));
           }
           return of(null);
         }),
         filter(Boolean),
         toArray(),
-        map((libraries) => libraries.reduce((acc, v) => (acc.concat(...v.map((l) => l.id))), [])),
+        map((deletedLibraries) => deletedLibraries.reduce((acc, v) => (acc.concat(...v.map((l) => l.id))), [])),
       );
   }
 }

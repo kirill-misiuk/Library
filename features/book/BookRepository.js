@@ -1,5 +1,7 @@
 const { of, from } = require('rxjs');
-const { map, mergeMap, toArray,filter } = require('rxjs/operators');
+const {
+  map, mergeMap, toArray, filter,
+} = require('rxjs/operators');
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
 
@@ -55,10 +57,11 @@ class bookRepository {
               ...boook,
               ...data,
             } : boook));
-            return of(this.collection.books.find((bk) => bk.id === data.id));
+            return of(this.collection.books);
           }
           return of(book);
         }),
+        mergeMap((books) => books.find((book) => book.id === data.id)),
       );
   }
 }
