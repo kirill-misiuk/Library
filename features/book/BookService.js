@@ -14,9 +14,9 @@ class BookService {
     return this.bookRepository.findOne(id);
   }
 
-  createBook(Book) {
-    return this.bookRepository.create(Book).pipe(
-      mergeMap((book) => this.libraryRepository.update({ id: Book.id, archive: [book.id] })
+  createBook(newBook) {
+    return this.bookRepository.create(newBook).pipe(
+      mergeMap((book) => this.libraryRepository.update({ id: newBook.libraryId, archive: [book.id] })
         .pipe(map(() => book))),
     );
   }

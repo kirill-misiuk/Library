@@ -1,5 +1,3 @@
-const { ConflictError } = require('./LibraryErrors');
-
 class LibraryController {
   constructor(LibraryService) {
     this.libraryService = LibraryService;
@@ -8,7 +6,7 @@ class LibraryController {
   getAllLibraries(req, res) {
     this.libraryService.getAllLibraries().subscribe({
       next: (data) => res.status(200).json({ status: res.statusCode, data }),
-      error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
+      error: (e) => res.status(e.statusCode || 400).json({ status: res.statusCode, message: e.message }),
     });
   }
 
@@ -16,7 +14,7 @@ class LibraryController {
     const lib = req.body;
     this.libraryService.createLibrary(lib).subscribe({
       next: (data) => res.status(201).json({ status: res.statusCode, data }),
-      error: (e) => (res.status(400).json({ status: res.statusCode, message: e.message })),
+      error: (e) => (res.status(e.statusCode || 400).json({ status: res.statusCode, message: e.message })),
     });
   }
 
@@ -26,7 +24,7 @@ class LibraryController {
       next: (data) => (!data
         ? res.status(404).json({ status: res.statusCode, message: 'Not found' })
         : res.status(200).json({ status: res.statusCode, data })),
-      error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
+      error: (e) => res.status(e.statusCode || 400).json({ status: res.statusCode, message: e.message }),
     });
   }
 
@@ -37,7 +35,7 @@ class LibraryController {
         !data ? res.status(404).json({ status: res.statusCode, message: 'Not found' })
           : res.status(200).json({ status: res.statusCode, data });
       },
-      error: (e) => res.status(400).json({ status: res.statusCode, message: e.message }),
+      error: (e) => res.status(e.statusCode || 400).json({ status: res.statusCode, message: e.message }),
     });
   }
 
@@ -49,7 +47,7 @@ class LibraryController {
         res.status(200).json({ status: res.statusCode, data });
       },
       error: (e) => {
-        res.status(400).json({ status: res.statusCode, message: e.message });
+        res.status(e.statusCode || 400).json({ status: res.statusCode, message: e.message });
       },
     });
   }

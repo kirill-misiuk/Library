@@ -16,16 +16,16 @@ module.exports = (app) => {
   app.post('/books', [
     check('name').optional().isString(),
     check('author').optional().isString(),
-    check('page_count').optional().isNumeric().isLength({ min: 4, max: 4 }),
-    check('year').optional().isNumeric().isLength({ max: 4, min: 4 }),
+    check('page_count').optional().isNumeric().isLength({ min: 1, max: 4 }),
+    check('year').optional().isNumeric().isLength({ max: 4, min: 1 }),
   ], validator.createBook, (req, res) => controller.createBook(req, res));
 
-  app.post('/:id/books', [
-    check('id').exists({ checkNull: true, checkFalsy: true }).isString(),
+  app.post('/books/:libraryId', [
+    check('libraryId').optional().exists({ checkNull: true, checkFalsy: true }).isString(),
     check('name').optional().isString(),
     check('author').optional().isString(),
-    check('page_count').optional().isNumeric().isLength({ min: 4, max: 4 }),
-    check('year').optional().isNumeric().isLength({ max: 4, min: 4 }),
+    check('page_count').optional().isNumeric().isLength({ min: 1, max: 4 }),
+    check('year').optional().isNumeric().isLength({ max: 4, min: 1 }),
   ], validator.createBook, (req, res) => controller.createBook(req, res));
 
   app.get('/books/:id', validator.getById,
@@ -37,8 +37,8 @@ module.exports = (app) => {
     check('id').exists({ checkNull: true, checkFalsy: true }).isString(),
     check('name').optional().isString(),
     check('author').optional().isString(),
-    check('page_count').optional().isNumeric().isLength({ min: 4, max: 4 }),
-    check('year').optional().isNumeric().isLength({ max: 4, min: 4 }),
+    check('page_count').optional().isNumeric().isLength({ min: 1, max: 4 }),
+    check('year').optional().isNumeric().isLength({ max: 4, min: 1 }),
   ], validator.updateBook,
   (req, res) => controller.updateBook(req, res));
 

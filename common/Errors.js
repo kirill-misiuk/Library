@@ -1,8 +1,8 @@
 class ConflictError extends Error {
-  constructor(message) {
-    super(message);
+  constructor() {
+    super();
     this.name = 'status 400';
-    this.message = message;
+    this.message = 'id in params and body are not same!';
   }
 }
 module.exports = { ConflictError };

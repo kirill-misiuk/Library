@@ -20,13 +20,10 @@ class bookRepository {
   }
 
   create(book) {
-    return of({
-      id: uuidv4(),
-      name: book.name,
-      author: book.author,
-      page_count: book.page_count,
-      year: book.year,
-    }).pipe(mergeMap((library) => {
+    const {
+
+    } = book;
+    return of({ id: uuidv4() }).pipe(mergeMap((library) => {
       this.collection.books.push(library);
       return of(library);
     }));
@@ -53,15 +50,19 @@ class bookRepository {
       .pipe(
         mergeMap((book) => {
           if (book) {
-            this.collection.books = this.collection.books.map((boook) => ((book.id === boook.id) ? {
-              ...boook,
-              ...data,
-            } : boook));
+            this.collection.books = this.collection.books.map((boook) => {
+              if (book.id === boook.id) {
+                return {
+                  ...boook,
+                  ...data,
+                };
+              } return boook;
+            });
             return of(this.collection.books);
           }
           return of(book);
         }),
-        mergeMap((books) => books.find((book) => book.id === data.id)),
+        mergeMap((books) => books && of(books.find((book) => book.id === data.id)) || of(books)),
       );
   }
 }

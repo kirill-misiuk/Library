@@ -1,5 +1,7 @@
 const { of, from } = require('rxjs');
-const {mergeMap, map, toArray, filter} = require('rxjs/operators');
+const {
+  mergeMap, map, toArray, filter,
+} = require('rxjs/operators');
 
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
@@ -33,16 +35,20 @@ class libraryRepository {
       .pipe(
         mergeMap((foundedLibrary) => {
           if (foundedLibrary) {
-            this.collections.libraries = this.collections.libraries.map((library) => ((library.id === foundedLibrary.id) ? {
-              ...library,
-              ...data,
-              archive: Array.from(new Set([...library.archive, ...(data.archive || [])])),
-            } : library));
+            this.collections.libraries = this.collections.libraries.map((library) => {
+              if (library.id === foundedLibrary.id) {
+                return {
+                  ...library,
+                  ...data,
+                  archive: Array.from(new Set([...library.archive, ...(data.archive || [])])),
+                };
+              } return library;
+            });
             return of(this.collections.libraries);
           }
           return of(foundedLibrary);
         }),
-        mergeMap((libraries) => of(libraries.find((libary) => libary.id === data.id))),
+        mergeMap((libraries) => libraries && of(libraries.find((libary) => libary.id === data.id)) || of(libraries)),
       );
   }
 

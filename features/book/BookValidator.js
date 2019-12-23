@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
-const {ConflictError}= require('./BookErrors');
+const { ConflictError } = require('../../common/Errors');
+
 class BookValidator {
   constructor() {}
 
@@ -38,7 +39,7 @@ class BookValidator {
   updateBook(req, res, next) {
     const result = validationResult(req);
     if (req.params.id !== req.body.id) {
-      throw new ConflictError('conflict body and param id');
+      throw new ConflictError();
     }
     if (!result.isEmpty()) {
       return res.status(422).json({ status: res.statusCode, errors: result.array() });
