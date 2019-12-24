@@ -33,10 +33,10 @@ class libraryRepository {
   update(data) {
     return of(this.collections.libraries.find((lib) => lib.id === data.id))
       .pipe(
-        mergeMap((foundedLibrary) => {
-          if (foundedLibrary) {
+        mergeMap((foundLibrary) => {
+          if (foundLibrary) {
             this.collections.libraries = this.collections.libraries.map((library) => {
-              if (library.id === foundedLibrary.id) {
+              if (library.id === foundLibrary.id) {
                 return {
                   ...library,
                   ...data,
@@ -46,7 +46,7 @@ class libraryRepository {
             });
             return of(this.collections.libraries);
           }
-          return of(foundedLibrary);
+          return of(foundLibrary);
         }),
         mergeMap((libraries) => libraries && of(libraries.find((libary) => libary.id === data.id)) || of(libraries)),
       );
@@ -56,9 +56,9 @@ class libraryRepository {
     return from(ids)
       .pipe(
         map((id) => this.collections.libraries.findIndex((lib) => lib.id === id)),
-        mergeMap((foundedIndex) => {
-          if (foundedIndex !== -1) {
-            return of(this.collections.libraries.splice((foundedIndex), 1));
+        mergeMap((foundIndex) => {
+          if (foundIndex !== -1) {
+            return of(this.collections.libraries.splice((foundIndex), 1));
           }
           return of(null);
         }),

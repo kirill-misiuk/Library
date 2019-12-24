@@ -42,7 +42,7 @@ module.exports = (app) => {
   ], validator.updateBook,
   (req, res) => controller.updateBook(req, res));
 
-  app.delete('/books/:id',
+  app.delete('/books',
     check('id').exists({ checkNull: true, checkFalsy: true }),
     validator.deleteBook, (req, res) => controller.deleteBook(req, res));
 };

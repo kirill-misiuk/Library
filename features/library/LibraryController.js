@@ -40,9 +40,8 @@ class LibraryController {
   }
 
   deleteLibrary(req, res) {
-    let ids = req.query.id;
-    if (!Array.isArray(ids)) ids = [ids];
-    this.libraryService.deleteLibrary(ids).subscribe({
+    const ids = req.query.id;
+    this.libraryService.deleteLibrary(Array.isArray(ids) ? ids : [ids]).subscribe({
       next: (data) => {
         res.status(200).json({ status: res.statusCode, data });
       },
