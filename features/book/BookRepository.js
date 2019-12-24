@@ -20,10 +20,8 @@ class bookRepository {
   }
 
   create(book) {
-    const {
-
-    } = book;
-    return of({ id: uuidv4() }).pipe(mergeMap((library) => {
+    const { libraryId, ...NewBook } = book;
+    return of({ id: uuidv4(), ...NewBook }).pipe(mergeMap((library) => {
       this.collection.books.push(library);
       return of(library);
     }));
