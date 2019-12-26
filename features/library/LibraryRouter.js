@@ -21,7 +21,7 @@ module.exports = (app) => {
     check('id').exists({ checkNull: true, checkFalsy: true })],
   validator.getById, (req, res) => controller.getById(req, res));
 
-  app.put('/libraries/:id', [
+  app.put('/libraries', [
     check('id').exists({ checkNull: true, checkFalsy: true }).isString(),
     check('name').optional().isString(),
     check('archive').optional().isArray(),
