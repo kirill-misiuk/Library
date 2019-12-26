@@ -21,6 +21,7 @@ module.exports = (app) => {
   ], validator.createBook, (req, res) => controller.createBook(req, res));
 
   app.post('/books', [
+    check('libraryId').optional().isString,
     check('name').isString(),
     check('author').isString(),
     check('page_count').isNumeric().isLength({ min: 1, max: 4 }),

@@ -22,7 +22,7 @@ class libraryRepository {
   }
 
   create(library) {
-    return of({ id: uuidv4(), name: library.name, data: library.data })
+    return of({ id: uuidv4(), ...library })
       .pipe(mergeMap((lib) => {
         this.collections.libraries.push(lib);
         return of(lib);
