@@ -13,6 +13,9 @@ console.log(process.env.NODE_ENV);
 require('custom-env').env(true);
 require('./features/book/BookRouter')(app);
 require('./features/library/LibraryRouter')(app);
+const AuthRepository = require('./features/authentication/AuthRepository');
+const fdf = new AuthRepository();
+fdf.connect();
 
 app.listen(process.env.PORT, () => {
   console.log('app listening at port %s', process.env.PORT);
