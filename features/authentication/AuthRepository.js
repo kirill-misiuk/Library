@@ -1,5 +1,8 @@
+const {tap} = require('rxjs/operators')
 
-const { MongoClient } = require('mongodb');
+const mongoose = require('mongoose');
+const { of, from } = require('rxjs');
+const { User } = require('./AuthModels');
 
 class AuthRepository {
   constructor() {
@@ -10,13 +13,22 @@ class AuthRepository {
   connect() {
     console.log('Database connecting...');
     const _this = this;
-    MongoClient.connect(`${this.url}/${this.database}`, { useNewUrlParser: true, useUnifiedTopology: true }).then(
+    mongoose.connect(`${this.url}/${this.database}`, { useNewUrlParser: true, useUnifiedTopology: true }).then(
       (db) => {
         _this.mongodb = db;
       }, (error) => {
         console.log('!', error);
       },
     );
+  }
+
+  isValid(user, password) {
+    return from(User.findOne({ username: user, password }).then(
+      (item) => {
+        const valid = (item !== null);
+        return valid;
+      }, (error) => error,
+    ));
   }
 }
 module.exports = AuthRepository;
