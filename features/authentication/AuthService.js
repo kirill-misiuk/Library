@@ -1,7 +1,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const { bindCallback ,of} = require('rxjs');
-const { mergeMap,  } = require('rxjs/operators');
+const { bindCallback, of } = require('rxjs');
+const { mergeMap } = require('rxjs/operators');
 
 class AuthService {
   constructor(AuthRepository) {
@@ -14,23 +14,21 @@ class AuthService {
     passport.use(new LocalStrategy({
       usernameField: 'username',
       passwordField: 'password',
-      passReqToCallback:true},this.localSignIn.bind(this)));
+      passReqToCallback: true,
+    }, this.localSignIn.bind(this)));
     passport.serializeUser(this.serializeUser);
     passport.deserializeUser(this.deserializeUser);
   }
 
-  localSignIn(req,username, password, done) {
-    this.authRepository.isValid(username, password)
+  localSignIn(req, username, password, done) {
+    return this.authRepository.isValid(username, password)
       .pipe(mergeMap((res) => {
-        console.log(res);
         if (res) {
-          req.logIn(username, () => {
-            req.session.save();
-          });
+          req.logIn({ username, password }, () => {});
           return of({ username, password });
         }
-        return of({ message: 'Incorrect username or password.' });
-      })).subscribe((res) => done(null, res));
+        return of(false, { message: 'Incorrect username or password.' });
+      })).toPromise().then((result) => done(null, result));
   }
 
   serializeUser(user, done) {
