@@ -4,16 +4,26 @@ const passport = require('passport');
 class AuthController {
   constructor(AuthService) {
     this.authService = AuthService;
-  }
-
-  initialize() {
-    this.authService.initialize();
+    AuthService.initialize();
   }
 
   signIn(req, res, next) {
-    passport.authenticate('local', { session: true })(req, res, next);
-    console.log(req.user);
-    res.status(200).json({ status: res.statusCode, user: req.user });
+    function callback(err, user) {
+      if (err) {
+        return next(err);
+      }
+      if (user) {
+        req.logIn(user, (e) => {
+          if (e) {
+            return next(e);
+          }
+          console.log(req.session);
+          res.status(200).json(req.user);
+          return next();
+        });
+      }
+    }
+    passport.authenticate('local', { session: true }, callback)(req, res, next);
   }
 }
 module.exports = AuthController;

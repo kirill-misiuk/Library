@@ -11,24 +11,20 @@ class AuthService {
 
 
   initialize() {
-    passport.use(new LocalStrategy({
-      usernameField: 'username',
-      passwordField: 'password',
-      passReqToCallback: true,
-    }, this.localSignIn.bind(this)));
+    passport.use(new LocalStrategy(this.localSignIn.bind(this)));
     passport.serializeUser(this.serializeUser);
     passport.deserializeUser(this.deserializeUser);
   }
 
-  localSignIn(req, username, password, done) {
+  localSignIn(username, password, done) {
     return this.authRepository.isValid(username, password)
-      .pipe(mergeMap((res) => {
+      .toPromise()
+      .then((res) => {
         if (res) {
-          req.logIn({ username, password }, () => {});
-          return of({ username, password });
+          return done(null, { username, password });
         }
-        return of(false, { message: 'Incorrect username or password.' });
-      })).toPromise().then((result) => done(null, result));
+        return done(null, false, { message: 'incorrect username or password' });
+      });
   }
 
   serializeUser(user, done) {
