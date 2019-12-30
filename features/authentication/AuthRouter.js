@@ -1,4 +1,5 @@
 
+const passport = require('passport');
 const Controller = require('./AuthController');
 const Service = require('./AuthService');
 const Repository = require('./AuthRepository');
@@ -10,5 +11,5 @@ const controller = new Controller(service);
 
 module.exports = (app) => {
   controller.initialize();
-  app.post('/signin', (req, res) => controller.signIn(req, res));
+  app.post('/signin', passport.authenticate('local', { session: true}), (req, res) => controller.signIn(req, res));
 };

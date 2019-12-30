@@ -1,13 +1,12 @@
-const {tap} = require('rxjs/operators')
 
 const mongoose = require('mongoose');
-const { of, from } = require('rxjs');
+const { from } = require('rxjs');
 const { User } = require('./AuthModels');
 
 class AuthRepository {
   constructor() {
-    this.url = process.env.DEFAULT_URL;
-    this.database = process.env.DEFAULT_DATABASE;
+    this.url = process.env.MONGO_URL;
+    this.database = process.env.MONGO_DATABASE;
   }
 
   connect() {
