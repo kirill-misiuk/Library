@@ -9,17 +9,24 @@ class AuthService {
     this.authRepository.connect();
   }
 
+
   initialize() {
-    passport.use(new LocalStrategy(this.localSignIn.bind(this)));
+    passport.use(new LocalStrategy({
+      usernameField: 'username',
+      passwordField: 'password',
+      passReqToCallback:true},this.localSignIn.bind(this)));
     passport.serializeUser(this.serializeUser);
     passport.deserializeUser(this.deserializeUser);
   }
 
-  localSignIn(username, password, done) {
+  localSignIn(req,username, password, done) {
     this.authRepository.isValid(username, password)
       .pipe(mergeMap((res) => {
         console.log(res);
         if (res) {
+          req.logIn(username, () => {
+            req.session.save();
+          });
           return of({ username, password });
         }
         return of({ message: 'Incorrect username or password.' });
