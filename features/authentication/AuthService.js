@@ -1,12 +1,11 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const { bindCallback, of } = require('rxjs');
+const { from,of } = require('rxjs');
 const { mergeMap } = require('rxjs/operators');
 
 class AuthService {
   constructor(AuthRepository) {
     this.authRepository = AuthRepository;
-    this.authRepository.connect();
   }
 
 
@@ -17,7 +16,7 @@ class AuthService {
   }
 
   localSignIn(username, password, done) {
-    return this.authRepository.isValid(username, password)
+    return this.authRepository.findOne(username, password)
       .toPromise()
       .then((res) => {
         if (res) {
