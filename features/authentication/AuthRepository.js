@@ -7,12 +7,24 @@ class AuthRepository {
   constructor() {
     this.url = process.env.MONGO_URL;
     this.database = process.env.MONGO_DATABASE;
-    mongoose.connect(`${this.url}/${this.database}`, { useNewUrlParser: true, useUnifiedTopology: true });
+    mongoose.connect(`${this.url}/${this.database}`, { useNewUrlParser: true, useUnifiedTopology: true })
+      .catch((e) => console.log('problem with connection ', e));
   }
 
 
   findOne(user, password) {
-    return from(User.findOne({ username: user, password }));
+    return from(User.findOne({ username: user, password })
+      .catch((err) => err));
+  }
+
+  findById(id) {
+    return from(User.findById(id)
+      .catch((err) => err));
+  }
+
+  create(user) {
+    return from(User.create(user)
+      .catch((err) => err));
   }
 }
 module.exports = AuthRepository;

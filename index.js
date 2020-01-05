@@ -3,20 +3,25 @@ const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
 dotenv.config();
 const app = express();
 app.use(bodyParser.urlencoded({
   extended: true,
 }));
-app.use(bodyParser.json());
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(session({
   secret: 'vlcooglkavghjfjghk]dg',
   resave: true,
   saveUninitialized: true,
 }));
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
 console.log(process.env.NODE_ENV);
 require('custom-env').env(true);
 require('./features/book/BookRouter')(app);

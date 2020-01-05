@@ -22,6 +22,7 @@
     "D": "^1.0.0",
     "async": "^3.1.0",
     "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
     "cross-env": "^6.0.3",
     "custom-env": "^1.0.2",
     "dotenv": "^8.2.0",
