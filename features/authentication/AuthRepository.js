@@ -12,18 +12,15 @@ class AuthRepository {
 
 
   findOne(username) {
-    return from(User.findOne({ username })
-      .catch((err) => err));
+    return from(User.findOne({ username }));
   }
 
   findById(id) {
-    return from(User.findById(id)
-      .catch((err) => err));
+    return from(User.findById(id));
   }
 
   create(user) {
-    return from(User.create(user)
-      .catch((err) => err));
+    return from(User.create(user));
   }
 
 }

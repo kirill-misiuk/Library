@@ -24,7 +24,7 @@ module.exports = (app) => {
       .withMessage('Must be at least 6 chars long'),
   ], validator.signUp, validator.mustNotAuthenticated, (req, res, next) => controller.signUp(req, res, next));
   app.get('/auth/user', (req, res) => {
-    res.json({ session: req.session, user: req.user || false, isAuth: req.isAuthenticated() });
+    res.json({ session: req.session, user: req.user, isAuth: req.isAuthenticated() });
   });
   app.post('/auth/logout', validator.mustAuthenticated, (req, res) => controller.logout(req, res));
 };

@@ -49,12 +49,8 @@ class AuthController {
   }
 
   logout(req, res) {
-    if (!req.isAuthenticated()) {
-      throw new Error('unauthorised');
-    } else {
-      req.logout();
-      res.redirect('/auth/user');
-    }
+    req.logout();
+    res.redirect('/auth/user');
   }
 }
 module.exports = AuthController;

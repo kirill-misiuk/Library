@@ -17,17 +17,10 @@ module.exports = (app) => {
   });
 
   app.post('/books', [
+    check('libraryId').optional().isString(),
     check('name').isString(),
     check('author').isString(),
-    check('page_count').isNumeric().isLength({ min: 1, max: 4 }),
-    check('year').isNumeric().isLength({ max: 4, min: 4 }),
-  ], validator.createBook, (req, res) => controller.createBook(req, res));
-
-  app.post('/books', [
-    check('libraryId').optional().isString,
-    check('name').isString(),
-    check('author').isString(),
-    check('page_count').isNumeric().isLength({ min: 1, max: 4 }),
+    check('pageCount').isNumeric().isLength({ min: 1, max: 4 }),
     check('year').isNumeric().isLength({ max: 4, min: 1 }),
   ], validator.createBook, (req, res) => controller.createBook(req, res));
 
@@ -40,7 +33,7 @@ module.exports = (app) => {
     check('id').exists({ checkNull: true, checkFalsy: true }).isString(),
     check('name').optional().isString(),
     check('author').optional().isString(),
-    check('page_count').optional().isNumeric().isLength({ min: 1, max: 4 }),
+    check('pageCount').optional().isNumeric().isLength({ min: 1, max: 4 }),
     check('year').optional().isNumeric().isLength({ max: 4, min: 1 }),
   ], validator.updateBook,
   (req, res) => controller.updateBook(req, res));
