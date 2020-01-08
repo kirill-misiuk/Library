@@ -7,20 +7,19 @@ class AuthController {
   }
 
   signIn(req, res, next) {
-    const callback = (err, user, info) => {
+    const callback = (err, user) => {
       if (err) {
-        return next(err);
+        return res.status(403).json({ status: res.statusCode, message: err });
       }
       if (!user) {
-        return next(new Error('unauthorised'));
+        return res.status(401).json({ status: res.statusCode, message: 'unauthorised' });
       }
       if (user) {
         req.login(user, (e) => {
           if (e) {
-            return next(e);
+            return next(new Error(e));
           }
-          res.status(200).json(req.user);
-          return next();
+          return res.status(200).json(req.user);
         });
       }
       return next();
@@ -29,20 +28,19 @@ class AuthController {
   }
 
   signUp(req, res, next) {
-    const callback = (err, user, info) => {
+    const callback = (err, user) => {
       if (err) {
-        return next(err);
+        return res.status(403).json({ status: res.statusCode, message: err });
       }
       if (!user) {
-        return next(new Error('unauthorised'));
+        return res.status(401).json({ status: res.statusCode, message: 'unauthorised' });
       }
       if (user) {
         req.login(user, (e) => {
           if (e) {
-            return next(e);
+            return next(new Error(e));
           }
-          res.status(200).json(req.user);
-          return next();
+          return res.status(200).json(req.user);
         });
       }
       return next();
@@ -55,7 +53,7 @@ class AuthController {
       throw new Error('unauthorised');
     } else {
       req.logout();
-      res.redirect('/user');
+      res.redirect('/auth/user');
     }
   }
 }

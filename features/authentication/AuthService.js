@@ -24,7 +24,7 @@ class AuthService {
         if (res && this.authHash.validPassword(password, res.password)) {
           return done(null, res);
         }
-        return done(new Error('incorrect username or password'), false);
+        return done('incorrect username or password', false);
       });
   }
 
@@ -41,7 +41,7 @@ class AuthService {
         if (newUser) {
           return done(null, newUser);
         }
-        return done(new Error('this username is exists'), false);
+        return done('this username is exists', false);
       });
   }
 
@@ -56,7 +56,7 @@ class AuthService {
         if (res) {
           return done(null, res);
         }
-        return done(new Error('deserialize'));
+        return done('problem in deserialize', false);
       })
       .catch((e) => done(e));
   }

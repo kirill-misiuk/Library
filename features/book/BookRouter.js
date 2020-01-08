@@ -10,9 +10,9 @@ const libraryrepository = new LibraryRepository();
 const service = new Service(repository, libraryrepository);
 const controller = new Controller(service);
 const validator = new BookValidator();
+
 module.exports = (app) => {
   app.get('/books', validator.getAllBooks, (req, res) => {
-    console.log(req.isAuthenticated());
     controller.getAllBooks(req, res);
   });
 
