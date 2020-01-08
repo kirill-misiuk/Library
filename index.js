@@ -14,12 +14,15 @@ app.use(session({
   secret: 'vlcooglkavghjfjghk]dg',
   resave: true,
   saveUninitialized: true,
+  cookie: {
+    expires: 10800000,
+    httpOnly: false,
+  },
 }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 
 console.log(process.env.NODE_ENV);

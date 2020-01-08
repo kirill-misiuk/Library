@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 const { from } = require('rxjs');
 const { User } = require('./AuthModels');
@@ -12,8 +11,8 @@ class AuthRepository {
   }
 
 
-  findOne(user, password) {
-    return from(User.findOne({ username: user, password })
+  findOne(username) {
+    return from(User.findOne({ username })
       .catch((err) => err));
   }
 
@@ -26,5 +25,6 @@ class AuthRepository {
     return from(User.create(user)
       .catch((err) => err));
   }
+
 }
 module.exports = AuthRepository;

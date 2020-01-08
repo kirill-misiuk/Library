@@ -4,8 +4,9 @@ const { of } = require('rxjs');
 const { mergeMap } = require('rxjs/operators');
 
 class AuthService {
-  constructor(AuthRepository) {
+  constructor(AuthRepository, AuthHash) {
     this.authRepository = AuthRepository;
+    this.authHash = AuthHash;
   }
 
 
@@ -17,30 +18,30 @@ class AuthService {
   }
 
   localSignIn(username, password, done) {
-    return this.authRepository.findOne(username, password)
+    return this.authRepository.findOne(username)
       .toPromise()
       .then((res) => {
-        if (res) {
+        if (res && this.authHash.validPassword(password, res.password)) {
           return done(null, res);
         }
-        return done(Error('fail'), false, { message: 'incorrect username or password' });
+        return done(new Error('incorrect username or password'), false);
       });
   }
 
   localSignUp(username, password, done) {
-    return this.authRepository.findOne(username, password)
+    return this.authRepository.findOne(username)
       .pipe(mergeMap((res) => {
         if (res) {
           return of(null);
         }
-        return this.authRepository.create({ username, password });
+        return this.authRepository.create({ username, password: this.authHash.generateHash(password) });
       }))
       .toPromise()
       .then((newUser) => {
         if (newUser) {
           return done(null, newUser);
         }
-        return done(Error('username is exists'), false);
+        return done(new Error('this username is exists'), false);
       });
   }
 

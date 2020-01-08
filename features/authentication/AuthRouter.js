@@ -2,10 +2,11 @@
 const Controller = require('./AuthController');
 const Service = require('./AuthService');
 const Repository = require('./AuthRepository');
-
+const AuthHash = require('./AuthHash');
 
 const repository = new Repository();
-const service = new Service(repository);
+const hash = new AuthHash();
+const service = new Service(repository, hash);
 const controller = new Controller(service);
 
 module.exports = (app) => {
