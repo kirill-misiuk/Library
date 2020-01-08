@@ -1,7 +1,7 @@
 const { check } = require('express-validator');
 const Controller = require('./LibraryController');
 const Service = require('./LibraryService');
-const Repository = require('./LibraryRepository');
+const Repository = require('./db/LibraryRepository');
 const Validator = require('./LibraryValidator');
 
 const repository = new Repository();
