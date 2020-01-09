@@ -1,17 +1,20 @@
 const mongoose = require('mongoose');
 const { from, of } = require('rxjs');
-const { mergeMap, toArray, filter } = require('rxjs/operators');
+const {
+  mergeMap, toArray, filter, tap,
+} = require('rxjs/operators');
 const { Library } = require('./LibraryModels');
 
 class LibraryRepository {
   constructor() {
     this.url = process.env.MONGO_URL;
-    mongoose.connect(`${this.url}/libraries`, { useNewUrlParser: true, useUnifiedTopology: true })
+    this.database = process.env.MONGO_DATABASE;
+    mongoose.connect(`${this.url}/${this.database}`, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true })
       .catch((e) => console.log('problem with connection ', e));
   }
 
   find() {
-    return from(Library.find({}));
+    return from(Library.find({})).pipe(tap((ddd) => console.log(ddd)));
   }
 
   findOne(id) {
@@ -24,40 +27,32 @@ class LibraryRepository {
 
 
   update(data) {
-    return of(this.collections.libraries.find((lib) => lib.id === data.id))
-      .pipe(
-        mergeMap((foundLibrary) => {
-          if (foundLibrary) {
-            this.collections.libraries = this.collections.libraries.map((library) => {
-              if (library.id === foundLibrary.id) {
-                return {
-                  ...library,
-                  ...data,
-                  archive: Array.from(new Set([...library.archive, ...(data.archive || [])])),
-                };
-              } return library;
-            });
-            return of(this.collections.libraries);
-          }
-          return of(foundLibrary);
-        }),
-        mergeMap((libraries) => libraries && of(libraries.find((libary) => libary.id === data.id)) || of(libraries)),
-      );
+    return from(Library.findOne({ _id: data.id }).catch((e) => e))
+      .pipe(mergeMap((foundLibrary) => {
+        console.log(foundLibrary);
+        if (foundLibrary) {
+          const newLibrary = {
+            ...data,
+            archive: Array.from(new Set([...foundLibrary.archive, ...(data.archive || [])])),
+          };
+
+          return from(Library.findByIdAndUpdate(data.id, newLibrary, { new: true }));
+        }
+        return of(foundLibrary);
+      }));
   }
 
   delete(ids) {
     return from(ids)
       .pipe(
-        map((id) => this.collections.libraries.findIndex((lib) => lib.id === id)),
-        mergeMap((foundIndex) => {
-          if (foundIndex !== -1) {
-            return of(this.collections.libraries.splice((foundIndex), 1));
+        mergeMap((id) => from(Library.deleteOne({ _id: id }).then(((res) => {
+          if (res.deletedCount !== 0) {
+            return id;
           }
-          return of(null);
-        }),
+          return null;
+        })))),
         filter(Boolean),
         toArray(),
-        map((deletedLibraries) => deletedLibraries.reduce((acc, v) => (acc.concat(...v.map((l) => l.id))), [])),
       );
   }
 }
