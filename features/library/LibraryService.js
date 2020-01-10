@@ -1,6 +1,12 @@
+const { of, from } = require('rxjs');
+const {
+  mergeMap, map, toArray, filter, tap, combineAll, mergeAll,
+} = require('rxjs/operators');
+
 class LibraryService {
-  constructor(LibraryRepository) {
+  constructor(LibraryRepository, BookRepository) {
     this.libraryRepository = LibraryRepository;
+    this.bookRepository = BookRepository;
   }
 
   getAllLibraries() {
@@ -22,6 +28,20 @@ class LibraryService {
 
   deleteLibrary(id) {
     return this.libraryRepository.delete(id);
+  }
+
+  getLibraryBooks(id) {
+    return this.libraryRepository.findOne(id).pipe(
+      mergeMap((foundLibrary) => {
+        if (foundLibrary) {
+          return from(foundLibrary.archive)
+            .pipe(mergeMap((BookId) => this.bookRepository.findOne(BookId)),
+              filter(Boolean),
+              toArray());
+        }
+        return of(null);
+      }),
+    );
   }
 }
 

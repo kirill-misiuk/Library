@@ -28,6 +28,7 @@ class BookService {
   updateBook(book) {
     return this.bookRepository.update(book);
   }
+
 }
 
 module.exports = BookService;

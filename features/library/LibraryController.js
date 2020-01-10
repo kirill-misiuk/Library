@@ -28,6 +28,16 @@ class LibraryController {
     });
   }
 
+  getLibraryBooks(req, res) {
+    const { id } = req.params;
+    this.libraryService.getLibraryBooks(id).subscribe({
+      next: (data) => (!data
+        ? res.status(404).json({ status: res.statusCode, message: 'Not found' })
+        : res.status(200).json({ status: res.statusCode, data })),
+      error: (e) => res.status(e.statusCode || 400).json({ status: res.statusCode, message: e.message }),
+    });
+  }
+
   updateLibrary(req, res) {
     const library = req.body;
     this.libraryService.updateLibrary(library).subscribe({
