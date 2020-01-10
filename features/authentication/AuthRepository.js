@@ -10,7 +10,7 @@ class AuthRepository {
   }
 
   findOne(param) {
-    if (typeof param === 'object') {
+    if (param._id) {
       return of(this.collection.users.find((user) => user.id === param._id));
     }
     return of(this.collection.users.find((user) => user[param] === param));

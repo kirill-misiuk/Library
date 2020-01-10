@@ -18,7 +18,7 @@ class AuthService {
   }
 
   localSignIn(username, password, done) {
-    return this.authRepository.findOne(username)
+    return this.authRepository.findOne({ username })
       .toPromise()
       .then((res) => {
         if (res && this.authHash.validPassword(password, res.password)) {
@@ -29,7 +29,7 @@ class AuthService {
   }
 
   localSignUp(username, password, done) {
-    return this.authRepository.findOne(username)
+    return this.authRepository.findOne({ username })
       .pipe(mergeMap((res) => {
         if (res) {
           return of(null);

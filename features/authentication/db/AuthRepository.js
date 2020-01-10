@@ -12,7 +12,7 @@ class AuthRepository {
 
 
   findOne(username) {
-    return from(User.findOne({ username }));
+    return from(User.findOne(username));
   }
 
   create(user) {

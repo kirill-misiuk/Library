@@ -1,7 +1,7 @@
 const { check } = require('express-validator');
 const Controller = require('./AuthController');
 const Service = require('./AuthService');
-const Repository = require('./AuthRepository');
+const Repository = require('./db/AuthRepository');
 const AuthHash = require('./AuthHash');
 const AuthValidator = require('./AuthValidator');
 
