@@ -5,6 +5,7 @@ const passport = require('passport');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 
+
 dotenv.config();
 const app = express();
 app.use(bodyParser.urlencoded({
@@ -27,6 +28,7 @@ app.use(passport.session());
 
 console.log(process.env.NODE_ENV);
 require('custom-env').env(true);
+require('./mongoDB/connect')();
 require('./features/book/BookRouter')(app);
 require('./features/library/LibraryRouter')(app);
 require('./features/authentication/AuthRouter')(app, passport);

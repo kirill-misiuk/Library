@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const { from, of } = require('rxjs');
 const {
   mergeMap, toArray, filter,
@@ -6,15 +5,14 @@ const {
 const { Book } = require('./BookModels');
 
 class BookRepository {
-  constructor() {
-    this.url = process.env.MONGO_URL;
-    this.database = process.env.MONGO_DATABASE;
-    mongoose.connect(`${this.url}/${this.database}`, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true })
-      .catch((e) => console.log('problem with connection ', e));
-  }
+  constructor() {}
 
   find() {
     return from(Book.find({}));
+  }
+
+  findAll(ids) {
+    return from(Book.find({ _id: ids }));
   }
 
   findOne(id) {

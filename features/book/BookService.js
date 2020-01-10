@@ -1,3 +1,4 @@
+const { from,of} = require('rxjs');
 const { mergeMap, map } = require('rxjs/operators');
 
 class BookService {
@@ -27,6 +28,17 @@ class BookService {
 
   updateBook(book) {
     return this.bookRepository.update(book);
+  }
+
+  getLibraryBooks(id) {
+    return this.libraryRepository.findOne(id).pipe(
+      mergeMap((foundLibrary) => {
+        if (foundLibrary) {
+          return from(this.bookRepository.findAll(foundLibrary.archive));
+        }
+        return of(null);
+      }),
+    );
   }
 }
 

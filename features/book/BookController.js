@@ -19,6 +19,16 @@ class BookController {
     });
   }
 
+  getLibraryBooks(req, res) {
+    const { id } = req.params;
+    this.bookService.getLibraryBooks(id).subscribe({
+      next: (data) => (!data
+        ? res.status(404).json({ status: res.statusCode, message: 'Not found' })
+        : res.status(200).json({ status: res.statusCode, data })),
+      error: (e) => res.status(e.statusCode || 400).json({ status: res.statusCode, message: e.message }),
+    });
+  }
+
   createBook(req, res) {
     const book = req.body;
     this.bookService.createBook(book).subscribe({

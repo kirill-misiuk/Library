@@ -10,6 +10,7 @@ const hash = new AuthHash();
 const service = new Service(repository, hash);
 const controller = new Controller(service);
 const validator = new AuthValidator();
+
 module.exports = (app) => {
   app.post('/auth/signin', [
     check('username').not().isEmpty().withMessage('You username is required'),

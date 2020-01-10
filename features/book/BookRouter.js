@@ -41,4 +41,8 @@ module.exports = (app) => {
   app.delete('/books',
     check('id').exists({ checkNull: true, checkFalsy: true }),
     validator.deleteBook, (req, res) => controller.deleteBook(req, res));
+
+  app.get('/books/library/:id', [
+    check('id').exists({ checkNull: true, checkFalsy: true })],
+  validator.getById, (req, res) => controller.getLibraryBooks(req, res));
 };

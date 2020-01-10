@@ -13,7 +13,7 @@ class AuthRepository {
     if (param._id) {
       return of(this.collection.users.find((user) => user.id === param._id));
     }
-    return of(this.collection.users.find((user) => user[param] === param));
+    return of(this.collection.users.find((user) => user.username === param.username));
   }
 
 

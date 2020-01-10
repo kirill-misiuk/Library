@@ -23,9 +23,7 @@ module.exports = (app) => {
     check('id').exists({ checkNull: true, checkFalsy: true })],
   validator.getById, (req, res) => controller.getById(req, res));
 
-  app.get('/libraries/books/:id', [
-    check('id').exists({ checkNull: true, checkFalsy: true })],
-  validator.getById, (req, res) => controller.getLibraryBooks(req, res));
+
 
   app.put('/libraries', [
     check('id').exists({ checkNull: true, checkFalsy: true }).isString(),
