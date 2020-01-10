@@ -21,9 +21,9 @@ class bookRepository {
 
   create(book) {
     const { libraryId, ...NewBook } = book;
-    return of({ id: uuidv4(), ...NewBook }).pipe(mergeMap((library) => {
-      this.collection.books.push(library);
-      return of(library);
+    return of({ id: uuidv4(), ...NewBook }).pipe(mergeMap((createdBook) => {
+      this.collection.books.push(createdBook);
+      return of(createdBook);
     }));
   }
 

@@ -50,7 +50,7 @@ class AuthService {
   }
 
   deserializeUser(user, done) {
-    return this.authRepository.findById(user.id)
+    return this.authRepository.findOne({ _id: user.id })
       .toPromise()
       .then((res) => {
         if (res) {

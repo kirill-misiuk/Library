@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "id": "b27bc7b2-512d-42a1-a476-054ffedaae27",
+      "name":"test1",
+      "password": "$2b$10$XJdI2fb1LC0mUJjq0NdshuVjGyzQEj.o90Pc/NehLXuIZUqM2X3Ya"
+    },
+    {
+      "id": "a6e63e14-2f4d-44fb-a579-dc3852c669ed",
+      "name":"test2",
+      "password": "$2b$10$XJdI2fb1LC0mUJjq0NdshuVjGyzQEj.o90Pc/NehLXuIZUqM2X3Ya"
+    },
+    {   "id": "4dec321a-b831-43ca-b0ea-f057a16a67b9",
+      "name":"test3",
+      "password": "$2b$10$XJdI2fb1LC0mUJjq0NdshuVjGyzQEj.o90Pc/NehLXuIZUqM2X3Ya"
+    }
+  ]
+}

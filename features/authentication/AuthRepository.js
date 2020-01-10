@@ -1,27 +1,29 @@
-const mongoose = require('mongoose');
-const { from } = require('rxjs');
-const { User } = require('./AuthModels');
+const { of } = require('rxjs');
+const { mergeMap } = require('rxjs/operators');
+const fs = require('fs');
+const uuidv4 = require('uuid/v4');
 
+const db = JSON.parse(fs.readFileSync('./repositories/users.json'));
 class AuthRepository {
   constructor() {
-    this.url = process.env.MONGO_URL;
-    this.database = process.env.MONGO_DATABASE;
-    mongoose.connect(`${this.url}/${this.database}`, { useNewUrlParser: true, useUnifiedTopology: true })
-      .catch((e) => console.log('problem with connection ', e));
+    this.collection = db;
   }
 
-
-  findOne(username) {
-    return from(User.findOne({ username }));
+  findOne(param) {
+    if (typeof param === 'object') {
+      return of(this.collection.users.find((user) => user.id === param._id));
+    }
+    return of(this.collection.users.find((user) => user[param] === param));
   }
 
-  findById(id) {
-    return from(User.findById(id));
-  }
 
   create(user) {
-    return from(User.create(user));
+    return of({ id: uuidv4(), ...user })
+      .pipe(mergeMap((createdUser) => {
+        this.collection.users.push(createdUser);
+        return of(createdUser);
+      }));
   }
-
 }
+
 module.exports = AuthRepository;

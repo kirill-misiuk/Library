@@ -22,13 +22,12 @@ class BookService {
   }
 
   deleteBook(id) {
-    return this.bookRepository.delete(id)
+    return this.bookRepository.delete(id);
   }
 
   updateBook(book) {
     return this.bookRepository.update(book);
   }
-
 }
 
 module.exports = BookService;
