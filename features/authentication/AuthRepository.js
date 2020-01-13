@@ -1,5 +1,5 @@
 const { of } = require('rxjs');
-const { mergeMap } = require('rxjs/operators');
+const { mergeMap, map } = require('rxjs/operators');
 const fs = require('fs');
 const uuidv4 = require('uuid/v4');
 
@@ -19,10 +19,9 @@ class AuthRepository {
 
   create(user) {
     return of({ id: uuidv4(), ...user })
-      .pipe(mergeMap((createdUser) => {
-        this.collection.users.push(createdUser);
-        return of(createdUser);
-      }));
+      .pipe(mergeMap((newUser) => of(this.collection.users.push(newUser)).pipe(
+        map(() => newUser),
+      )));
   }
 }
 

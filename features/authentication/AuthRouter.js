@@ -1,4 +1,4 @@
-const { check } = require('express-validator');
+const { check,query } = require('express-validator');
 const Controller = require('./AuthController');
 const Service = require('./AuthService');
 const Repository = require('./db/AuthRepository');
@@ -12,18 +12,13 @@ const controller = new Controller(service);
 const validator = new AuthValidator();
 
 module.exports = (app) => {
-  app.post('/auth/signin', [
+  app.post('/auth', [
+    query('strategy').not().isEmpty().isIn(['local-signin', 'local-signup'])
+      .withMessage(' Wrong method.Must be signin or signup'),
     check('username').not().isEmpty().withMessage('You username is required'),
     check('password').not().isEmpty().isLength({ min: 6 })
       .withMessage('Must be at least 6 chars long'),
-  ], validator.signIn, validator.mustNotAuthenticated, (req, res, next) => {
-    controller.signIn(req, res, next);
-  });
-  app.post('/auth/signup', [
-    check('username').not().isEmpty().withMessage('You username is required'),
-    check('password').not().isEmpty().isLength({ min: 6 })
-      .withMessage('Must be at least 6 chars long'),
-  ], validator.signUp, validator.mustNotAuthenticated, (req, res, next) => controller.signUp(req, res, next));
+  ], validator.signUp, validator.mustNotAuthenticated, (req, res, next) => controller.sign(req, res, next));
   app.get('/auth/user', (req, res) => {
     res.json({ session: req.session, user: req.user, isAuth: req.isAuthenticated() });
   });

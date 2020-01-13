@@ -3,11 +3,9 @@ const Controller = require('./LibraryController');
 const Service = require('./LibraryService');
 const Repository = require('./db/LibraryRepository');
 const Validator = require('./LibraryValidator');
-const BookRepository = require('../book/db/BookRepository');
 
 const repository = new Repository();
-const bookrepository = new BookRepository();
-const service = new Service(repository, bookrepository);
+const service = new Service(repository);
 const controller = new Controller(service);
 const validator = new Validator();
 
@@ -22,8 +20,6 @@ module.exports = (app) => {
   app.get('/libraries/:id', [
     check('id').exists({ checkNull: true, checkFalsy: true })],
   validator.getById, (req, res) => controller.getById(req, res));
-
-
 
   app.put('/libraries', [
     check('id').exists({ checkNull: true, checkFalsy: true }).isString(),

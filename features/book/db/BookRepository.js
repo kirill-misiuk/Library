@@ -7,12 +7,8 @@ const { Book } = require('./BookModels');
 class BookRepository {
   constructor() {}
 
-  find() {
-    return from(Book.find({}));
-  }
-
-  findAll(ids) {
-    return from(Book.find({ _id: ids }));
+  find(options = {}) {
+    return from(Book.find(options));
   }
 
   findOne(id) {

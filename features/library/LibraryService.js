@@ -1,12 +1,6 @@
-const { of, from } = require('rxjs');
-const {
-  mergeMap, map, toArray, filter, tap, combineAll, mergeAll,
-} = require('rxjs/operators');
-
 class LibraryService {
-  constructor(LibraryRepository, BookRepository) {
+  constructor(LibraryRepository) {
     this.libraryRepository = LibraryRepository;
-    this.bookRepository = BookRepository;
   }
 
   getAllLibraries() {

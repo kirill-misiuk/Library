@@ -2,8 +2,6 @@ const { from } = require('rxjs');
 const { User } = require('./AuthModels');
 
 class AuthRepository {
-  constructor() {}
-
   findOne(username) {
     return from(User.findOne(username));
   }

@@ -34,7 +34,7 @@ class BookService {
     return this.libraryRepository.findOne(id).pipe(
       mergeMap((foundLibrary) => {
         if (foundLibrary) {
-          return from(this.bookRepository.findAll(foundLibrary.archive));
+          return from(this.bookRepository.find({ _id: foundLibrary.active }));
         }
         return of(null);
       }),

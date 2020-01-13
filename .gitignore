@@ -63,3 +63,5 @@ typings/
 .next
 .idea
 package-lock.json
+mongoDB/mongo-volume/
+mongoDB/data/

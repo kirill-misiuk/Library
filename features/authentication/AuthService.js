@@ -11,10 +11,10 @@ class AuthService {
 
 
   initialize() {
-    passport.use('local-signIn', new LocalStrategy(this.localSignIn.bind(this)));
+    passport.use('local-signin', new LocalStrategy(this.localSignIn.bind(this)));
     passport.serializeUser(this.serializeUser);
     passport.deserializeUser(this.deserializeUser.bind(this));
-    passport.use('local-signUp', new LocalStrategy(this.localSignUp.bind(this)));
+    passport.use('local-signup', new LocalStrategy(this.localSignUp.bind(this)));
   }
 
   localSignIn(username, password, done) {
