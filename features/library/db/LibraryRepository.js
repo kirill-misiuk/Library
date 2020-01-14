@@ -1,18 +1,16 @@
 const { from, of } = require('rxjs');
 const {
-  mergeMap, toArray, filter,
+  mergeMap, toArray, map,
 } = require('rxjs/operators');
-const { Library } = require('./LibraryModels');
+const { Library } = require('./LibraryModel');
 
 class LibraryRepository {
-  constructor() {}
-
-  find() {
-    return from(Library.find({}));
+  find(options = {}) {
+    return from(Library.find(options));
   }
 
-  findOne(id) {
-    return from(Library.findById(id));
+  findOne(options) {
+    return from(Library.findById(options));
   }
 
   create(library) {
@@ -28,7 +26,6 @@ class LibraryRepository {
             ...data,
             archive: Array.from(new Set([...foundLibrary.archive, ...(data.archive || [])])),
           };
-          console.log(newLibrary);
           return from(Library.findByIdAndUpdate(data.id, newLibrary, { new: true }));
         }
         return of(foundLibrary);
@@ -36,17 +33,14 @@ class LibraryRepository {
   }
 
   delete(ids) {
-    return from(ids)
-      .pipe(
-        mergeMap((id) => from(Library.deleteOne({ _id: id }).then(((res) => {
-          if (res.deletedCount !== 0) {
-            return id;
-          }
-          return null;
-        })))),
-        filter(Boolean),
-        toArray(),
-      );
+    return from(Library.find({ _id: { $in: ids } })).pipe(
+      mergeMap((libraries) => from(libraries.map((library) => library.id))),
+      toArray(),
+      map((foundIds) => {
+        Library.deleteMany({ _id: { $in: foundIds } }).exec();
+        return foundIds;
+      }),
+    );
   }
 }
 

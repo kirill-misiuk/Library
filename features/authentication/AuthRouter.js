@@ -1,14 +1,14 @@
 const { check,query } = require('express-validator');
-const Controller = require('./AuthController');
-const Service = require('./AuthService');
-const Repository = require('./db/AuthRepository');
+const AuthController = require('./AuthController');
+const AuthService = require('./AuthService');
+const AuthRepository = require('./db/AuthRepository');
 const AuthHash = require('./AuthHash');
 const AuthValidator = require('./AuthValidator');
 
-const repository = new Repository();
+const repository = new AuthRepository();
 const hash = new AuthHash();
-const service = new Service(repository, hash);
-const controller = new Controller(service);
+const service = new AuthService(repository, hash);
+const controller = new AuthController(service);
 const validator = new AuthValidator();
 
 module.exports = (app) => {

@@ -1,18 +1,16 @@
 const { from, of } = require('rxjs');
 const {
-  mergeMap, toArray, filter,
+  mergeMap, toArray, map,
 } = require('rxjs/operators');
-const { Book } = require('./BookModels');
+const { Book } = require('./BookModel');
 
 class BookRepository {
-  constructor() {}
-
   find(options = {}) {
     return from(Book.find(options));
   }
 
-  findOne(id) {
-    return from(Book.findById(id));
+  findOne(options) {
+    return from(Book.findOne(options));
   }
 
   create(book) {
@@ -32,17 +30,14 @@ class BookRepository {
   }
 
   delete(ids) {
-    return from(ids)
-      .pipe(
-        mergeMap((id) => from(Book.deleteOne({ _id: id }).then(((res) => {
-          if (res.deletedCount !== 0) {
-            return id;
-          }
-          return null;
-        })))),
-        filter(Boolean),
-        toArray(),
-      );
+    return from(Book.find({ _id: { $in: ids } })).pipe(
+      mergeMap((books) => from(books.map((book) => book.id))),
+      toArray(),
+      map((foundIds) => {
+        Book.deleteMany({ _id: { $in: foundIds } }).exec();
+        return foundIds;
+      }),
+    );
   }
 }
 

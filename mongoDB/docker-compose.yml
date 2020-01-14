@@ -1,10 +1,16 @@
 version: "3.7"
 services:
-  mongodb:
-    image: mongo:latest
-    command: [--auth]
-    container_name: "mongodb"
+  mongo:
+    image: mongo:4.2
+    container_name: "library-mongo"
     volumes:
-      - ./data/db:/data/db
+    - library_mdata_volume:/data/db
     ports:
         - 27017:27017
+    command: [mongod]
+
+volumes:
+  library_mdata_volume:
+    driver: local  # is already local by default
+
+

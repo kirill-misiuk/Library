@@ -1,13 +1,13 @@
 const { check } = require('express-validator');
-const Controller = require('./LibraryController');
-const Service = require('./LibraryService');
-const Repository = require('./db/LibraryRepository');
-const Validator = require('./LibraryValidator');
+const LibraryController = require('./LibraryController');
+const LibraryService = require('./LibraryService');
+const LibraryRepository = require('./db/LibraryRepository');
+const LibraryValidator = require('./LibraryValidator');
 
-const repository = new Repository();
-const service = new Service(repository);
-const controller = new Controller(service);
-const validator = new Validator();
+const repository = new LibraryRepository();
+const service = new LibraryService(repository);
+const controller = new LibraryController(service);
+const validator = new LibraryValidator();
 
 module.exports = (app) => {
   app.get('/libraries', validator.getAllLibraries, (req, res) => controller.getAllLibraries(req, res));

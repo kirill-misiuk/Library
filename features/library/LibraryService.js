@@ -12,7 +12,7 @@ class LibraryService {
   }
 
   getById(id) {
-    return this.libraryRepository.findOne(id).pipe(
+    return this.libraryRepository.findOne({ _id: id }).pipe(
     );
   }
 

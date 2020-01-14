@@ -1,13 +1,13 @@
 const { check } = require('express-validator');
 const Controller = require('./BookController');
-const Service = require('./BookService');
-const Repository = require('./db/BookRepository');
-const LibraryRepository = require('../library/db/LibraryRepository');
+const BookService = require('./BookService');
+const BookRepository = require('./db/BookRepository');
+const BookLibraryRepository = require('../library/db/LibraryRepository');
 const BookValidator = require('../book/BookValidator');
 
-const repository = new Repository();
-const libraryrepository = new LibraryRepository();
-const service = new Service(repository, libraryrepository);
+const repository = new BookRepository();
+const libraryrepository = new BookLibraryRepository();
+const service = new BookService(repository, libraryrepository);
 const controller = new Controller(service);
 const validator = new BookValidator();
 
