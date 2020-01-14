@@ -1,16 +1,16 @@
 const { from, of } = require('rxjs');
 const {
-  mergeMap, toArray, map,
+  mergeMap, map,
 } = require('rxjs/operators');
 const { Library } = require('./LibraryModel');
 
 class LibraryRepository {
   find(options = {}) {
-    return from(Library.find(options));
+    return from(Library.find(options).lean().exec());
   }
 
   findOne(options) {
-    return from(Library.findById(options));
+    return from(Library.findOne(options).lean().exec());
   }
 
   create(library) {
@@ -19,27 +19,24 @@ class LibraryRepository {
 
 
   update(data) {
-    return from(Library.findOne({ _id: data.id }))
+    return from(Library.findOne({ _id: data.id }).lean().exec())
       .pipe(mergeMap((foundLibrary) => {
         if (foundLibrary) {
           const newLibrary = {
             ...data,
             archive: Array.from(new Set([...foundLibrary.archive, ...(data.archive || [])])),
           };
-          return from(Library.findByIdAndUpdate(data.id, newLibrary, { new: true }));
+          return from(Library.findByIdAndUpdate(data.id, newLibrary, { new: true }).lean().exec());
         }
         return of(foundLibrary);
       }));
   }
 
   delete(ids) {
-    return from(Library.find({ _id: { $in: ids } })).pipe(
-      mergeMap((libraries) => from(libraries.map((library) => library.id))),
-      toArray(),
-      map((foundIds) => {
-        Library.deleteMany({ _id: { $in: foundIds } }).exec();
-        return foundIds;
-      }),
+    return from(Library.find({ _id: { $in: ids } }).lean().exec()).pipe(
+      map((libraries) => libraries.map((library) => library._id)),
+      mergeMap((libraries) => from(Library.deleteMany({ _id: { $in: libraries } }).lean().exec())
+        .pipe(map(() => libraries))),
     );
   }
 }

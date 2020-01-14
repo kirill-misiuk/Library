@@ -18,7 +18,7 @@ module.exports = (app) => {
     check('username').not().isEmpty().withMessage('You username is required'),
     check('password').not().isEmpty().isLength({ min: 6 })
       .withMessage('Must be at least 6 chars long'),
-  ], validator.signUp, validator.mustNotAuthenticated, (req, res, next) => controller.sign(req, res, next));
+  ], validator.sign, validator.mustNotAuthenticated, (req, res, next) => controller.sign(req, res, next));
   app.get('/auth/user', (req, res) => {
     res.json({ session: req.session, user: req.user, isAuth: req.isAuthenticated() });
   });

@@ -1,9 +1,6 @@
 const { validationResult } = require('express-validator');
 
 class LibraryValidator {
-  constructor() {
-  }
-
   getAllLibraries(req, res, next) {
     const result = validationResult(req);
     if (!result.isEmpty()) {

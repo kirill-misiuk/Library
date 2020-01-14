@@ -1,15 +1,7 @@
 const { validationResult } = require('express-validator');
 
 class AuthValidator {
-  signIn(req, res, next) {
-    const result = validationResult(req);
-    if (!result.isEmpty()) {
-      return res.status(422).json({ status: res.statusCode, errors: result.array() });
-    }
-    next();
-  }
-
-  signUp(req, res, next) {
+  sign(req, res, next) {
     const result = validationResult(req);
     if (!result.isEmpty()) {
       return res.status(422).json({ status: res.statusCode, errors: result.array() });
