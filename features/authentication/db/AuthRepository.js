@@ -7,7 +7,7 @@ class AuthRepository {
   }
 
   create(user) {
-    return from(User.create(user).lean().exec());
+    return from(User.create(user));
   }
 }
 module.exports = AuthRepository;

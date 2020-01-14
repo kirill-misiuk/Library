@@ -1,6 +1,6 @@
 const { from, of } = require('rxjs');
 const {
-  mergeMap, map,
+  mergeMap, map, tap,
 } = require('rxjs/operators');
 const { Book } = require('./BookModel');
 
@@ -30,8 +30,7 @@ class BookRepository {
   }
 
   delete(ids) {
-    return from(Book.find({ _id: { $in: ids } }).lean().exec()).pipe(
-      map((books) => books.map((book) => book._id)),
+    return from(Book.find({ _id: { $in: ids } }, '_id').lean().exec()).pipe(
       mergeMap((books) => from(Book.deleteMany({ _id: { $in: books } }).lean().exec())
         .pipe(map(() => books))),
     );

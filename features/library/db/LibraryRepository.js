@@ -33,8 +33,7 @@ class LibraryRepository {
   }
 
   delete(ids) {
-    return from(Library.find({ _id: { $in: ids } }).lean().exec()).pipe(
-      map((libraries) => libraries.map((library) => library._id)),
+    return from(Library.find({ _id: { $in: ids } }, '_id').lean().exec()).pipe(
       mergeMap((libraries) => from(Library.deleteMany({ _id: { $in: libraries } }).lean().exec())
         .pipe(map(() => libraries))),
     );
