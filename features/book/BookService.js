@@ -31,10 +31,10 @@ class BookService {
   }
 
   getLibraryBooks(id) {
-    return this.libraryRepository.findOne(id).pipe(
+    return this.libraryRepository.findOne({ _id: id }).pipe(
       mergeMap((foundLibrary) => {
         if (foundLibrary) {
-          return from(this.bookRepository.find({ _id: { $in: foundLibrary.active } }));
+          return from(this.bookRepository.find({ _id: { $in: foundLibrary.archive } }));
         }
         return of(null);
       }),

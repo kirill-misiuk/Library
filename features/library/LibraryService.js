@@ -1,3 +1,5 @@
+const { from } = require('rxjs');
+
 class LibraryService {
   constructor(LibraryRepository) {
     this.libraryRepository = LibraryRepository;
@@ -22,6 +24,9 @@ class LibraryService {
 
   deleteLibrary(id) {
     return this.libraryRepository.delete(id);
+  }
+  getLibraries(bookId) {
+    return from(this.libraryRepository.find({ archive: { $all: [bookId] } }));
   }
 }
 

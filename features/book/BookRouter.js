@@ -1,12 +1,13 @@
 const { check } = require('express-validator');
+
 const Controller = require('./BookController');
 const BookService = require('./BookService');
 const BookRepository = require('./db/BookRepository');
-const BookLibraryRepository = require('../library/db/LibraryRepository');
+const LibraryRepository = require('../library/db/LibraryRepository');
 const BookValidator = require('../book/BookValidator');
 
 const repository = new BookRepository();
-const libraryrepository = new BookLibraryRepository();
+const libraryrepository = new LibraryRepository();
 const service = new BookService(repository, libraryrepository);
 const controller = new Controller(service);
 const validator = new BookValidator();
@@ -29,7 +30,7 @@ module.exports = (app) => {
     validator.getById,
     (req, res) => controller.getById(req, res));
 
-  app.put('/books', [
+  app.put('/books/:id', [
     check('id').exists({ checkNull: true, checkFalsy: true }).isString(),
     check('name').optional().isString(),
     check('author').optional().isString(),
@@ -45,4 +46,5 @@ module.exports = (app) => {
   app.get('/books/library/:id', [
     check('id').exists({ checkNull: true, checkFalsy: true })],
   validator.getById, (req, res) => controller.getLibraryBooks(req, res));
+
 };

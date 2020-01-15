@@ -3,7 +3,7 @@ const { User } = require('./UserModel');
 
 class AuthRepository {
   findOne(username) {
-    return from(User.findOne(username).lean().exec());
+    return from(User.findOne(username).exec());
   }
 
   create(user) {

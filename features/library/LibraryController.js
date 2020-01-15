@@ -39,6 +39,14 @@ class LibraryController {
     });
   }
 
+  getLibraries(req, res) {
+    const { id } = req.params;
+    this.libraryService.getLibraries(id).subscribe({
+      next: (data) => res.status(200).json({ status: res.statusCode, data }),
+      error: (e) => res.status(e.statusCode || 400).json({ status: res.statusCode, message: e.message }),
+    });
+  }
+
   deleteLibrary(req, res) {
     const ids = req.query.id;
     this.libraryService.deleteLibrary(Array.isArray(ids) ? ids : [ids]).subscribe({

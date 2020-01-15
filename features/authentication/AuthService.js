@@ -1,7 +1,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const { of } = require('rxjs');
-const { mergeMap } = require('rxjs/operators');
+const { mergeMap,tap } = require('rxjs/operators');
 
 class AuthService {
   constructor(AuthRepository, AuthHash) {
