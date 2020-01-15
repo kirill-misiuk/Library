@@ -20,10 +20,10 @@ class BookRepository {
 
 
   update(data) {
-    return from(Book.findOne({ _id: data.id }).lean().exec())
+    return from(Book.findOne({ _id: data._id }).lean().exec())
       .pipe(mergeMap((foundLibrary) => {
         if (foundLibrary) {
-          return from(Book.findByIdAndUpdate(data.id, { ...data }, { new: true }));
+          return from(Book.findByIdAndUpdate(data._id, { ...data }, { new: true }));
         }
         return of(foundLibrary);
       }));

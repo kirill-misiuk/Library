@@ -19,14 +19,14 @@ class LibraryRepository {
 
 
   update(data) {
-    return from(Library.findOne({ _id: data.id }).lean().exec())
+    return from(Library.findOne({ _id: data._id }).lean().exec())
       .pipe(mergeMap((foundLibrary) => {
         if (foundLibrary) {
           const newLibrary = {
             ...data,
             archive: Array.from(new Set([...foundLibrary.archive, ...(data.archive || [])])),
           };
-          return from(Library.findByIdAndUpdate(data.id, newLibrary, { new: true }).lean().exec());
+          return from(Library.findByIdAndUpdate(data._id, newLibrary, { new: true }).lean().exec());
         }
         return of(foundLibrary);
       }));

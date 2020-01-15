@@ -11,8 +11,8 @@ class BookController {
   }
 
   getById(req, res) {
-    const { id } = req.params;
-    this.bookService.getById(id).subscribe({
+    const { _id } = req.params;
+    this.bookService.getById(_id).subscribe({
       next: (data) => (data ? res.status(201).json({ status: 201, data })
         : res.status(404).json({ status: res.statusCode, message: 'Not found' })),
       error: (e) => res.status(e.statusCode || 400).json({ status: res.statusCode, message: e.message }),
@@ -20,8 +20,8 @@ class BookController {
   }
 
   getLibraryBooks(req, res) {
-    const { id } = req.params;
-    this.bookService.getLibraryBooks(id).subscribe({
+    const { _id } = req.params;
+    this.bookService.getLibraryBooks(_id).subscribe({
       next: (data) => (!data
         ? res.status(404).json({ status: res.statusCode, message: 'Not found' })
         : res.status(200).json({ status: res.statusCode, data })),
@@ -39,7 +39,7 @@ class BookController {
   }
 
   deleteBook(req, res) {
-    const ids = req.query.id;
+    const ids = req.query._id;
     this.bookService.deleteBook(Array.isArray(ids) ? ids : [ids]).subscribe({
       next: (data) => res.status(200).json({ status: 200, data }),
       error: (e) => res.status(e.statusCode || 400).json({ status: res.statusCode, message: e.message }),

@@ -17,21 +17,21 @@ module.exports = (app) => {
     check('archive').isArray(),
   ], validator.createLibrary, (req, res) => controller.createLibrary(req, res));
 
-  app.get('/libraries/:id', [
-    check('id').exists({ checkNull: true, checkFalsy: true })],
+  app.get('/libraries/:_id', [
+    check('_id').exists({ checkNull: true, checkFalsy: true })],
   validator.getById, (req, res) => controller.getById(req, res));
 
-  app.get('/libraries/book/:id', [
-    check('id').exists({ checkNull: true, checkFalsy: true })],
+  app.get('/libraries/book/:_id', [
+    check('_id').exists({ checkNull: true, checkFalsy: true })],
   validator.getById, (req, res) => controller.getLibraries(req, res));
 
-  app.put('/libraries/:id', [
-    check('id').exists({ checkNull: true, checkFalsy: true }).isString(),
+  app.put('/libraries/:_id', [
+    check('_id').exists({ checkNull: true, checkFalsy: true }).isString(),
     check('name').optional().isString(),
     check('archive').optional().isArray(),
   ], validator.updateLibrary, (req, res) => controller.updateLibrary(req, res));
 
   app.delete('/libraries',
-    check('id').exists({ checkNull: true, checkFalsy: true }),
+    check('_id').exists({ checkNull: true, checkFalsy: true }),
     validator.deleteLibrary, (req, res) => controller.deleteLibrary(req, res));
 };

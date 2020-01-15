@@ -19,8 +19,8 @@ class LibraryController {
   }
 
   getById(req, res) {
-    const { id } = req.params;
-    this.libraryService.getById(id).subscribe({
+    const { _id } = req.params;
+    this.libraryService.getById(_id).subscribe({
       next: (data) => (!data
         ? res.status(404).json({ status: res.statusCode, message: 'Not found' })
         : res.status(200).json({ status: res.statusCode, data })),
@@ -40,15 +40,15 @@ class LibraryController {
   }
 
   getLibraries(req, res) {
-    const { id } = req.params;
-    this.libraryService.getLibraries(id).subscribe({
+    const { _id } = req.params;
+    this.libraryService.getLibraries(_id).subscribe({
       next: (data) => res.status(200).json({ status: res.statusCode, data }),
       error: (e) => res.status(e.statusCode || 400).json({ status: res.statusCode, message: e.message }),
     });
   }
 
   deleteLibrary(req, res) {
-    const ids = req.query.id;
+    const ids = req.query._id;
     this.libraryService.deleteLibrary(Array.isArray(ids) ? ids : [ids]).subscribe({
       next: (data) => {
         res.status(200).json({ status: res.statusCode, data });

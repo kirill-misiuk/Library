@@ -25,13 +25,13 @@ module.exports = (app) => {
     check('year').isNumeric().isLength({ max: 4, min: 1 }),
   ], validator.createBook, (req, res) => controller.createBook(req, res));
 
-  app.get('/books/:id', validator.getById,
-    check('id').exists({ checkNull: true, checkFalsy: true }).isString(),
+  app.get('/books/:_id', validator.getById,
+    check('_id').exists({ checkNull: true, checkFalsy: true }).isString(),
     validator.getById,
     (req, res) => controller.getById(req, res));
 
-  app.put('/books/:id', [
-    check('id').exists({ checkNull: true, checkFalsy: true }).isString(),
+  app.put('/books/:_id', [
+    check('_id').exists({ checkNull: true, checkFalsy: true }).isString(),
     check('name').optional().isString(),
     check('author').optional().isString(),
     check('pageCount').optional().isNumeric().isLength({ min: 1, max: 4 }),
@@ -40,11 +40,11 @@ module.exports = (app) => {
   (req, res) => controller.updateBook(req, res));
 
   app.delete('/books',
-    check('id').exists({ checkNull: true, checkFalsy: true }),
+    check('_id').exists({ checkNull: true, checkFalsy: true }),
     validator.deleteBook, (req, res) => controller.deleteBook(req, res));
 
-  app.get('/books/library/:id', [
-    check('id').exists({ checkNull: true, checkFalsy: true })],
+  app.get('/books/library/:_id', [
+    check('_id').exists({ checkNull: true, checkFalsy: true })],
   validator.getById, (req, res) => controller.getLibraryBooks(req, res));
 
 };

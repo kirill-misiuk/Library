@@ -1,7 +1,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const { of } = require('rxjs');
-const { mergeMap,tap } = require('rxjs/operators');
+const { mergeMap, tap } = require('rxjs/operators');
 
 class AuthService {
   constructor(AuthRepository, AuthHash) {
@@ -46,7 +46,7 @@ class AuthService {
   }
 
   serializeUser(user, done) {
-    return done(null, { id: user.id, username: user.username });
+    return done(null, { id: user._id, username: user.username });
   }
 
   deserializeUser(user, done) {
