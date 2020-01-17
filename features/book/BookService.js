@@ -16,8 +16,6 @@ class BookService {
   }
 
   createBook(newBook) {
-    const { libraryId, year, ...NewBook } = newBook;
-    this.bookRepository.find({ NewBook });
     return this.bookRepository.create(newBook).pipe(
       mergeMap((book) => this.libraryRepository.update({ _id: newBook.libraryId, archive: [book._id] })
         .pipe(map(() => book))),
