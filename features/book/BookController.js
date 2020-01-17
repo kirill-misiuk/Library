@@ -13,7 +13,7 @@ class BookController {
   getById(req, res) {
     const { _id } = req.params;
     this.bookService.getById(_id).subscribe({
-      next: (data) => (data ? res.status(201).json({ status: 201, data })
+      next: (data) => (data ? res.status.json({ status: 200, data })
         : res.status(404).json({ status: res.statusCode, message: 'Not found' })),
       error: (e) => res.status(e.statusCode || 400).json({ status: res.statusCode, message: e.message }),
     });

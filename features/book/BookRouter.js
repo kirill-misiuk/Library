@@ -1,5 +1,5 @@
 const { check } = require('express-validator');
-
+const { sanitizeParam } = require('express-validator');
 const Controller = require('./BookController');
 const BookService = require('./BookService');
 const BookRepository = require('./db/BookRepository');
@@ -46,5 +46,4 @@ module.exports = (app) => {
   app.get('/books/library/:_id', [
     check('_id').exists({ checkNull: true, checkFalsy: true })],
   validator.getById, (req, res) => controller.getLibraryBooks(req, res));
-
 };

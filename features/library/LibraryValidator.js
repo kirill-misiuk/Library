@@ -19,7 +19,7 @@ class LibraryValidator {
   }
 
   updateLibrary(req, res, next) {
-    if (req.body.id !== req.params.id) {
+    if (req.body._id !== req.params._id) {
       throw new ConflictError(req.body.id, req.params.id);
     }
     const result = validationResult(req);

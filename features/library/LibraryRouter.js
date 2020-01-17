@@ -14,7 +14,7 @@ module.exports = (app) => {
 
   app.post('/libraries', [
     check('name').isString(),
-    check('archive').isArray(),
+    check('archive').optional().isArray(),
   ], validator.createLibrary, (req, res) => controller.createLibrary(req, res));
 
   app.get('/libraries/:_id', [

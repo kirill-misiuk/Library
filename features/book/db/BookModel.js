@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const bookSchema = new mongoose.Schema({
-  name: String,
-  author: String,
-  pageCount: Number,
+  name: { type: String, unique: true },
+  author: { type: String },
+  pageCount: { type: Number },
   year: Number,
 }, {
   versionKey: false,
