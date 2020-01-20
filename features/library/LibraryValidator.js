@@ -10,7 +10,6 @@ class LibraryValidator {
     next();
   }
 
-
   createLibrary(req, res, next) {
     const result = validationResult(req);
     if (!result.isEmpty()) {
@@ -21,7 +20,7 @@ class LibraryValidator {
 
   updateLibrary(req, res, next) {
     if (req.body._id !== req.params._id) {
-      throw new ConflictError(req.body.id, req.params.id);
+      throw new ConflictError(req.body._id, req.params._id);
     }
     const result = validationResult(req);
     if (!result.isEmpty()) {
