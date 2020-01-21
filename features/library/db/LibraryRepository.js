@@ -1,6 +1,6 @@
-const { from, of } = require('rxjs');
+const { from} = require('rxjs');
 const {
-  mergeMap, map,
+  mergeMap, map, toArray,
 } = require('rxjs/operators');
 const { Library } = require('./LibraryModel');
 
@@ -19,17 +19,19 @@ class LibraryRepository {
 
 
   update(data) {
-    return from(Library.findOne({ _id: data._id }).lean().exec())
-      .pipe(mergeMap((foundLibrary) => {
-        if (foundLibrary) {
-          const newLibrary = {
-            ...data,
-            archive: Array.from(new Set([...foundLibrary.archive, ...(data.archive || [])])),
-          };
-          return from(Library.findByIdAndUpdate(data._id, newLibrary, { new: true }).lean().exec());
-        }
-        return of(foundLibrary);
-      }));
+    const { _id, ...libraryData } = data;
+    return from(Library.find({ _id }).lean().exec())
+      .pipe(mergeMap((foundLibrary) => from(foundLibrary)
+        .pipe(
+          map((library) => ({
+            ...library,
+            ...libraryData,
+            archive: Array.from(new Set([...library.archive, ...(libraryData.archive || [])])),
+          })),
+          mergeMap((library) => from(Library.updateOne({ _id: library._id }, library, { new: true }).lean().exec())
+            .pipe(map(() => library))),
+          toArray(),
+        )));
   }
 
   delete(ids) {

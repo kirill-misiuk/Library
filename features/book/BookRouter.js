@@ -18,7 +18,7 @@ module.exports = (app) => {
   });
 
   app.post('/books', [
-    check('libraryId').optional().isString().isMongoId(),
+    check('libraryIds').optional().isArray(),
     check('name').isString(),
     check('author').isString(),
     check('pageCount').isNumeric().isLength({ min: 1, max: 4 }),
