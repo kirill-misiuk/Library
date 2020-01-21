@@ -19,12 +19,13 @@ class LibraryService {
   }
 
   updateLibrary(data) {
-    return this.libraryRepository.update(data).pipe();
+    return this.libraryRepository.update({ _id: { $in: data._id }, library: { name: data.name, $push: { $each: { archive: data.archive } } } });
   }
 
   deleteLibrary(id) {
     return this.libraryRepository.delete(id);
   }
+
   getLibraries(bookId) {
     return from(this.libraryRepository.find({ archive: { $all: [bookId] } }));
   }

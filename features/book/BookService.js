@@ -17,7 +17,7 @@ class BookService {
 
   createBook(newBook) {
     return this.bookRepository.create(newBook).pipe(
-      mergeMap((book) => this.libraryRepository.update({ _id: { $in: newBook.libraryIds}, archive: [book._id] })
+      mergeMap((book) => this.libraryRepository.update({ _id: { $in: newBook.libraryIds }, library: { $push: { archive: book._id } } })
         .pipe(map(() => book))),
     );
   }
