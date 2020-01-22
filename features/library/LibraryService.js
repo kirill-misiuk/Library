@@ -1,8 +1,8 @@
 const { from } = require('rxjs');
 
 class LibraryService {
-  constructor(LibraryRepository) {
-    this.libraryRepository = LibraryRepository;
+  constructor(libraryRepository) {
+    this.libraryRepository = libraryRepository;
   }
 
   getAllLibraries() {

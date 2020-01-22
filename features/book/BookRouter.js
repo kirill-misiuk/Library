@@ -1,20 +1,19 @@
 const { check } = require('express-validator');
-const { sanitizeParam } = require('express-validator');
 const Controller = require('./BookController');
 const BookService = require('./BookService');
 const BookRepository = require('./db/BookRepository');
 const LibraryRepository = require('../library/db/LibraryRepository');
 const BookValidator = require('../book/BookValidator');
 
-const repository = new BookRepository();
-const libraryrepository = new LibraryRepository();
-const service = new BookService(repository, libraryrepository);
-const controller = new Controller(service);
-const validator = new BookValidator();
+const bookRepository = new BookRepository();
+const libraryRepository = new LibraryRepository();
+const bookService = new BookService(bookRepository, libraryRepository);
+const bookController = new Controller(bookService);
+const bookValidator = new BookValidator();
 
 module.exports = (app) => {
-  app.get('/books', validator.getAllBooks, (req, res) => {
-    controller.getAllBooks(req, res);
+  app.get('/books', bookValidator.getAllBooks, (req, res) => {
+    bookController.getAllBooks(req, res);
   });
 
   app.post('/books', [
@@ -23,12 +22,12 @@ module.exports = (app) => {
     check('author').isString(),
     check('pageCount').isNumeric().isLength({ min: 1, max: 4 }),
     check('year').isNumeric().isLength({ max: 4, min: 1 }),
-  ], validator.createBook, (req, res) => controller.createBook(req, res));
+  ], bookValidator.createBook, (req, res) => bookController.createBook(req, res));
 
-  app.get('/books/:_id', validator.getById,
+  app.get('/books/:_id', bookValidator.getById,
     check('_id').exists({ checkNull: true, checkFalsy: true }).isString().isMongoId(),
-    validator.getById,
-    (req, res) => controller.getById(req, res));
+    bookValidator.getById,
+    (req, res) => bookController.getById(req, res));
 
   app.put('/books/:_id', [
     check('_id').exists({ checkNull: true, checkFalsy: true }).isString().isMongoId(),
@@ -36,14 +35,14 @@ module.exports = (app) => {
     check('author').optional().isString(),
     check('pageCount').optional().isNumeric().isLength({ min: 1, max: 4 }),
     check('year').optional().isNumeric().isLength({ max: 4, min: 1 }),
-  ], validator.updateBook,
-  (req, res) => controller.updateBook(req, res));
+  ], bookValidator.updateBook,
+  (req, res) => bookController.updateBook(req, res));
 
   app.delete('/books',
     check('_id').exists({ checkNull: true, checkFalsy: true }).isMongoId(),
-    validator.deleteBook, (req, res) => controller.deleteBook(req, res));
+    bookValidator.deleteBook, (req, res) => bookController.deleteBook(req, res));
 
   app.get('/books/library/:_id', [
     check('_id').exists({ checkNull: true, checkFalsy: true }).isMongoId()],
-  validator.getById, (req, res) => controller.getLibraryBooks(req, res));
+  bookValidator.getById, (req, res) => bookController.getLibraryBooks(req, res));
 };

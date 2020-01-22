@@ -2,9 +2,9 @@ const { from, of } = require('rxjs');
 const { mergeMap, map } = require('rxjs/operators');
 
 class BookService {
-  constructor(BookRepository, LibraryRepository) {
-    this.bookRepository = BookRepository;
-    this.libraryRepository = LibraryRepository;
+  constructor(bookRepository, libraryRepository) {
+    this.bookRepository = bookRepository;
+    this.libraryRepository = libraryRepository;
   }
 
   getAllBooks() {

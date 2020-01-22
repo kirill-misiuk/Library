@@ -1,6 +1,6 @@
 class LibraryController {
-  constructor(LibraryService) {
-    this.libraryService = LibraryService;
+  constructor(libraryService) {
+    this.libraryService = libraryService;
   }
 
   getAllLibraries(req, res) {

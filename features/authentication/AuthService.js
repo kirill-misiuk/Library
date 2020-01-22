@@ -3,9 +3,9 @@ const { of } = require('rxjs');
 const { mergeMap } = require('rxjs/operators');
 
 class AuthService {
-  constructor(AuthRepository, AuthHash) {
-    this.authRepository = AuthRepository;
-    this.authHash = AuthHash;
+  constructor(authRepository, authHash) {
+    this.authRepository = authRepository;
+    this.authHash = authHash;
   }
 
   signUp({username, password}) {

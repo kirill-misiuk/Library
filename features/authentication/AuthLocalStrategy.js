@@ -2,10 +2,10 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 class AuthLocalStrategy {
-  constructor(AuthRepository, AuthHash, AuthSerializer) {
-    this.authRepository = AuthRepository;
-    this.authHash = AuthHash;
-    AuthSerializer.initialize();
+  constructor(authRepository, authHash, authSerializer) {
+    this.authRepository = authRepository;
+    this.authHash = authHash;
+    authSerializer.initialize();
   }
 
   initialize() {

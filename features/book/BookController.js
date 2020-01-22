@@ -1,6 +1,6 @@
 class BookController {
-  constructor(BookService) {
-    this.bookService = BookService;
+  constructor(bookService) {
+    this.bookService = bookService;
   }
 
   getAllBooks(req, res) {

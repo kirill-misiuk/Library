@@ -4,34 +4,34 @@ const LibraryService = require('./LibraryService');
 const LibraryRepository = require('./db/LibraryRepository');
 const LibraryValidator = require('./LibraryValidator');
 
-const repository = new LibraryRepository();
-const service = new LibraryService(repository);
-const controller = new LibraryController(service);
-const validator = new LibraryValidator();
+const libraryRepository = new LibraryRepository();
+const libraryService = new LibraryService(libraryRepository);
+const libraryController = new LibraryController(libraryService);
+const libraryValidator = new LibraryValidator();
 
 module.exports = (app) => {
-  app.get('/libraries', validator.getAllLibraries, (req, res) => controller.getAllLibraries(req, res));
+  app.get('/libraries', libraryValidator.getAllLibraries, (req, res) => libraryController.getAllLibraries(req, res));
 
   app.post('/libraries', [
     check('name').isString(),
     check('archive').optional().isArray(),
-  ], validator.createLibrary, (req, res) => controller.createLibrary(req, res));
+  ], libraryValidator.createLibrary, (req, res) => libraryController.createLibrary(req, res));
 
   app.get('/libraries/:_id', [
     check('_id').exists({ checkNull: true, checkFalsy: true }).isMongoId()],
-  validator.getById, (req, res) => controller.getById(req, res));
+  libraryValidator.getById, (req, res) => libraryController.getById(req, res));
 
   app.get('/libraries/book/:_id', [
     check('_id').exists({ checkNull: true, checkFalsy: true }).isMongoId()],
-  validator.getById, (req, res) => controller.getLibraries(req, res));
+  libraryValidator.getById, (req, res) => libraryController.getLibraries(req, res));
 
   app.put('/libraries/:_id', [
     check('_id').exists({ checkNull: true, checkFalsy: true }).isString().isMongoId(),
     check('name').optional().isString(),
     check('archive').optional().isArray(),
-  ], validator.updateLibrary, (req, res) => controller.updateLibrary(req, res));
+  ], libraryValidator.updateLibrary, (req, res) => libraryController.updateLibrary(req, res));
 
   app.delete('/libraries',
     check('_id').exists({ checkNull: true, checkFalsy: true }).isMongoId(),
-    validator.deleteLibrary, (req, res) => controller.deleteLibrary(req, res));
+    libraryValidator.deleteLibrary, (req, res) => libraryController.deleteLibrary(req, res));
 };
