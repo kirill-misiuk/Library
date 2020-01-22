@@ -1,4 +1,4 @@
-const { check , checkSchema} = require('express-validator');
+const { check } = require('express-validator');
 const LibraryController = require('./LibraryController');
 const LibraryService = require('./LibraryService');
 const LibraryRepository = require('./db/LibraryRepository');

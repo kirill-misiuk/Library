@@ -1,5 +1,5 @@
-
 const passport = require('passport');
+const authError = require('passport/lib/errors/authenticationerror');
 
 class AuthController {
   constructor(AuthService, AuthLocalStrategy) {
@@ -10,10 +10,10 @@ class AuthController {
   signIn(req, res, next) {
     const callback = (err, user) => {
       if (err) {
-        return res.status(403).json({ status: res.statusCode, message: err });
+        return authError(err, 403);
       }
       if (!user) {
-        return res.status(401).json({ status: res.statusCode, message: 'unauthorised' });
+        return authError();
       }
       if (user) {
         req.login(user, (e) => {
@@ -31,7 +31,7 @@ class AuthController {
   signUp(req, res) {
     const user = req.body;
     this.authService.signUp(user).subscribe({
-      next: (data) => data && res.status(200).json({ status: 200, data }) || res.status(400).json({ status: 400, message: 'username is exists' }),
+      next: (data) => data && res.status(200).json({ status: 200, message: 'successful' }) || res.status(400).json({ status: 400, message: 'username is exists' }),
       error: (e) => res.status(e.statusCode || 400).json({ status: res.statusCode, message: e.message }),
     });
   }

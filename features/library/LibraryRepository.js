@@ -8,7 +8,7 @@ const uuidv4 = require('uuid/v4');
 
 const db = JSON.parse(fs.readFileSync('./repositories/libraries.json'));
 
-class libraryRepository {
+class LibraryRepository {
   constructor() {
     this.collections = db;
   }
@@ -69,4 +69,4 @@ class libraryRepository {
   }
 }
 
-module.exports = libraryRepository;
+module.exports = LibraryRepository;

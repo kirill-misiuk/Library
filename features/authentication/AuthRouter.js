@@ -18,12 +18,12 @@ const authValidator = new AuthValidator();
 
 module.exports = (app) => {
   app.post('/auth/signin', [
-    check('username').not().isEmpty().withMessage('You username is required'),
+    check('username').not().isEmpty().withMessage('Your username is required'),
     check('password').not().isEmpty().isLength({ min: 6 })
       .withMessage('Must be at least 6 chars long'),
   ], authValidator.sign, authValidator.mustNotAuthenticated, (req, res, next) => authController.signIn(req, res, next));
   app.post('/auth/signup', [
-    check('username').not().isEmpty().withMessage('You username is required'),
+    check('username').not().isEmpty().withMessage('Your username is required'),
     check('password').not().isEmpty().isLength({ min: 6 })
       .withMessage('Must be at least 6 chars long'),
   ], authValidator.sign, authValidator.mustNotAuthenticated, (req, res, next) => authController.signUp(req, res, next));
