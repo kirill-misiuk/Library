@@ -19,7 +19,7 @@ class LibraryService {
   }
 
   updateLibrary(data) {
-    return this.libraryRepository.update({ _id: { $in: data._id }, library: { name: data.name, $push: { $each: { archive: data.archive } } } });
+    return this.libraryRepository.update({ $in: data._id }, { name: data.name, $push: { $each: { archive: data.archive } } });
   }
 
   deleteLibrary(id) {
