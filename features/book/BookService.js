@@ -18,8 +18,11 @@ class BookService {
   createBook(newBook) {
     return this.bookRepository.create(newBook).pipe(
       mergeMap((book) => (
-        Array.isArray(newBook.libraryIds) && newBook.libraryIds.length
-          ? this.libraryRepository.updateMany({ _id: { $in: newBook.libraryIds } }, { $push: { archive: book._id } })
+        newBook.libraryIds && newBook.libraryIds.length
+          ? this.libraryRepository.updateMany(
+            { _id: { $in: newBook.libraryIds }},
+            { $push: { archive: book._id } },
+          )
             .pipe(map(() => book)) : of(book))),
     );
   }
