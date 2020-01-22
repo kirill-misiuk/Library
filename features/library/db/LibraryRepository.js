@@ -17,8 +17,13 @@ class LibraryRepository {
     return from(Library.create({ ...library }));
   }
 
+  updateOne(cond, update) {
+    return from(Library.updateOne(cond, update, { new: true })).pipe(
+      mergeMap(() => from(Library.findOne(cond).lean().exec())),
+    );
+  }
 
-  update(cond, update) {
+  updateMany(cond, update) {
     return from(Library.updateMany(cond, update, { new: true }))
       .pipe(mergeMap(() => from(Library.find(cond).lean().exec())));
   }
