@@ -21,8 +21,7 @@ class BookService {
         newBook.libraryIds && newBook.libraryIds.length && this.libraryRepository.updateMany(
           { _id: { $in: newBook.libraryIds } },
           { $push: { archive: book._id } },
-        )
-          .pipe(map(() => book))
+        ).pipe(map(() => book))
           || of(book))),
     );
   }

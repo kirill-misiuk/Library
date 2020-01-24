@@ -4,7 +4,6 @@ const authError = require('passport/lib/errors/authenticationerror');
 class AuthController {
   constructor(authService, authLocalStrategy) {
     this.authService = authService;
-    authLocalStrategy.initialize();
   }
 
   signIn(req, res, next) {

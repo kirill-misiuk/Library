@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-
+const cors = require('cors');
 
 dotenv.config();
 const app = express();
@@ -24,7 +24,9 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(passport.initialize());
 app.use(passport.session());
-
+app.use(cors({
+  origin: 'http://localhost:3000',
+}));
 
 console.log(process.env.NODE_ENV);
 require('custom-env').env(true);

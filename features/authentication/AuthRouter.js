@@ -10,10 +10,10 @@ const AuthLocalStrategy = require('./AuthLocalStrategy');
 
 const authRepository = new AuthRepository();
 const authHash = new AuthHash();
-const authService = new AuthService(authRepository, authHash);
 const authSerializer = new AuthSerializer(authRepository);
 const authLocalStrategy = new AuthLocalStrategy(authRepository, authHash, authSerializer);
-const authController = new AuthController(authService, authLocalStrategy);
+const authService = new AuthService(authRepository, authHash, authLocalStrategy);
+const authController = new AuthController(authService);
 const authValidator = new AuthValidator();
 
 module.exports = (app) => {
