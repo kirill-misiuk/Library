@@ -1,6 +1,6 @@
 const { from, of } = require('rxjs');
 const {
-  mergeMap, map
+  mergeMap, map,
 } = require('rxjs/operators');
 const { Book } = require('./BookModel');
 

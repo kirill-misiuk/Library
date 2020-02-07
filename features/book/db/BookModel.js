@@ -5,6 +5,8 @@ const bookSchema = new mongoose.Schema({
   author: { type: String },
   pageCount: { type: Number },
   year: { type: Number },
+  title: { type: String },
+  price: { type: String },
 }, {
   versionKey: false,
 });

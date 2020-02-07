@@ -2,7 +2,7 @@ const passport = require('passport');
 const authError = require('passport/lib/errors/authenticationerror');
 
 class AuthController {
-  constructor(authService, authLocalStrategy) {
+  constructor(authService) {
     this.authService = authService;
   }
 
