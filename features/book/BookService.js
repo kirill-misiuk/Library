@@ -30,8 +30,15 @@ class BookService {
     return this.bookRepository.delete(id);
   }
 
-  updateBook(book) {
-    return this.bookRepository.update(book);
+  updateBook(editBook) {
+    return this.bookRepository.update(editBook).pipe(
+      mergeMap((book) => (
+        editBook.libraryIds && editBook.libraryIds.length && this.libraryRepository.updateMany(
+          { _id: { $in: editBook.libraryIds } },
+          { $addToSet: { archive: book._id } },
+        ).pipe(map(() => book))
+            || of(book))),
+    );
   }
 
   getLibraryBooks(id) {
