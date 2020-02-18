@@ -1,4 +1,4 @@
-const { check } = require('express-validator');
+const { check, query } = require('express-validator');
 const LibraryController = require('./LibraryController');
 const LibraryService = require('./LibraryService');
 const LibraryRepository = require('./db/LibraryRepository');
@@ -10,10 +10,15 @@ const libraryController = new LibraryController(libraryService);
 const libraryValidator = new LibraryValidator();
 
 module.exports = (app) => {
-  app.get('/libraries', libraryValidator.getAllLibraries, (req, res) => libraryController.getAllLibraries(req, res));
+  app.get('/libraries', [
+    query('search').optional().isString(),
+    query('count').optional().isNumeric(),
+    query('size').optional().isNumeric(),
+  ], libraryValidator.getAllLibraries, (req, res) => libraryController.getAllLibraries(req, res));
 
   app.post('/libraries', [
     check('name').isString(),
+    check('about').isString(),
     check('archive').optional().isArray(),
   ], libraryValidator.createLibrary, (req, res) => libraryController.createLibrary(req, res));
 

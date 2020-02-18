@@ -5,8 +5,9 @@ const {
 const { Book } = require('./BookModel');
 
 class BookRepository {
-  find(options = {}) {
-    return from(Book.find(options).lean().exec());
+  find(options = {}, count, size) {
+    return from(Book.find(options).skip(size * (count - 1)).limit(size).lean()
+      .exec());
   }
 
   findOne(options) {

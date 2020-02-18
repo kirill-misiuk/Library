@@ -4,8 +4,8 @@ class BookController {
   }
 
   getAllBooks(req, res) {
-    const { search } = req.query;
-    this.bookService.getAllBooks(search).subscribe({
+    const { search, count, size } = req.query;
+    this.bookService.getAllBooks(search, count, size).subscribe({
       next: (data) => res.status(200).json({ status: res.statusCode, data }),
       error: (e) => res.status(e.statusCode || 400).json({ status: res.statusCode, message: e.message }),
     });

@@ -5,8 +5,9 @@ const {
 const { Library } = require('./LibraryModel');
 
 class LibraryRepository {
-  find(options = {}) {
-    return from(Library.find(options).lean().exec());
+  find(options = {}, count, size) {
+    return from(Library.find(options).skip(size * (count - 1)).limit(size).lean()
+      .exec());
   }
 
   findOne(options) {

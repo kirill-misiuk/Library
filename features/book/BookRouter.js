@@ -14,6 +14,8 @@ const bookValidator = new BookValidator();
 module.exports = (app) => {
   app.get('/books', [
     query('search').optional().isString(),
+    query('count').optional().isNumeric(),
+    query('size').optional().isNumeric(),
   ], bookValidator.getAllBooks, (req, res) => {
     bookController.getAllBooks(req, res);
   });

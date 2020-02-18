@@ -5,8 +5,8 @@ class LibraryService {
     this.libraryRepository = libraryRepository;
   }
 
-  getAllLibraries() {
-    return this.libraryRepository.find();
+  getAllLibraries(search, count, size) {
+    return this.libraryRepository.find({ name: { $regex: search || '' } }, parseInt(count), parseInt(size));
   }
 
   createLibrary(library) {

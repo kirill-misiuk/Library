@@ -4,7 +4,8 @@ class LibraryController {
   }
 
   getAllLibraries(req, res) {
-    this.libraryService.getAllLibraries().subscribe({
+    const { search, count, size } = req.query;
+    this.libraryService.getAllLibraries(search, count, size).subscribe({
       next: (data) => res.status(200).json({ status: res.statusCode, data }),
       error: (e) => res.status(e.statusCode || 400).json({ status: res.statusCode, message: e.message }),
     });

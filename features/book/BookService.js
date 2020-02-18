@@ -7,8 +7,8 @@ class BookService {
     this.libraryRepository = libraryRepository;
   }
 
-  getAllBooks(search) {
-    return this.bookRepository.find({ $or: [{ name: { $regex: search || '' } }, { $where: `/^${search}.*/.test(this.year)` }] });
+  getAllBooks(search, count, size) {
+    return this.bookRepository.find({ $or: [{ name: { $regex: search || '' } }, { $where: `/^${search}.*/.test(this.year)` }] }, parseInt(count), parseInt(size));
   }
 
   getById(id) {
