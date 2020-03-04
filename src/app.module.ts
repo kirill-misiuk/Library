@@ -5,6 +5,7 @@ import { LibraryModule } from './features/library/library.module';
 import { BookModule } from './features/book/book.module';
 import {GraphQLModule} from "@nestjs/graphql";
 import { ConfigModule } from '@nestjs/config'
+import {DatabaseModule} from "./database/database.module";
 
 @Module({
   imports: [LibraryModule, BookModule,
