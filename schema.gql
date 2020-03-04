@@ -3,7 +3,28 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+input CreateLibraryInput {
+  name: String!
+  archive: [String!]!
+}
+
+input FindInput {
+  search: String!
+  count: Int!
+  size: Int!
+}
+
+type LibraryDto {
+  _id: ID!
+  name: String!
+  archive: [String!]!
+}
+
+type Mutation {
+  createLibrary(library: CreateLibraryInput!): LibraryDto!
+}
+
 type Query {
-  library: String!
-  book: String!
+  libraries(input: FindInput!): [LibraryDto!]!
+  library(_id: String!): [LibraryDto!]!
 }
