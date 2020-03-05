@@ -36,7 +36,6 @@ export class LibraryService {
 
     deleteLibrary(_id:string[]) {
         return this.libraryRepository.delete(_id)
-            .pipe(tap((res)=>console.log(res)))
     }
 
     getLibraries(bookId:string):Observable<any> {

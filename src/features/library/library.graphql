@@ -1,6 +1,7 @@
 type Query{
     libraries(params: FindInput ): [Library]
     library(_id: ID): Library
+    getLibraries(_id:ID):[Book]
 }
 type Mutation{
      createLibrary(library: CreateLibraryInput ): Library
@@ -31,7 +32,5 @@ input FindInput{
 type Deleted{
     _id : ID
 }
-
-
 
 

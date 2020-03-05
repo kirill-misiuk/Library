@@ -23,6 +23,16 @@ export class UpdateLibraryInput {
     archive?: string[];
 }
 
+export class Book {
+    _id?: string;
+    name?: string;
+    author?: string;
+    pageCount?: number;
+    year?: number;
+    title?: string;
+    price?: number;
+}
+
 export class Deleted {
     _id?: string;
 }
@@ -45,4 +55,6 @@ export abstract class IQuery {
     abstract libraries(params?: FindInput): Library[] | Promise<Library[]>;
 
     abstract library(_id?: string): Library | Promise<Library>;
+
+    abstract getLibraries(_id?: string): Book[] | Promise<Book[]>;
 }

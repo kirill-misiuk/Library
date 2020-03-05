@@ -33,5 +33,8 @@ export class LibraryResolver {
     deleteLibrary(@Args('_id') _id: string[]):Observable<any>{
         return  this.libraryService.deleteLibrary(_id)
     }
-
+    @Query(()=>[LibraryDto])
+    getLibraries(@Args('_id') _id: string):Observable<any>{
+        return this.libraryService.getLibraries(_id)
+    }
 }

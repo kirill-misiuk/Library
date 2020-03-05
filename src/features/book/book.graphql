@@ -1,0 +1,10 @@
+type Book{
+    _id: ID
+    name: String
+    author: String
+    pageCount: Int
+    year: Int
+    title: String
+    price: Float
+}
+

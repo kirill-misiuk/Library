@@ -9,4 +9,3 @@ export interface BookInterface extends Document {
     title: string;
     price: number
 }
-
