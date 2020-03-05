@@ -42,7 +42,7 @@ export class LibraryRepository {
       );
   }
 
-  delete(ids:string|string[]):Observable<any> {
+  delete(ids:string[]):Observable<any> {
     return from(this.libraryModel.find({ _id: { $in: ids } }, '_id').lean().exec()).pipe(
       mergeMap((libraries) => from(this.libraryModel.deleteMany({ _id: { $in: libraries } }).lean().exec())
         .pipe(map(() => libraries))),

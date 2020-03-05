@@ -1,32 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import {LibraryRepository} from "./library.repository";
 import { Observable } from 'rxjs';
-import { FindInterface, LibraryInterface, UpdateInterface } from '../../interfaces/library.interface';
-import { CreateLibraryInput } from '../../Inputs/create.library.input';
+
+import { FindDto } from './dto/find.dto';
+import {  UpdateDto } from './dto/update.dto';
+import { CreateDto } from './dto/create.dto';
+import { tap } from 'rxjs/operators';
+
 @Injectable()
 export class LibraryService {
     constructor(
       private readonly libraryRepository: LibraryRepository
     ) {}
 
-     hello(): string{
-        return this.libraryRepository.hello()
-      }
-
-    getAllLibraries(input:FindInterface):Observable<any> {
+    getAllLibraries(input: FindDto):Observable<any> {
         const{search,count,size}= input;
         return this.libraryRepository.find({ name: { $regex: search || '' } }, count,size);
     }
 
-    createLibrary(library: CreateLibraryInput):Observable<any> {
+    createLibrary(library: CreateDto):Observable<any> {
         return this.libraryRepository.create(library);
     }
 
-    getById(_id:string):Observable<any> {
+    getById(_id: string):Observable<any> {
         return this.libraryRepository.findOne({ _id }).pipe();
     }
 
-    updateLibrary(input: UpdateInterface):Observable<any> {
+    updateLibrary(input: UpdateDto):Observable<any> {
         const {_id, archive,...library}= input;
         return this.libraryRepository.updateOne(
             { _id },
@@ -34,8 +34,9 @@ export class LibraryService {
         );
     }
 
-    deleteLibrary(_id:string|string[]) {
-        return this.libraryRepository.delete(_id);
+    deleteLibrary(_id:string[]) {
+        return this.libraryRepository.delete(_id)
+            .pipe(tap((res)=>console.log(res)))
     }
 
     getLibraries(bookId:string):Observable<any> {

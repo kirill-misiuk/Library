@@ -1,11 +1,11 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import {LibraryService} from "./library.service";
 import { Observable } from 'rxjs';
-import { LibraryInput } from '../../Inputs/library.input';
-import { LibraryDto } from '../../dto/library.dto';
-import { FindInput } from '../../Inputs/find.input';
-import { CreateLibraryInput } from '../../Inputs/create.library.input';
-
+import { LibraryDto } from './dto/library.dto';
+import { CreateDto } from './dto/create.dto';
+import { FindDto } from './dto/find.dto';
+import { UpdateDto } from './dto/update.dto';
+import { DeleteDto } from './dto/delete.dto';
 
 @Resolver(LibraryDto)
 export class LibraryResolver {
@@ -14,15 +14,24 @@ export class LibraryResolver {
     ) {}
 
     @Query(()=>[LibraryDto])
-    libraries(@Args('input') input:FindInput):Observable<any>{
-    return this.libraryService.getAllLibraries(input)
+    libraries(@Args('params') params?: FindDto):Observable<any>{
+    return this.libraryService.getAllLibraries(params)
     }
     @Mutation(()=>LibraryDto)
-    createLibrary(@Args('library') library: CreateLibraryInput):Observable<any>{
+    createLibrary(@Args('library') library: CreateDto):Observable<any>{
      return this.libraryService.createLibrary(library)
     }
     @Query(()=>[LibraryDto])
-    library(@Args('_id') _id:string):Observable<any>{
+    library(@Args('_id') _id: string ):Observable<any>{
         return this.libraryService.getById(_id)
     }
+    @Mutation(()=>LibraryDto)
+    updateLibrary(@Args('library') library: UpdateDto):Observable<any>{
+        return this.libraryService.updateLibrary(library)
+    }
+    @Mutation(()=>[DeleteDto])
+    deleteLibrary(@Args('_id') _id: string[]):Observable<any>{
+        return  this.libraryService.deleteLibrary(_id)
+    }
+
 }

@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { LibraryModule } from './features/library/library.module';
-import { BookModule } from './features/book/book.module';
 import {GraphQLModule} from "@nestjs/graphql";
 import { ConfigModule } from '@nestjs/config'
 
@@ -10,7 +9,8 @@ import { ConfigModule } from '@nestjs/config'
 @Module({
   imports: [LibraryModule,
     GraphQLModule.forRoot({
-      autoSchemaFile: 'schema.gql',
+      typePaths: ['./**/*.graphql'],
+      installSubscriptionHandlers: true,
     }),
       ConfigModule.forRoot({
 
