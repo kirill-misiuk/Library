@@ -6,6 +6,16 @@
 
 /* tslint:disable */
 /* eslint-disable */
+export class CreateBookInput {
+    libraryID?: string;
+    name: string;
+    author: string;
+    pageCount: number;
+    year: number;
+    title: string;
+    price: number;
+}
+
 export class CreateLibraryInput {
     name: string;
     archive?: string[];
@@ -17,6 +27,17 @@ export class FindInput {
     size?: number;
 }
 
+export class UpdateBookInput {
+    _id: string;
+    libraryID?: string;
+    name?: string;
+    author?: string;
+    pageCount?: number;
+    year?: number;
+    title?: string;
+    price?: number;
+}
+
 export class UpdateLibraryInput {
     _id: string;
     name?: string;
@@ -25,6 +46,7 @@ export class UpdateLibraryInput {
 
 export class Book {
     _id?: string;
+    libraryID?: string;
     name?: string;
     author?: string;
     pageCount?: number;
@@ -49,6 +71,12 @@ export abstract class IMutation {
     abstract updateLibrary(library?: UpdateLibraryInput): Library | Promise<Library>;
 
     abstract deleteLibrary(_id?: string[]): Deleted[] | Promise<Deleted[]>;
+
+    abstract createBook(book?: CreateBookInput): Book | Promise<Book>;
+
+    abstract updateBook(book?: UpdateBookInput): Book | Promise<Book>;
+
+    abstract deleteBook(_id?: string[]): Deleted[] | Promise<Deleted[]>;
 }
 
 export abstract class IQuery {
@@ -56,5 +84,11 @@ export abstract class IQuery {
 
     abstract library(_id?: string): Library | Promise<Library>;
 
-    abstract getLibraries(_id?: string): Book[] | Promise<Book[]>;
+    abstract getLibraries(_id?: string): Library[] | Promise<Library[]>;
+
+    abstract books(params?: FindInput): Book[] | Promise<Book[]>;
+
+    abstract book(_id?: string): Book | Promise<Book>;
+
+    abstract getLibraryBooks(_id?: string): Book[] | Promise<Book[]>;
 }

@@ -1,0 +1,24 @@
+type Query{
+    libraries(params: FindInput ): [Library]
+    library(_id: ID): Library
+    getLibraries(_id:ID):[Library]
+    books(params: FindInput):[Book]
+    book(_id:ID):Book
+    getLibraryBooks(_id: ID): [Book]
+}
+type Mutation{
+    createLibrary(library: CreateLibraryInput ): Library
+    updateLibrary(library: UpdateLibraryInput): Library
+    deleteLibrary(_id: [ID]): [Deleted]
+    createBook(book: CreateBookInput):Book
+    updateBook(book: UpdateBookInput): Book
+    deleteBook(_id:[ID]):[Deleted]
+}
+input FindInput{
+    search: String
+    count: Int
+    size: Int
+}
+type Deleted{
+    _id : ID
+}

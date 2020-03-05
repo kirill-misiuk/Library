@@ -11,11 +11,7 @@ export class LibraryRepository {
   ) {
   }
 
-  hello() {
-    return 'hello from library';
-  }
-
-  find(options = {}, count?:number, size?:number):Observable<any> {
+  find(options?: object, count?:number, size?:number):Observable<any> {
     return from(this.libraryModel.find(options).skip(size * (count - 1)).limit(size).lean()
       .exec());
   }

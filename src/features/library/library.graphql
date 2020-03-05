@@ -1,14 +1,3 @@
-type Query{
-    libraries(params: FindInput ): [Library]
-    library(_id: ID): Library
-    getLibraries(_id:ID):[Book]
-}
-type Mutation{
-     createLibrary(library: CreateLibraryInput ): Library
-     updateLibrary(library: UpdateLibraryInput): Library
-     deleteLibrary(_id: [ID]): [Deleted]
-}
-
 type Library{
     _id: ID!
     name: String!
@@ -23,14 +12,6 @@ input UpdateLibraryInput{
     _id: ID!
     name: String
     archive: [String]
-}
-input FindInput{
-    search: String
-    count: Int
-    size: Int
-}
-type Deleted{
-    _id : ID
 }
 
 

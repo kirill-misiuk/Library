@@ -3,7 +3,7 @@ import {LibraryService} from "./library.service";
 import { Observable } from 'rxjs';
 import { LibraryDto } from './dto/library.dto';
 import { CreateDto } from './dto/create.dto';
-import { FindDto } from './dto/find.dto';
+import { ParamsDto } from './dto/params.dto';
 import { UpdateDto } from './dto/update.dto';
 import { DeleteDto } from './dto/delete.dto';
 
@@ -14,7 +14,7 @@ export class LibraryResolver {
     ) {}
 
     @Query(()=>[LibraryDto])
-    libraries(@Args('params') params?: FindDto):Observable<any>{
+    libraries(@Args('params') params?: ParamsDto):Observable<any>{
     return this.libraryService.getAllLibraries(params)
     }
     @Mutation(()=>LibraryDto)

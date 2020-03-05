@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import {LibraryRepository} from "./library.repository";
 import { Observable } from 'rxjs';
 
-import { FindDto } from './dto/find.dto';
+import { ParamsDto } from './dto/params.dto';
 import {  UpdateDto } from './dto/update.dto';
 import { CreateDto } from './dto/create.dto';
-import { tap } from 'rxjs/operators';
+
 
 @Injectable()
 export class LibraryService {
@@ -13,7 +13,7 @@ export class LibraryService {
       private readonly libraryRepository: LibraryRepository
     ) {}
 
-    getAllLibraries(input: FindDto):Observable<any> {
+    getAllLibraries(input: ParamsDto):Observable<any> {
         const{search,count,size}= input;
         return this.libraryRepository.find({ name: { $regex: search || '' } }, count,size);
     }
