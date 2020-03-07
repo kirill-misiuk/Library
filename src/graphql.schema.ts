@@ -7,8 +7,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export class CreateBookInput {
-    libraryID?: string;
     name: string;
+    libraryIds?: string[];
     author: string;
     pageCount: number;
     year: number;
@@ -46,7 +46,6 @@ export class UpdateLibraryInput {
 
 export class Book {
     _id?: string;
-    libraryID?: string;
     name?: string;
     author?: string;
     pageCount?: number;

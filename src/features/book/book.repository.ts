@@ -8,9 +8,8 @@ import { CreateDto } from './dto/create.dto';
 export class BookRepository{
     constructor(
         @Inject('BOOK_MODEL')
-        private readonly bookModel: Model<BookInterface>
-    ) {
-    }
+        private readonly bookModel: Model<BookInterface>,
+    ) {}
     find(options: object, count?:number, size?: number):Observable<any> {
         return from(this.bookModel.find(options).skip(size * (count - 1)).limit(size).lean()
             .exec());

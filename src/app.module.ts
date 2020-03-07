@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { LibraryModule } from './features/library/library.module';
 import {GraphQLModule} from "@nestjs/graphql";
 import { ConfigModule } from '@nestjs/config'
+import { BookModule } from './features/book/book.module';
 
 
 
 
 @Module({
-  imports: [LibraryModule,
+  imports: [BookModule,
     GraphQLModule.forRoot({
       typePaths: ['./**/*.graphql'],
       installSubscriptionHandlers: true,

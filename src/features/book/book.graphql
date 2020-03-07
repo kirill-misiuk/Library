@@ -1,6 +1,5 @@
 type Book{
     _id: ID
-    libraryID: ID
     name: String
     author: String
     pageCount: Int
@@ -9,8 +8,8 @@ type Book{
     price: Float
 }
 input CreateBookInput{
-    libraryID: ID
     name: String!
+    libraryIds:[ID]
     author: String!
     pageCount: Int!
     year: Int!

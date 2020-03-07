@@ -6,6 +6,7 @@ import { LibraryProvider } from './library.provider';
 import { DatabaseModule } from '../../database/database.module';
 @Module({
   imports:[DatabaseModule],
+  exports:[LibraryRepository,...LibraryProvider],
   providers: [LibraryResolver, LibraryService,LibraryRepository,...LibraryProvider],
 })
 export class LibraryModule {}
