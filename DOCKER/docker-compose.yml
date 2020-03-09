@@ -1,0 +1,14 @@
+version: "3.7"
+services:
+  mongo:
+    image: mongo:4.2
+    container_name: "graphql_mongo"
+    volumes:
+      - graphql_mdata_volume:/data/db
+    ports:
+      - 27021:27017
+    command: [mongod]
+
+volumes:
+  graphql_mdata_volume:
+    driver: local  # is already local by default

@@ -34,8 +34,8 @@ export class BookService {
         );
     }
 
-    deleteBook(id):Observable<any> {
-        return this.bookRepository.delete(id);
+    deleteBook(_id:string[]):Observable<any> {
+        return this.bookRepository.delete(_id);
     }
 
     updateBook(editBook:UpdateDto):Observable<any> {

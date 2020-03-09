@@ -1,8 +1,8 @@
 import {ObjectType,Field,ID} from 'type-graphql';
 
-import { Library } from '../../../graphql.schema';
+import { Library } from '../../../graphql/schemas/generated/graphql';
 @ObjectType()
-export class LibraryDto extends Library{
+export class LibraryDto implements Library{
     @Field(()=>ID)
     _id: string;
     @Field(()=>String)

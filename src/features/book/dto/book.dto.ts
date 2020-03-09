@@ -1,8 +1,8 @@
 import { Field, Float, Int, ObjectType, ID, } from 'type-graphql';
-import { Book } from '../../../graphql.schema';
+import { Book } from '../../../graphql/schemas/generated/graphql';
 
 @ObjectType()
-export class BookDto extends Book{
+export class BookDto implements Book{
     @Field(()=>ID)
     _id: string;
     @Field(()=>String)

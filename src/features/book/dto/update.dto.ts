@@ -1,8 +1,8 @@
 import { Field, Float, Int, ObjectType, ID, } from 'type-graphql';
-import { UpdateBookInput } from '../../../graphql.schema';
+import { UpdateBookInput } from '../../../graphql/schemas/generated/graphql';
 
 @ObjectType()
-export class UpdateDto extends UpdateBookInput{
+export class UpdateDto implements UpdateBookInput{
     @Field(()=>ID)
     _id: string;
     @Field(()=>String)
