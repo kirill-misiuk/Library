@@ -31,7 +31,7 @@
     "@nestjs/mongoose": "^6.3.1",
     "@nestjs/platform-express": "^6.10.14",
     "apollo-server": "^2.11.0",
-    "apollo-server-express": "^2.10.1",
+    "apollo-server-express": "^2.14.2",
     "cross-env": "^7.0.0",
     "custom-env": "^2.0.1",
     "dotenv": "^8.2.0",
