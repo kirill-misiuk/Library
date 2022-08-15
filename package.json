@@ -27,7 +27,7 @@
     "@nestjs/common": "^6.10.14",
     "@nestjs/config": "^0.2.4",
     "@nestjs/core": "^6.10.14",
-    "@nestjs/graphql": "^6.6.2",
+    "@nestjs/graphql": "^10.0.21",
     "@nestjs/mongoose": "^6.3.1",
     "@nestjs/platform-express": "^6.10.14",
     "apollo-server": "^2.11.0",
@@ -69,10 +69,10 @@
     "tslint": "^6.0.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.8.3",
-    "@graphql-codegen/typescript": "1.12.2",
-    "@graphql-codegen/typescript-resolvers": "1.12.2",
-    "@graphql-codegen/introspection": "1.12.2",
-    "@graphql-codegen/typescript-document-nodes": "1.12.2"
+    "@graphql-codegen/typescript": "1.20.0",
+    "@graphql-codegen/typescript-resolvers": "1.20.0",
+    "@graphql-codegen/introspection": "1.18.2",
+    "@graphql-codegen/typescript-document-nodes": "1.17.16"
   },
   "jest": {
     "moduleFileExtensions": [
